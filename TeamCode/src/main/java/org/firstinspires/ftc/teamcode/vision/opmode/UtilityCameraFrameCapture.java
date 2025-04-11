@@ -31,7 +31,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.opmode.tuning;
+package org.firstinspires.ftc.teamcode.vision.opmode;
 
 import android.util.Size;
 
