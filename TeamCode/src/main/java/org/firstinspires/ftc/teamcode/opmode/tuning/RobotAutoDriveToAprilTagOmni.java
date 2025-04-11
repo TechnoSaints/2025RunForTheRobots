@@ -40,6 +40,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.VisionProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
@@ -267,7 +268,6 @@ public class RobotAutoDriveToAprilTagOmni extends LinearOpMode
         // Decimation = 3 ..  Detect 5" Tag from 10 feet away at 30 Frames Per Second
         // Note: Decimation can be changed on-the-fly to adapt during a match.
         aprilTag.setDecimation(2);
-
         // Create the vision portal by using a builder.
         if (USE_WEBCAM) {
             visionPortal = new VisionPortal.Builder()
