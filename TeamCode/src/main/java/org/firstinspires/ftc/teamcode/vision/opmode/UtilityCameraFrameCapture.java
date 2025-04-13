@@ -38,6 +38,7 @@ import android.util.Size;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -60,13 +61,12 @@ import java.util.Locale;
  */
 
 @TeleOp(name = "Utility: Camera Frame Capture", group = "Utility")
-@Disabled
-public class UtilityCameraFrameCapture extends LinearOpMode
-{
+
+public class UtilityCameraFrameCapture extends LinearOpMode {
     /*
      * EDIT THESE PARAMETERS AS NEEDED
      */
-    final boolean USING_WEBCAM = false;
+    final boolean USING_WEBCAM = true;
     final BuiltinCameraDirection INTERNAL_CAM_DIR = BuiltinCameraDirection.BACK;
     final int RESOLUTION_WIDTH = 640;
     final int RESOLUTION_HEIGHT = 480;
@@ -77,31 +77,19 @@ public class UtilityCameraFrameCapture extends LinearOpMode
     long capReqTime;
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
+        Servo led = hardwareMap.get(Servo.class, "headlight");
+        led.setPosition(0.85);
         VisionPortal portal;
+        portal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .setCameraResolution(new Size(RESOLUTION_WIDTH, RESOLUTION_HEIGHT))
+                .build();
 
-        if (USING_WEBCAM)
-        {
-            portal = new VisionPortal.Builder()
-                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                    .setCameraResolution(new Size(RESOLUTION_WIDTH, RESOLUTION_HEIGHT))
-                    .build();
-        }
-        else
-        {
-            portal = new VisionPortal.Builder()
-                    .setCamera(INTERNAL_CAM_DIR)
-                    .setCameraResolution(new Size(RESOLUTION_WIDTH, RESOLUTION_HEIGHT))
-                    .build();
-        }
-
-        while (!isStopRequested())
-        {
+        while (!isStopRequested()) {
             boolean x = gamepad1.x;
 
-            if (x && !lastX)
-            {
+            if (x && !lastX) {
                 portal.saveNextFrameRaw(String.format(Locale.US, "CameraFrameCapture-%06d", frameCount++));
                 capReqTime = System.currentTimeMillis();
             }
@@ -113,13 +101,11 @@ public class UtilityCameraFrameCapture extends LinearOpMode
             telemetry.addLine(" > Press X (or Square) to capture a frame");
             telemetry.addData(" > Camera Status", portal.getCameraState());
 
-            if (capReqTime != 0)
-            {
+            if (capReqTime != 0) {
                 telemetry.addLine("\nCaptured Frame!");
             }
 
-            if (capReqTime != 0 && System.currentTimeMillis() - capReqTime > 1000)
-            {
+            if (capReqTime != 0 && System.currentTimeMillis() - capReqTime > 1000) {
                 capReqTime = 0;
             }
 

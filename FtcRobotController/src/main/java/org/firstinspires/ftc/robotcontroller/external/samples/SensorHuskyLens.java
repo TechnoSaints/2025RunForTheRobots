@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.concurrent.TimeUnit;
 
@@ -69,6 +70,7 @@ public class SensorHuskyLens extends LinearOpMode {
 
     @Override
     public void runOpMode()
+
     {
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
 
