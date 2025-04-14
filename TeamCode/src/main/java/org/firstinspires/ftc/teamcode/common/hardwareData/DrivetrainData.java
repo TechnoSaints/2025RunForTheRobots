@@ -12,9 +12,14 @@ public abstract class DrivetrainData {
     public double wheelCircumferenceInches;
     public double wheelTicksPerInch;
 
-    public DcMotorSimple.Direction leftFrontDirection;
-    public DcMotorSimple.Direction leftBackDirection;
-    public DcMotorSimple.Direction rightFrontDirection;
-    public DcMotorSimple.Direction rightBackDirection;
+    public String leftFrontMotorName;
+    public String leftRearMotorName;
+    public String rightFrontMotorName;
+    public String rightRearMotorName;
+
+    public DcMotorSimple.Direction leftFrontMotorDirection;
+    public DcMotorSimple.Direction leftRearMotorDirection;
+    public DcMotorSimple.Direction rightFrontMotorDirection;
+    public DcMotorSimple.Direction rightRearMotorDirection;
 }
 

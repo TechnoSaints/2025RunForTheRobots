@@ -14,9 +14,14 @@ public class DrivetrainData21528 extends DrivetrainData {
         wheelDiameterInches = wheelDiameterMM / 25.4;
         wheelCircumferenceInches = Math.PI * wheelDiameterInches;
 
-        leftFrontDirection = DcMotorSimple.Direction.REVERSE;
-        leftBackDirection = DcMotorSimple.Direction.REVERSE;
-        rightFrontDirection = DcMotorSimple.Direction.FORWARD;
-        rightBackDirection = DcMotorSimple.Direction.REVERSE;
+        leftFrontMotorName = "leftFrontMotor";
+        leftRearMotorName = "leftRearMotor";
+        rightFrontMotorName = "rightFrontMotor";
+        rightRearMotorName = "rightRearMotor";
+
+        leftFrontMotorDirection = DcMotorSimple.Direction.REVERSE;
+        leftRearMotorDirection = DcMotorSimple.Direction.REVERSE;
+        rightFrontMotorDirection = DcMotorSimple.Direction.FORWARD;
+        rightRearMotorDirection = DcMotorSimple.Direction.REVERSE;
     }
 }

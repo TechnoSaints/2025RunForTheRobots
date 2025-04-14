@@ -54,10 +54,10 @@ public class Drivetrain extends Component {
         rightFrontDrive = hardwareMap.get(DcMotorEx.class, "rightFrontDrive");
         rightBackDrive = hardwareMap.get(DcMotorEx.class, "rightBackDrive");
 
-        leftFrontDrive.setDirection(drivetrainData.leftFrontDirection);
-        leftBackDrive.setDirection(drivetrainData.leftBackDirection);
-        rightFrontDrive.setDirection(drivetrainData.rightFrontDirection);
-        rightBackDrive.setDirection(drivetrainData.rightBackDirection);
+        leftFrontDrive.setDirection(drivetrainData.leftFrontMotorDirection);
+        leftBackDrive.setDirection(drivetrainData.leftRearMotorDirection);
+        rightFrontDrive.setDirection(drivetrainData.rightFrontMotorDirection);
+        rightBackDrive.setDirection(drivetrainData.rightRearMotorDirection);
 
         stopAndResetEncoders();
         setRunUsingEncoder();

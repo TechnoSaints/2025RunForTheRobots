@@ -6,25 +6,23 @@ import com.pedropathing.util.CustomFilteredPIDFCoefficients;
 import com.pedropathing.util.CustomPIDFCoefficients;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.common.hardwareData.DrivetrainData;
 import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.DrivetrainData21528;
 
 public class FConstants {
     static {
+        DrivetrainData drivetrainData = new DrivetrainData21528();
         FollowerConstants.localizers = Localizers.PINPOINT;
 
-        FollowerConstants.leftFrontMotorName = DrivetrainData21528.leftFrontMotorName;
-        FollowerConstants.leftRearMotorName = DrivetrainData21528.leftRearMotorName;
-        FollowerConstants.rightFrontMotorName = DrivetrainData21528.rightFrontMotorName;
-        FollowerConstants.rightRearMotorName = DrivetrainData21528.rightRearMotorName;
+        FollowerConstants.leftFrontMotorName = drivetrainData.leftFrontMotorName;
+        FollowerConstants.leftRearMotorName = drivetrainData.leftRearMotorName;
+        FollowerConstants.rightFrontMotorName = drivetrainData.rightFrontMotorName;
+        FollowerConstants.rightRearMotorName = drivetrainData.rightRearMotorName;
 
-        FollowerConstants.leftFrontMotorDirection = DrivetrainData21528.leftFrontMotorDirection;
-        FollowerConstants.leftRearMotorDirection = DrivetrainData21528.leftRearMotorDirection;
-        FollowerConstants.rightFrontMotorDirection = DrivetrainData21528.rightFrontMotorDirection;
-        FollowerConstants.rightRearMotorDirection = DrivetrainData21528.rightRearMotorDirection;
-
-
-
-
+        FollowerConstants.leftFrontMotorDirection = drivetrainData.leftFrontMotorDirection;
+        FollowerConstants.leftRearMotorDirection = drivetrainData.leftRearMotorDirection;
+        FollowerConstants.rightFrontMotorDirection = drivetrainData.rightFrontMotorDirection;
+        FollowerConstants.rightRearMotorDirection = drivetrainData.rightRearMotorDirection;
 
         // mass in kg
         FollowerConstants.mass = 9.75;
