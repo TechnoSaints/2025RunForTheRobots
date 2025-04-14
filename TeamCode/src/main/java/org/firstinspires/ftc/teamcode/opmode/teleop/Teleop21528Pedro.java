@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.common.Bot;
+import org.firstinspires.ftc.teamcode.common.BotWithPedro;
 import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.DrivetrainData21528;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
@@ -21,64 +22,18 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 @Config
 @TeleOp(name = "Pedro Teleop21528", group = "Linear OpMode")
 public class Teleop21528Pedro extends LinearOpMode {
-    private Bot bot;
-    private Follower follower;
+    private BotWithPedro bot;
+    private boolean liftIsLocked = false;
     private DrivetrainData21528 drivetrainData = new DrivetrainData21528();
-    private double maxSlowPower = drivetrainData.maxSlowPower;
-    private Pose currentPose;
-    private boolean teleop;
-    protected final Pose parkPose = new Pose(9, 52.5, Math.toRadians(0));
-    private final Pose startPose = new Pose(0, 0, Math.toRadians(0));
-    protected final Pose bucketPose = new Pose(-14.7, 7, Math.toRadians(45));
-    protected final Pose parkSetupPose = new Pose(0, 49.5, Math.toRadians(0));
-    private PathChain bucketPath;
 
     @Override
     public void runOpMode() {
-        double driveAxial = 0.0;
-        double driveStrafe = 0.0;
-        double driveYaw = 0.0;
-        boolean liftIsLocked = false;
-
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        bot = new BotWithPedro(this, telemetry, drivetrainData);
 
-        bot = new Bot(this, telemetry, 0);
-        Constants.setConstants(FConstants.class, LConstants.class);
-        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
-        follower.setStartingPose(startPose);
         waitForStart();
         bot.liftResetEncoder();
-        follower.startTeleopDrive();
-        teleop = true;
         while (opModeIsActive() && !isStopRequested()) {
-
-        /* Update Pedro to move the robot based on:
-        - Forward/Backward Movement: -gamepad1.left_stick_y
-        - Left/Right Movement: -gamepad1.left_stick_x
-        - Turn Left/Right Movement: -gamepad1.right_stick_x
-        - Robot-Centric Mode: true
-        */
-            driveAxial = -gamepad1.left_stick_y;
-            driveStrafe = -gamepad1.left_stick_x;
-            driveYaw = -gamepad1.right_stick_x;
-
-            if (gamepad1.dpad_up) {
-                follower.setTeleOpMovementVectors(maxSlowPower, 0, 0, true);
-            } else if (gamepad1.dpad_down) {
-                follower.setTeleOpMovementVectors(-maxSlowPower, 0, 0, true);
-            } else if (gamepad1.dpad_left) {
-                follower.setTeleOpMovementVectors(0, maxSlowPower, 0, true);
-            } else if (gamepad1.dpad_right) {
-                follower.setTeleOpMovementVectors(0, -maxSlowPower, 0, true);
-            } else {
-                if ((Math.abs(driveAxial) < 0.2) && (Math.abs(driveStrafe) < 0.2) && (Math.abs(driveYaw) < 0.2)) {
-                    follower.holdPoint(follower.getPose());
-                    teleop = false;
-                    // follower.setTeleOpMovementVectors(0, 0, 0, true);
-                } else {
-                    follower.setTeleOpMovementVectors(driveAxial, driveStrafe, driveYaw, true);
-                }
-            }
 
             if (gamepad1.right_trigger > 0.2) {
                 bot.liftUp(gamepad1.right_trigger);
@@ -125,27 +80,12 @@ public class Teleop21528Pedro extends LinearOpMode {
             }
 
             if (gamepad1.share) {
-                currentPose = follower.getPose();
-                bucketPath = follower.pathBuilder()
-                        .addPath(new BezierLine(new Point(currentPose), new Point(parkSetupPose)))
-                        .setLinearHeadingInterpolation(currentPose.getHeading(), parkSetupPose.getHeading())
-                        .addPath(new BezierLine(new Point(parkSetupPose), new Point(bucketPose)))
-                        .setLinearHeadingInterpolation(parkSetupPose.getHeading(), bucketPose.getHeading())
-                        .build();
-                follower.followPath(bucketPath, true);
+                bot.goToBucket();
                 bot.liftHigh();
                 bot.armSwing();
                 bot.wristSwing();
-                teleop = false;
             }
 
-            if (!follower.isBusy() && !teleop)
-            {
-                teleop = true;
-                follower.startTeleopDrive();
-            }
-
-            follower.update();
             bot.update();
         }
     }

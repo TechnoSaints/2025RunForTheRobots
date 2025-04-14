@@ -21,7 +21,7 @@ public class BotWithPedro extends Bot {
     private double maxSlowPower;
     private Pose currentPose;
     private PathChain bucketPath;
-
+    private boolean teleop;
     public BotWithPedro(OpMode opMode, Telemetry telemetry, DrivetrainData drivetrainData) {
         super(opMode, telemetry, 0);
         Constants.setConstants(FConstants.class, LConstants.class);
@@ -29,11 +29,7 @@ public class BotWithPedro extends Bot {
         follower = new Follower(opMode.hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(FieldLocations.startPose);
         follower.startTeleopDrive();
-    }
-
-    public void startTeleopDrive()
-    {
-        follower.startTeleopDrive();
+        teleop = true;
     }
 
     /* Update Pedro to move the robot based on:
@@ -62,18 +58,24 @@ public class BotWithPedro extends Bot {
         }
     }
 
-    public void goToBucket(Gamepad gamepad) {
-        if (gamepad.share) {
-            currentPose = follower.getPose();
-            bucketPath = follower.pathBuilder()
-                    .addPath(new BezierLine(new Point(currentPose), new Point(parkSetupPose)))
-                    .setLinearHeadingInterpolation(currentPose.getHeading(), parkSetupPose.getHeading())
-                    .addPath(new BezierLine(new Point(parkSetupPose), new Point(bucketPose)))
-                    .setLinearHeadingInterpolation(parkSetupPose.getHeading(), bucketPose.getHeading())
-                    .build();
-            follower.followPath(bucketPath, true);
-            teleop = false;
+    public void goToBucket() {
+        currentPose = follower.getPose();
+        bucketPath = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(currentPose), new Point(FieldLocations.parkSetupPose)))
+                .setLinearHeadingInterpolation(currentPose.getHeading(), FieldLocations.parkSetupPose.getHeading())
+                .addPath(new BezierLine(new Point(FieldLocations.parkSetupPose), new Point(FieldLocations.bucketPose)))
+                .setLinearHeadingInterpolation(FieldLocations.parkSetupPose.getHeading(), FieldLocations.bucketPose.getHeading())
+                .build();
+        follower.followPath(bucketPath, true);
+        teleop = false;
+    }
+
+    public void update() {
+        if (!follower.isBusy() && !teleop) {
+            follower.startTeleopDrive();
+            teleop = true;
         }
+        follower.update();
     }
 }
 
