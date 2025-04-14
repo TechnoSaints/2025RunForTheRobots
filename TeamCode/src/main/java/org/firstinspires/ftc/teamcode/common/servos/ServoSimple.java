@@ -54,6 +54,11 @@ public class ServoSimple extends Component {
         servo.setPosition(lookPosition);
     }
 
+    public void setPosition(double position)
+    {
+        servo.setPosition(position);
+    }
+
     protected void log(double position) {
         telemetry.addData("Target Position: ", position);
         telemetry.update();
