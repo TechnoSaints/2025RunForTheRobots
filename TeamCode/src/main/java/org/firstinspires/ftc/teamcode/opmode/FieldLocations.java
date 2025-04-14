@@ -6,6 +6,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 ;
 
 public class FieldLocations {
+    public static final Pose parkPose = new Pose(9, 52.5, Math.toRadians(0));
+    public static final Pose startPose = new Pose(0, 0, Math.toRadians(0));
+    public static final Pose bucketPose = new Pose(-14.7, 7, Math.toRadians(45));
+    public static final Pose parkSetupPose = new Pose(0, 49.5, Math.toRadians(0));
+
     // red submersible locations
     public static final Pose redAscent = new Pose(-14.75+72, 0+72, 0);
     public static final Pose redChamber = new Pose(0+72, -24.125+72, Math.PI/2);

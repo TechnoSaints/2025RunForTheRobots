@@ -20,7 +20,6 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 @Config
 @TeleOp(name = "Pedro Teleop21528", group = "Linear OpMode")
-@Disabled
 public class Teleop21528Pedro extends LinearOpMode {
     private Bot bot;
     private Follower follower;
