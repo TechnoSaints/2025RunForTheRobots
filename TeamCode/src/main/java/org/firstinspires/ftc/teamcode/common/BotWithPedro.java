@@ -21,15 +21,15 @@ public class BotWithPedro extends Bot {
     private double maxSlowPower;
     private Pose currentPose;
     private PathChain bucketPath;
-    private boolean teleop;
-    public BotWithPedro(OpMode opMode, Telemetry telemetry, DrivetrainData drivetrainData) {
+    private boolean teleopDriving;
+    DrivetrainData drivetrainData = new DrivetrainData21528();
+
+    public BotWithPedro(OpMode opMode, Telemetry telemetry) {
         super(opMode, telemetry, 0);
-        Constants.setConstants(FConstants.class, LConstants.class);
-        maxSlowPower = drivetrainData.maxSlowPower;
         follower = new Follower(opMode.hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(FieldLocations.startPose);
         follower.startTeleopDrive();
-        teleop = true;
+        teleopDriving = true;
     }
 
     /* Update Pedro to move the robot based on:
@@ -38,7 +38,8 @@ public class BotWithPedro extends Bot {
     - Turn Left/Right Movement: -gamepad1.right_stick_x
     - Robot-Centric Mode: true
     */
-    public void pedroMove(Gamepad gamepad) {
+    public void processGamepadInput(Gamepad gamepad) {
+        super.processGamepadInput(gamepad);
         if (gamepad.dpad_up) {
             follower.setTeleOpMovementVectors(maxSlowPower, 0, 0, true);
         } else if (gamepad.dpad_down) {
@@ -50,11 +51,18 @@ public class BotWithPedro extends Bot {
         } else {
             if ((Math.abs(-gamepad.left_stick_y) < 0.2) && (Math.abs(-gamepad.left_stick_x) < 0.2) && (Math.abs(-gamepad.right_stick_x) < 0.2)) {
                 follower.holdPoint(follower.getPose());
-                teleop = false;
+                teleopDriving = false;
                 // follower.setTeleOpMovementVectors(0, 0, 0, true);
             } else {
                 follower.setTeleOpMovementVectors(-gamepad.left_stick_y, -gamepad.left_stick_x, -gamepad.right_stick_x, true);
             }
+        }
+
+        if (gamepad.share) {
+            goToBucket();
+            liftHigh();
+            armSwing();
+            wristSwing();
         }
     }
 
@@ -67,13 +75,13 @@ public class BotWithPedro extends Bot {
                 .setLinearHeadingInterpolation(FieldLocations.parkSetupPose.getHeading(), FieldLocations.bucketPose.getHeading())
                 .build();
         follower.followPath(bucketPath, true);
-        teleop = false;
+        teleopDriving = false;
     }
 
     public void update() {
-        if (!follower.isBusy() && !teleop) {
+        if (!follower.isBusy() && !teleopDriving) {
             follower.startTeleopDrive();
-            teleop = true;
+            teleopDriving = true;
         }
         follower.update();
     }

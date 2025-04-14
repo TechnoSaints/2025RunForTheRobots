@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.common;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.hardwareData.GoBilda312DcMotorData;
@@ -12,11 +13,11 @@ import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.LiftData2152
 import org.firstinspires.ftc.teamcode.common.servos.ServoSimple;
 import org.firstinspires.ftc.teamcode.common.servos.ServoSlowStop;
 
-public  class Bot extends Component {
+public class Bot extends Component {
     protected final LiftSingle lift;
     private final ServoSimple grabber, wrist;
     protected ServoSlowStop armLeft, armRight;
-//    protected Limelight limelight;
+    private boolean liftIsLocked;
 
     public Bot(OpMode opMode, Telemetry telemetry, double slowStopServoDelay) {
         super(telemetry);
@@ -25,6 +26,7 @@ public  class Bot extends Component {
         armLeft = new ServoSlowStop(opMode.hardwareMap, telemetry, "armLeft", new ArmLeftServoData21528(), slowStopServoDelay);
         armRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "armRight", new ArmRightServoData21528(), slowStopServoDelay);
         wrist = new ServoSimple(opMode.hardwareMap, telemetry, "wrist", new WristServoData21528());
+        liftIsLocked = false;
     }
 
     public void grabberClose() {
@@ -146,9 +148,56 @@ public  class Bot extends Component {
         return (lift.isBusy());
     }
 
-    public void increaseLiftMax(int increment)
-    {
+    public void increaseLiftMax(int increment) {
         lift.increaseMax(increment);
+    }
+
+
+    public void processGamepadInput(Gamepad gamepad) {
+        if (gamepad.right_trigger > 0.2) {
+            liftUp(gamepad.right_trigger);
+        } else if (gamepad.left_trigger > 0.2) {
+            liftDown(gamepad.left_trigger);
+        } else {
+            liftStop();
+        }
+
+        if (gamepad.x) {
+            grabberClose();
+        } else if (gamepad.a) {
+            grabberOpen();
+        } else if (gamepad.y) {
+            grabberMiddle();
+        }
+
+        if (gamepad.left_bumper) {
+            armClose();
+            wristClose();
+        } else if (gamepad.right_bumper) {
+            armMiddle();
+            wristClose();
+        }
+
+        if (gamepad.b) {
+            armSwing();
+            wristSwing();
+        }
+
+        if ((gamepad.start) && (gamepad.share)) {
+            liftMoveDownToSwitch();
+            liftResetEncoder();
+        }
+
+        if (gamepad.touchpad || liftIsLocked == true) {
+            liftLock();
+            liftIsLocked = true;
+        }
+
+        if (gamepad.ps) {
+            liftUnlock();
+            liftIsLocked = false;
+        }
+
     }
 
     public void update() {
