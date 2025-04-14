@@ -19,7 +19,6 @@ public class TeleopPedro extends LinearOpMode {
         bot = new BotWithPedro(this, telemetry);
 
         waitForStart();
-        bot.liftResetEncoder();
         while (opModeIsActive() && !isStopRequested()) {
             bot.processGamepadInput(gamepad1);
             bot.update();

@@ -27,6 +27,7 @@ public class Bot extends Component {
         armRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "armRight", new ArmRightServoData21528(), slowStopServoDelay);
         wrist = new ServoSimple(opMode.hardwareMap, telemetry, "wrist", new WristServoData21528());
         liftIsLocked = false;
+        liftResetEncoder();
     }
 
     public void grabberClose() {
@@ -197,7 +198,6 @@ public class Bot extends Component {
             liftUnlock();
             liftIsLocked = false;
         }
-
     }
 
     public void update() {

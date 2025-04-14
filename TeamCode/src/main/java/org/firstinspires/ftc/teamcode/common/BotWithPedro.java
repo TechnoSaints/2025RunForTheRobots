@@ -57,28 +57,11 @@ public class BotWithPedro extends Bot {
                 follower.setTeleOpMovementVectors(-gamepad.left_stick_y, -gamepad.left_stick_x, -gamepad.right_stick_x, true);
             }
         }
-
-        if (gamepad.share) {
-            goToBucket();
-            liftHigh();
-            armSwing();
-            wristSwing();
-        }
     }
 
-    public void goToBucket() {
-        currentPose = follower.getPose();
-        bucketPath = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(currentPose), new Point(FieldLocations.parkSetupPose)))
-                .setLinearHeadingInterpolation(currentPose.getHeading(), FieldLocations.parkSetupPose.getHeading())
-                .addPath(new BezierLine(new Point(FieldLocations.parkSetupPose), new Point(FieldLocations.bucketPose)))
-                .setLinearHeadingInterpolation(FieldLocations.parkSetupPose.getHeading(), FieldLocations.bucketPose.getHeading())
-                .build();
-        follower.followPath(bucketPath, true);
-        teleopDriving = false;
-    }
 
     public void update() {
+        super.update();
         if (!follower.isBusy() && !teleopDriving) {
             follower.startTeleopDrive();
             teleopDriving = true;

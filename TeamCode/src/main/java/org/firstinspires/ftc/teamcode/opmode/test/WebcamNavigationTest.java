@@ -7,6 +7,7 @@ import com.pedropathing.pathgen.Point;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+import org.firstinspires.ftc.teamcode.opmode.FieldLocations;
 import org.firstinspires.ftc.teamcode.opmode.auto.AutoOpMode;
 
 @Autonomous(name = "WebcamNavigationTest", group = "Test")
@@ -76,8 +77,8 @@ public class WebcamNavigationTest extends AutoOpMode {
                     grabSample();
                     currentPose = follower.getPose();
                     retreat = follower.pathBuilder()
-                            .addPath(new BezierLine(new Point(currentPose), new Point(parkSetupPose)))
-                            .setLinearHeadingInterpolation(currentPose.getHeading(), parkSetupPose.getHeading())
+                            .addPath(new BezierLine(new Point(currentPose), new Point(FieldLocations.parkSetupPose)))
+                            .setLinearHeadingInterpolation(currentPose.getHeading(), FieldLocations.parkSetupPose.getHeading())
                             .build();
                     sleepSynch(250);
                     follower.followPath(retreat);
