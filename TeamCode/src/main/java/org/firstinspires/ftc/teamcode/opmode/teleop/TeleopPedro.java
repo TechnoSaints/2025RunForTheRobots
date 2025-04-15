@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.common.BotWithPedro;
 
 @Config
-@TeleOp(name = "PedroTeleop", group = "Linear OpMode")
+@TeleOp(name = "TeleopPedro", group = "Linear OpMode")
 public class TeleopPedro extends LinearOpMode {
     private BotWithPedro bot;
 
