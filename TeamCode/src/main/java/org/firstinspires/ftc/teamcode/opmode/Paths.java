@@ -9,9 +9,18 @@ import com.pedropathing.pathgen.Point;
 
 public class Paths {
 
+    // samples paths
     public static PathChain startToBucket, bucketToSampleSpike1, sampleSpike1ToBucket, bucketToSampleSpike2, getSampleSpike2ToBucket, bucketToSpike3Setup,
-            spike3SetupToSpike3, spike3ToBucket, bucketToParkSetup, parkSetupToPark, bucketToHumanPlayer, humanPlayerToBucket, bucketToHumanPlayerSetup,
-            humanPlayerSetupToHumanPlayer, bucketToHumanPlayerBypass, humanPlayerToBucketBypass;
+            spike3SetupToSpike3, spike3ToBucket, bucketToParkSetup, parkSetupToPark, parkSetupToSampleSideLook;
+
+    // hybrid paths
+    public static PathChain bucketToHumanPlayer, humanPlayerSamplePickupToBucket, bucketToHumanPlayerSamplePickupViaBypass,
+            humanPlayerSamplePickupToBucketViaBypass, bucketToHumanPlayerPark;
+
+    // specimen paths
+    public static PathChain startToSubSide, subSideToSpecimenSpike1, specimenSpike1ToHumanPlayerDrop, humanPlayerDropToSpecimenSpike2,
+            specimenSpike2ToHumanPlayerDrop, humanPlayerDropToSpecimenSpike3, specimenSpike3ToHumanPlayerDrop, humanPlayerDropToSpecimenGrab,
+            specimenGrabToSubSide, subSideToSpecimenGrab;
 
     public static void buildSamplePaths(Follower follower) {
         startToBucket = follower.pathBuilder()
@@ -44,70 +53,70 @@ public class Paths {
                 .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.sampleSpike3SetupPose.getHeading())
                 .build();
 
-        sample3Pickup = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(spike3SetupPose), new Point(spike3Pose)))
-                .setLinearHeadingInterpolation(spike3SetupPose.getHeading(), spike3Pose.getHeading())
+        spike3SetupToSpike3 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.sampleSpike3SetupPose), new Point(FieldLocations.sampleSpike3Pose)))
+                .setLinearHeadingInterpolation(FieldLocations.sampleSpike3SetupPose.getHeading(), FieldLocations.sampleSpike3Pose.getHeading())
                 .build();
 
-        sample3Score = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(spike3Pose), new Point(bucketPose)))
-                .setLinearHeadingInterpolation(spike3Pose.getHeading(), bucketPose.getHeading())
+        spike3ToBucket = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.sampleSpike3Pose), new Point(FieldLocations.bucketPose)))
+                .setLinearHeadingInterpolation(FieldLocations.sampleSpike3Pose.getHeading(), FieldLocations.bucketPose.getHeading())
                 .build();
 
-        parkSubSetup = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(bucketPose), new Point(parkSetupPose)))
-                .setLinearHeadingInterpolation(bucketPose.getHeading(), parkSetupPose.getHeading())
+        bucketToParkSetup = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.bucketPose), new Point(FieldLocations.parkSetupPose)))
+                .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.parkSetupPose.getHeading())
                 .build();
 
-        parkSub = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(parkSetupPose), new Point(parkPose)))
-                .setLinearHeadingInterpolation(parkSetupPose.getHeading(), parkPose.getHeading())
+        parkSetupToPark = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.parkSetupPose), new Point(FieldLocations.parkPose)))
+                .setLinearHeadingInterpolation(FieldLocations.parkSetupPose.getHeading(), FieldLocations.parkPose.getHeading())
                 .build();
 
-//        look = follower.pathBuilder()
-//                .addPath(new BezierLine(new Point(parkSetupPose), new Point(lookPose)))
-//                .setLinearHeadingInterpolation(parkSetupPose.getHeading(), lookPose.getHeading())
-//                .build();
-
-
+        parkSetupToSampleSideLook = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.parkSetupPose), new Point(FieldLocations.subSampleLongSidePose)))
+                .setLinearHeadingInterpolation(FieldLocations.parkSetupPose.getHeading(), FieldLocations.subSampleLongSidePose.getHeading())
+                .build();
     }
+
+    public static void buildHybridPaths(Follower follower) {
+        bucketToHumanPlayer = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.bucketPose), new Point(FieldLocations.humanPlayerSamplePickupPose)))
+                .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.humanPlayerSamplePickupPose.getHeading())
+                .build();
+
+        humanPlayerSamplePickupToBucket = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.humanPlayerSamplePickupPose), new Point(FieldLocations.bucketPose)))
+                .setLinearHeadingInterpolation(FieldLocations.humanPlayerSamplePickupPose.getHeading(), FieldLocations.bucketPose.getHeading())
+                .build();
+
+        bucketToHumanPlayerSamplePickupViaBypass = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.bucketPose), new Point(FieldLocations.humanPlayerBypassPose1)))
+                .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.humanPlayerBypassPose1.getHeading())
+                .addPath(new BezierLine(new Point(FieldLocations.humanPlayerBypassPose1), new Point(FieldLocations.humanPlayerBypassPose2)))
+                .setLinearHeadingInterpolation(FieldLocations.humanPlayerBypassPose1.getHeading(), FieldLocations.humanPlayerBypassPose2.getHeading())
+                .addPath(new BezierLine(new Point(FieldLocations.humanPlayerBypassPose2), new Point(FieldLocations.humanPlayerSamplePickupPose)))
+                .setLinearHeadingInterpolation(FieldLocations.humanPlayerBypassPose2.getHeading(), FieldLocations.humanPlayerSamplePickupPose.getHeading())
+                .build();
+
+        humanPlayerSamplePickupToBucketViaBypass = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.humanPlayerSamplePickupPose), new Point(FieldLocations.humanPlayerBypassPose2)))
+                .setLinearHeadingInterpolation(FieldLocations.humanPlayerSamplePickupPose.getHeading(), FieldLocations.humanPlayerBypassPose2.getHeading())
+                .addPath(new BezierLine(new Point(FieldLocations.humanPlayerBypassPose2), new Point(FieldLocations.humanPlayerBypassPose1)))
+                .setLinearHeadingInterpolation(FieldLocations.humanPlayerBypassPose2.getHeading(), FieldLocations.humanPlayerBypassPose1.getHeading())
+                .addPath(new BezierLine(new Point(FieldLocations.humanPlayerBypassPose1), new Point(FieldLocations.bucketPose)))
+                .setLinearHeadingInterpolation(FieldLocations.humanPlayerBypassPose1.getHeading(), FieldLocations.bucketPose.getHeading())
+                .build();
+
+        bucketToHumanPlayerPark = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.bucketPose), new Point(FieldLocations.humanPlayerParkPose)))
+                .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.humanPlayerParkPose.getHeading())
+                .build();
+    }
+
 
     public static void buildSpecimenPaths(Follower follower) {
 
     }
 
-    public static void buildHybridPaths(Follower follower) {
-        humanPlayerPickup = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(bucketPose), new Point(humanPlayerPickupPose)))
-                .setLinearHeadingInterpolation(bucketPose.getHeading(), humanPlayerPickupPose.getHeading())
-                .build();
-
-        humanPlayerScore = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(humanPlayerPickupPose), new Point(bucketPose)))
-                .setLinearHeadingInterpolation(humanPlayerPickupPose.getHeading(), bucketPose.getHeading())
-                .build();
-
-        humanPlayerBypassPickup = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(bucketPose), new Point(humanPlayerBypassPose1)))
-                .setLinearHeadingInterpolation(bucketPose.getHeading(), humanPlayerBypassPose1.getHeading())
-                .addPath(new BezierLine(new Point(humanPlayerBypassPose1), new Point(humanPlayerBypassPose2)))
-                .setLinearHeadingInterpolation(humanPlayerBypassPose1.getHeading(), humanPlayerBypassPose2.getHeading())
-                .addPath(new BezierLine(new Point(humanPlayerBypassPose2), new Point(humanPlayerPickupPose)))
-                .setLinearHeadingInterpolation(humanPlayerBypassPose2.getHeading(), humanPlayerPickupPose.getHeading())
-                .build();
-
-        humanPlayerBypassScore = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(humanPlayerPickupPose), new Point(humanPlayerBypassPose2)))
-                .setLinearHeadingInterpolation(humanPlayerPickupPose.getHeading(), humanPlayerBypassPose2.getHeading())
-                .addPath(new BezierLine(new Point(humanPlayerBypassPose2), new Point(humanPlayerBypassPose1)))
-                .setLinearHeadingInterpolation(humanPlayerBypassPose2.getHeading(), humanPlayerBypassPose1.getHeading())
-                .addPath(new BezierLine(new Point(humanPlayerBypassPose1), new Point(bucketPose)))
-                .setLinearHeadingInterpolation(humanPlayerBypassPose1.getHeading(), bucketPose.getHeading())
-                .build();
-
-        parkHuman = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(bucketPose), new Point(parkHumanPose)))
-                .setLinearHeadingInterpolation(bucketPose.getHeading(), parkHumanPose.getHeading())
-                .build();
-    }
 }

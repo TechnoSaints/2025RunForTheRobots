@@ -5,28 +5,31 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.common.hardwareConstants.GoBilda435DcMotorData;
 import org.firstinspires.ftc.teamcode.common.hardwareConstants.IntakeGrabberPositions;
 import org.firstinspires.ftc.teamcode.common.servos.ServoSlowStop;
 
 public class Bot extends Component {
     private Servo testServo;
     private final Servo intakeGrabber, intakeWrist, intakeSwivel;
-    protected ServoSlowStop extendoLeft, extendoRight;
-    public Bot(OpMode opMode, Telemetry telemetry, double slowStopServoDelay) {
+    protected ServoSlowStop extendoLeft, extendoRight, armLeft, armRight;
+    protected Lift lift;
+
+   public Bot(OpMode opMode, Telemetry telemetry, double slowStopServoDelay) {
         super(telemetry);
         intakeGrabber = opMode.hardwareMap.get(Servo.class, "intakeGrabber");
         intakeWrist = opMode.hardwareMap.get(Servo.class, "intakeWrist");
         intakeSwivel = opMode.hardwareMap.get(Servo.class, "intakeSwivel");
 
-        extendoLeft = new ServoSlowStop(opMode.hardwareMap, telemetry, "extendoLeft", slowStopServoDelay);
-        extendoRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "extendoRight", slowStopServoDelay);
+        extendoLeft = new ServoSlowStop(opMode.hardwareMap, telemetry, "extendoLeft", 0);
+        extendoRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "extendoRight", 0);
 
 //        handlerGrabber = new Servo(opMode.hardwareMap, telemetry, "handlerGrabber", new HandlerGrabberServoData21528());
 //        handlerWrist = new Servo(opMode.hardwareMap, telemetry, "handlerWrist", new HandlerWristServoData21528());
-//        armLeft = new ServoSlowStop(opMode.hardwareMap, telemetry, "armLeft", new ArmLeftServoData21528(), slowStopServoDelay);
-//        armRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "armRight", new ArmRightServoData21528(), slowStopServoDelay);
+        armLeft = new ServoSlowStop(opMode.hardwareMap, telemetry, "armLeft", 0);
+        armRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "armRight", 0);
 
-//        lift = new LiftSingleMotor(opMode.hardwareMap, telemetry, "lift", false, new GoBilda435DcMotorData(), new LiftData21528());
+        lift = new Lift(opMode.hardwareMap, telemetry, "lift", false);
 //        liftIsLocked = false;
 //        liftResetEncoder();
     }
@@ -70,11 +73,11 @@ public class Bot extends Component {
         armLeft.pwmEnable();
         armRight.pwmEnable();
     }
-
+*/
     public boolean armIsBusy() {
         return (armLeft.isBusy() || armRight.isBusy());
     }
-
+/*
     public void intakeWristOpen() {
         intakeWrist.open();
     }
@@ -138,11 +141,11 @@ public class Bot extends Component {
     public void liftResetEncoder() {
         lift.resetEncoder();
     }
-
+*/
     public boolean liftIsBusy() {
         return (lift.isBusy());
     }
-
+/*
     public void increaseLiftMax(int increment) {
         lift.increaseMax(increment);
     }
@@ -194,6 +197,7 @@ public class Bot extends Component {
         }
 */
     }
+
 
     public void update() {
         extendoLeft.update();

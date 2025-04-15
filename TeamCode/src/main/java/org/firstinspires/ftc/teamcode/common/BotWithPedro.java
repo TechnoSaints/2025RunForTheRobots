@@ -53,9 +53,13 @@ public class BotWithPedro extends Bot {
         }
     }
 
+    public boolean followerIsBusy()
+    {
+        return (follower.isBusy());
+    }
     public void update() {
         super.update();
-        if (!follower.isBusy() && !teleopDriving) {
+        if (!followerIsBusy() && !teleopDriving) {
             follower.startTeleopDrive();
             teleopDriving = true;
         }

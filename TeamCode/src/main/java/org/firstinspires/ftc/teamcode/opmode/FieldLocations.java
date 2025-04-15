@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmode;
+
 import com.pedropathing.localization.Pose;
 
 public class FieldLocations {
@@ -21,12 +22,28 @@ public class FieldLocations {
     public final static Pose parkSetupPose = new Pose(0, 50, Math.toRadians(0));
     // park position
     public final static Pose parkPose = new Pose(9, 53, Math.toRadians(0));
+    public final static Pose subSampleLongSidePose = new Pose(7, 52.5, Math.toRadians(0));
 
-    public final static Pose humanPlayerPickupPose = new Pose(64.5, 3, Math.toRadians(-14.9));
-    //64.5, 3
+    public final static Pose humanPlayerSamplePickupPose = new Pose(64.5, 3, Math.toRadians(-14.9));
+
     public final static Pose humanPlayerBypassPose1 = new Pose(12, 25, Math.toRadians(0));
 
     public final static Pose humanPlayerBypassPose2 = new Pose(52, 25, Math.toRadians(0));
 
-    public final static Pose parkHumanPose = new Pose(64.5, 3, Math.toRadians(-14.9));
+    public final static Pose humanPlayerParkPose = new Pose(64.5, 3, Math.toRadians(-14.9));
+
+    public final static Pose subShortSidePose = null;
+
+    public final static Pose specimenSpike1Pose = null;
+
+    public final static Pose specimenSpike2Pose = null;
+
+    public final static Pose specimenSpike3Pose = null;
+
+    public final static Pose humanPlayerDropPose = null;
+
+    public final static Pose specimenGrabPose = null;
+
+    public final static Pose subSpecimenLongSidePose = null;
+
 }
