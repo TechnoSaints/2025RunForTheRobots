@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.common.Lift;
-import org.firstinspires.ftc.teamcode.common.hardwareConstants.GoBilda435DcMotorData;
-import org.firstinspires.ftc.teamcode.common.hardwareConstants.LiftData;
 
 @Config
 @TeleOp(name = "TEST LiftSingleTest", group = "Test")
@@ -21,7 +19,7 @@ public class LiftSingleTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        lift = new Lift(hardwareMap, telemetry, "lift", false, new GoBilda435DcMotorData(),new LiftData());
+        lift = new Lift(hardwareMap, telemetry, "lift", false);
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {

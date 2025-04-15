@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.common.hardwareConstants.GoBilda435DcMotorData;
 import org.firstinspires.ftc.teamcode.common.hardwareConstants.LiftData;
 import org.firstinspires.ftc.teamcode.common.hardwareConstants.LiftPositions;
-import org.firstinspires.ftc.teamcode.common.hardwareConstants.MotorData;
 
 public class Lift extends Component {
     private final DcMotorEx motor;
@@ -27,13 +27,13 @@ public class Lift extends Component {
     private final double lockPower = -0.65;
     private boolean stopped = true;
 
-    public Lift(HardwareMap hardwareMap, Telemetry telemetry, String motorName, boolean reverseMotor, MotorData motorData, LiftData liftData) {
+    public Lift(HardwareMap hardwareMap, Telemetry telemetry, String motorName, boolean reverseMotor) {
         super(telemetry);
-        maxVelocity = motorData.maxTicksPerSec;
-        maxMovePower = liftData.maxMovePower;
-        stopPower = liftData.stopPower;
+        maxVelocity = GoBilda435DcMotorData.maxTicksPerSec;
+        maxMovePower = LiftData.maxMovePower;
+        stopPower = LiftData.stopPower;
         maxPosition = LiftPositions.MAX.getValue();
-        tolerance = liftData.tolerance;
+        tolerance = LiftData.tolerance;
         minPosition = LiftPositions.MIN.getValue();
         highPosition = LiftPositions.HIGH.getValue();
         mediumPosition = LiftPositions.MEDIUM.getValue();

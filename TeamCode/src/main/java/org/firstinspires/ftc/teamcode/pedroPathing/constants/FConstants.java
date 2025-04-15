@@ -7,18 +7,17 @@ import org.firstinspires.ftc.teamcode.common.hardwareConstants.DrivetrainData;
 
 public class FConstants {
     static {
-        DrivetrainData drivetrainData = new DrivetrainData();
         FollowerConstants.localizers = Localizers.PINPOINT;
 
-        FollowerConstants.leftFrontMotorName = drivetrainData.leftFrontMotorName;
-        FollowerConstants.leftRearMotorName = drivetrainData.leftRearMotorName;
-        FollowerConstants.rightFrontMotorName = drivetrainData.rightFrontMotorName;
-        FollowerConstants.rightRearMotorName = drivetrainData.rightRearMotorName;
+        FollowerConstants.leftFrontMotorName = DrivetrainData.leftFrontMotorName;
+        FollowerConstants.leftRearMotorName = DrivetrainData.leftRearMotorName;
+        FollowerConstants.rightFrontMotorName = DrivetrainData.rightFrontMotorName;
+        FollowerConstants.rightRearMotorName = DrivetrainData.rightRearMotorName;
 
-        FollowerConstants.leftFrontMotorDirection = drivetrainData.leftFrontMotorDirection;
-        FollowerConstants.leftRearMotorDirection = drivetrainData.leftRearMotorDirection;
-        FollowerConstants.rightFrontMotorDirection = drivetrainData.rightFrontMotorDirection;
-        FollowerConstants.rightRearMotorDirection = drivetrainData.rightRearMotorDirection;
+        FollowerConstants.leftFrontMotorDirection = DrivetrainData.leftFrontMotorDirection;
+        FollowerConstants.leftRearMotorDirection = DrivetrainData.leftRearMotorDirection;
+        FollowerConstants.rightFrontMotorDirection = DrivetrainData.rightFrontMotorDirection;
+        FollowerConstants.rightRearMotorDirection = DrivetrainData.rightRearMotorDirection;
 
         // mass in kg
         FollowerConstants.mass = 9.75;

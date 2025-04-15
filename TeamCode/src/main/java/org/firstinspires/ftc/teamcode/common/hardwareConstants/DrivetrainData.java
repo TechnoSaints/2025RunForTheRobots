@@ -3,21 +3,21 @@ package org.firstinspires.ftc.teamcode.common.hardwareConstants;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class DrivetrainData {
-    public double maxFastPower = 0.8;
-    public double maxMediumPower = 0.5;
-    public double maxSlowPower = 0.25;
+    public static double maxFastPower = 0.8;
+    public static double maxMediumPower = 0.5;
+    public static double maxSlowPower = 0.25;
 
-    public double wheelDiameterMM = 104.0;
-    public double wheelDiameterInches = wheelDiameterMM / 25.4;
-    public double wheelCircumferenceInches = Math.PI * wheelDiameterInches;
+    public static double wheelDiameterMM = 104.0;
+    public static double wheelDiameterInches = wheelDiameterMM / 25.4;
+    public static double wheelCircumferenceInches = Math.PI * wheelDiameterInches;
 
-    public String leftFrontMotorName = "leftFrontMotor";
-    public String leftRearMotorName = "leftRearMotor";
-    public String rightFrontMotorName = "rightFrontMotor";
-    public String rightRearMotorName = "rightRearMotor";
+    public static String leftFrontMotorName = "leftFrontMotor";
+    public static String leftRearMotorName = "leftRearMotor";
+    public static String rightFrontMotorName = "rightFrontMotor";
+    public static String rightRearMotorName = "rightRearMotor";
 
-    public DcMotorSimple.Direction leftFrontMotorDirection = DcMotorSimple.Direction.REVERSE;
-    public DcMotorSimple.Direction leftRearMotorDirection = DcMotorSimple.Direction.REVERSE;
-    public DcMotorSimple.Direction rightFrontMotorDirection = DcMotorSimple.Direction.FORWARD;
-    public DcMotorSimple.Direction rightRearMotorDirection = DcMotorSimple.Direction.REVERSE;
+    public static DcMotorSimple.Direction leftFrontMotorDirection = DcMotorSimple.Direction.REVERSE;
+    public static DcMotorSimple.Direction leftRearMotorDirection = DcMotorSimple.Direction.REVERSE;
+    public static DcMotorSimple.Direction rightFrontMotorDirection = DcMotorSimple.Direction.FORWARD;
+    public static DcMotorSimple.Direction rightRearMotorDirection = DcMotorSimple.Direction.REVERSE;
 }
