@@ -8,15 +8,15 @@ public class FieldLocations {
     public final static Pose bucketPose = new Pose(-14.7, 6.75, Math.toRadians(45));
 
     // position to grab the brick at the innermost spike mark
-    public final static Pose spike1Pose = new Pose(-6.7, 16.55, Math.toRadians(90));
+    public final static Pose sampleSpike1Pose = new Pose(-6.7, 16.55, Math.toRadians(90));
 
     // position to grab the brick at the middle spike mark
-    public final static Pose spike2Pose = new Pose(-16.2, 16.55, Math.toRadians(90));
+    public final static Pose sampleSpike2Pose = new Pose(-16.2, 16.55, Math.toRadians(90));
 
-    public final static Pose spike3SetupPose = new Pose(-9.8, 15.55, Math.toRadians(124.5));
+    public final static Pose sampleSpike3SetupPose = new Pose(-9.8, 15.55, Math.toRadians(124.5));
 
     // position to grab the brick at the spike mark closest to the wall
-    public final static Pose spike3Pose = new Pose(-15.6, 21.55, Math.toRadians(124.5));
+    public final static Pose sampleSpike3Pose = new Pose(-15.6, 21.55, Math.toRadians(124.5));
 
     public final static Pose parkSetupPose = new Pose(0, 50, Math.toRadians(0));
     // park position
