@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode.common.servos;
 
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.common.hardwareData.ServoData;
+import org.firstinspires.ftc.teamcode.common.Component;
 
-public class ServoEncoder extends ServoSimple {
+public class ServoEncoder extends Component {
     private final AnalogInput servoEncoder;
     private double setPoint;
     private double controlPosition;
@@ -16,34 +17,20 @@ public class ServoEncoder extends ServoSimple {
     private double delay = 50;
     private ElapsedTime timer;
 
-    public ServoEncoder(HardwareMap hardwareMap, Telemetry telemetry, String servoName, String encoderName, ServoData servoData) {
-        super(hardwareMap, telemetry, servoName, servoData);
+    private Servo servo;
+
+    public ServoEncoder(HardwareMap hardwareMap, Telemetry telemetry, String servoName, String encoderName) {
+        super(telemetry);
+        servo = hardwareMap.get(Servo.class, servoName);
         timer = new ElapsedTime();
         timer.reset();
         servoEncoder = hardwareMap.get(AnalogInput.class, encoderName);
-        open();
         controlPosition = setPoint;
     }
 
-    public void open() {
-        servo.setPosition(openPosition);
-    }
-
-    public void close() {
-        servo.setPosition(closePosition);
-
-    }
-
-    public void middle() {
-        servo.setPosition(middlePosition);
-    }
-
-    public void swing() {
-        servo.setPosition(swingPosition);
-    }
-
-    public void look() {
-        servo.setPosition(lookPosition);
+    public void setPosition(double position)
+    {
+        servo.setPosition(position);
     }
 
     private double getEncoderPosition() {

@@ -26,16 +26,16 @@ public class ServoSlowStopTest extends LinearOpMode {
         while (opModeIsActive() && !isStopRequested()) {
 
             if (gamepad1.right_bumper) {
-                bot.armClose();
+//                bot.armClose();
             }
             if (gamepad1.left_bumper) {
-                bot.armOpen();
+//                bot.armOpen();
             }
             if (gamepad1.right_trigger > 0.2) {
-                bot.armLook();
+//                bot.armLook();
             }
             if (gamepad1.left_trigger > 0.2) {
-                bot.armSwing();
+//                bot.armSwing();
             }
             bot.update();
         }

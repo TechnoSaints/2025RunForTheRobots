@@ -2,46 +2,40 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.common.hardwareData.GoBilda312DcMotorData;
-import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.ArmLeftServoData21528;
-import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.ArmRightServoData21528;
-import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.WristServoData21528;
-import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.GrabberServoData21528;
-import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.LiftData21528;
-import org.firstinspires.ftc.teamcode.common.servos.ServoSimple;
+import org.firstinspires.ftc.teamcode.common.hardwareConstants.IntakeGrabberPositions;
 import org.firstinspires.ftc.teamcode.common.servos.ServoSlowStop;
 
 public class Bot extends Component {
-    protected final LiftSingleMotor lift;
-    private final ServoSimple grabber, wrist;
-    protected ServoSlowStop armLeft, armRight;
-    private boolean liftIsLocked;
-
+    private Servo testServo;
+    private final Servo intakeGrabber, intakeWrist, intakeSwivel;
+    protected ServoSlowStop extendoLeft, extendoRight;
     public Bot(OpMode opMode, Telemetry telemetry, double slowStopServoDelay) {
         super(telemetry);
-        lift = new LiftSingleMotor(opMode.hardwareMap, telemetry, "lift", false, new GoBilda312DcMotorData(), new LiftData21528());
-        grabber = new ServoSimple(opMode.hardwareMap, telemetry, "grabber", new GrabberServoData21528());
-        armLeft = new ServoSlowStop(opMode.hardwareMap, telemetry, "armLeft", new ArmLeftServoData21528(), slowStopServoDelay);
-        armRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "armRight", new ArmRightServoData21528(), slowStopServoDelay);
-        wrist = new ServoSimple(opMode.hardwareMap, telemetry, "wrist", new WristServoData21528());
-        liftIsLocked = false;
-        liftResetEncoder();
+        intakeGrabber = opMode.hardwareMap.get(Servo.class, "intakeGrabber");
+        intakeWrist = opMode.hardwareMap.get(Servo.class, "intakeWrist");
+        intakeSwivel = opMode.hardwareMap.get(Servo.class, "intakeSwivel");
+
+        extendoLeft = new ServoSlowStop(opMode.hardwareMap, telemetry, "extendoLeft", slowStopServoDelay);
+        extendoRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "extendoRight", slowStopServoDelay);
+
+//        handlerGrabber = new Servo(opMode.hardwareMap, telemetry, "handlerGrabber", new HandlerGrabberServoData21528());
+//        handlerWrist = new Servo(opMode.hardwareMap, telemetry, "handlerWrist", new HandlerWristServoData21528());
+//        armLeft = new ServoSlowStop(opMode.hardwareMap, telemetry, "armLeft", new ArmLeftServoData21528(), slowStopServoDelay);
+//        armRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "armRight", new ArmRightServoData21528(), slowStopServoDelay);
+
+//        lift = new LiftSingleMotor(opMode.hardwareMap, telemetry, "lift", false, new GoBilda435DcMotorData(), new LiftData21528());
+//        liftIsLocked = false;
+//        liftResetEncoder();
     }
 
-    public void grabberClose() {
-        grabber.close();
+    public void intakeGrabberSetPosition(IntakeGrabberPositions position)
+    {
+        intakeGrabber.setPosition(position.getValue());
     }
-
-    public void grabberOpen() {
-        grabber.open();
-    }
-
-    public void grabberMiddle() {
-        grabber.middle();
-    }
-
+/*
     public void armOpen() {
         armLeft.open();
         armRight.open();
@@ -81,26 +75,26 @@ public class Bot extends Component {
         return (armLeft.isBusy() || armRight.isBusy());
     }
 
-    public void wristOpen() {
-        wrist.open();
+    public void intakeWristOpen() {
+        intakeWrist.open();
     }
 
-    public void wristClose() {
-        wrist.close();
+    public void intakeWristClose() {
+        intakeWrist.close();
     }
 
-    public void wristMiddle() {
-        wrist.middle();
+    public void intakeWristMiddle() {
+        intakeWrist.middle();
     }
 
-    public void wristSwing() {
-        wrist.swing();
+    public void intakeWristSwing() {
+        intakeWrist.swing();
     }
 
-    public void wristLook() {
-        wrist.look();
+    public void intakeWristLook() {
+        intakeWrist.look();
     }
-
+/*
     public void liftUp(double speed) {
         lift.up(speed);
     }
@@ -152,8 +146,9 @@ public class Bot extends Component {
     public void increaseLiftMax(int increment) {
         lift.increaseMax(increment);
     }
-
+*/
     public void processGamepadInput(Gamepad gamepad) {
+        /*
         if (gamepad.right_trigger > 0.2) {
             liftUp(gamepad.right_trigger);
         } else if (gamepad.left_trigger > 0.2) {
@@ -163,11 +158,11 @@ public class Bot extends Component {
         }
 
         if (gamepad.x) {
-            grabberClose();
+            intakeGrabberClose();
         } else if (gamepad.a) {
-            grabberOpen();
+            intakeGrabberOpen();
         } else if (gamepad.y) {
-            grabberMiddle();
+            intakeGrabberMiddle();
         }
 
         if (gamepad.left_bumper) {
@@ -197,10 +192,13 @@ public class Bot extends Component {
             liftUnlock();
             liftIsLocked = false;
         }
+*/
     }
 
     public void update() {
-        armLeft.update();
-        armRight.update();
+        extendoLeft.update();
+        extendoRight.update();
+//        armLeft.update();
+//        armRight.update();
     }
 }

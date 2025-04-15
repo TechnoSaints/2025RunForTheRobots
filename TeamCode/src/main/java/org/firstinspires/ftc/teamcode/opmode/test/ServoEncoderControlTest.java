@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.common.hardwareConstants.ExtendoLeftPositions;
 import org.firstinspires.ftc.teamcode.common.servos.ServoEncoder;
-import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.ArmLeftServoData21528;
 
 @Config
 @TeleOp(name = "Test Servo with Encoder Control", group = "Test")
@@ -17,7 +17,7 @@ public class ServoEncoderControlTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        servo = new ServoEncoder(hardwareMap, telemetry, "testServo","testServoEncoder", new ArmLeftServoData21528());
+        servo = new ServoEncoder(hardwareMap, telemetry, "extendoLeftServo", "extendoLeftServo");
         telemetry.addLine("Servo Created...");
         telemetry.update();
 
@@ -25,9 +25,9 @@ public class ServoEncoderControlTest extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
-                servo.close();
+                servo.setPosition(ExtendoLeftPositions.RETRACTED.getValue());
             } else if (gamepad1.left_bumper) {
-                servo.open();
+                servo.setPosition(ExtendoLeftPositions.EXTENDED.getValue());
             }
             servo.update();
         }

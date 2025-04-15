@@ -2,16 +2,12 @@ package org.firstinspires.ftc.teamcode.pedroPathing.constants;
 
 import com.pedropathing.localization.Localizers;
 import com.pedropathing.follower.FollowerConstants;
-import com.pedropathing.util.CustomFilteredPIDFCoefficients;
-import com.pedropathing.util.CustomPIDFCoefficients;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.common.hardwareData.DrivetrainData;
-import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.DrivetrainData21528;
+import org.firstinspires.ftc.teamcode.common.hardwareConstants.DrivetrainData;
 
 public class FConstants {
     static {
-        DrivetrainData drivetrainData = new DrivetrainData21528();
+        DrivetrainData drivetrainData = new DrivetrainData();
         FollowerConstants.localizers = Localizers.PINPOINT;
 
         FollowerConstants.leftFrontMotorName = drivetrainData.leftFrontMotorName;

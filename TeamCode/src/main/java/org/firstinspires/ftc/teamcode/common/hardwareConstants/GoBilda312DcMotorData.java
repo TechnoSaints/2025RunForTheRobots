@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.common.hardwareData;
+package org.firstinspires.ftc.teamcode.common.hardwareConstants;
 
-public class GoBilda223DcMotorData extends MotorData {
-    public GoBilda223DcMotorData() {
+public class GoBilda312DcMotorData extends MotorData {
+    public GoBilda312DcMotorData() {
         ticksPerMotorRev = 28;
-        gearRatio = 26.9;
+        gearRatio = 19.2;
         ticksPerGearboxRev = gearRatio * ticksPerMotorRev;
         maxMotorRpm = 5900;
         maxMotorRps = maxMotorRpm / 60.0;

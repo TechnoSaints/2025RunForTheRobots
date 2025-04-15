@@ -2,16 +2,11 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
-import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathChain;
-import com.pedropathing.pathgen.Point;
-import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.common.hardwareData.DrivetrainData;
-import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.DrivetrainData21528;
 import org.firstinspires.ftc.teamcode.opmode.FieldLocations;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
@@ -22,7 +17,6 @@ public class BotWithPedro extends Bot {
     private Pose currentPose;
     private PathChain bucketPath;
     private boolean teleopDriving;
-    DrivetrainData drivetrainData = new DrivetrainData21528();
 
     public BotWithPedro(OpMode opMode, Telemetry telemetry) {
         super(opMode, telemetry, 0);

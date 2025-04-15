@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common.hardwareData;
+package org.firstinspires.ftc.teamcode.common.hardwareConstants;
 
 public abstract class MotorData {
     public double ticksPerMotorRev;

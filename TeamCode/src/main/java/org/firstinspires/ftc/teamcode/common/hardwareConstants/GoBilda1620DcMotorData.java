@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common.hardwareData;
+package org.firstinspires.ftc.teamcode.common.hardwareConstants;
 
 public class GoBilda1620DcMotorData extends MotorData {
     public GoBilda1620DcMotorData() {

@@ -6,39 +6,38 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.common.hardwareData.MotorData;
-import org.firstinspires.ftc.teamcode.common.hardwareData.LiftData;
+import org.firstinspires.ftc.teamcode.common.hardwareConstants.LiftData;
+import org.firstinspires.ftc.teamcode.common.hardwareConstants.LiftPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConstants.MotorData;
 
-public class LiftSingleMotor extends Component {
+public class Lift extends Component {
     private final DcMotorEx motor;
     private TouchSensor liftSwitch;
     private final double maxVelocity;
     private final double maxMovePower;
     private final double stopPower;
     private int maxPosition;
-    private final int maxTolerance;
+    private final int tolerance;
     private final int minPosition;
-    private final int minTolerance;
     private double targetVelocity;
-    private int highPosition;
-    private int mediumPosition;
-    private int lowPosition;
+    private final int highPosition;
+    private final int mediumPosition;
+    private final int lowPosition;
     private int direction = 1;
     private final double lockPower = -0.65;
     private boolean stopped = true;
 
-    public LiftSingleMotor(HardwareMap hardwareMap, Telemetry telemetry, String motorName, boolean reverseMotor, MotorData motorData, LiftData liftData) {
+    public Lift(HardwareMap hardwareMap, Telemetry telemetry, String motorName, boolean reverseMotor, MotorData motorData, LiftData liftData) {
         super(telemetry);
         maxVelocity = motorData.maxTicksPerSec;
         maxMovePower = liftData.maxMovePower;
         stopPower = liftData.stopPower;
-        maxPosition = liftData.maxPosition;
-        maxTolerance = liftData.maxTolerance;
-        minPosition = liftData.minPosition;
-        minTolerance = liftData.minTolerance;
-        highPosition = liftData.highPosition;
-        mediumPosition = liftData.mediumPosition;
-        lowPosition = liftData.lowPosition;
+        maxPosition = LiftPositions.MAX.getValue();
+        tolerance = liftData.tolerance;
+        minPosition = LiftPositions.MIN.getValue();
+        highPosition = LiftPositions.HIGH.getValue();
+        mediumPosition = LiftPositions.MEDIUM.getValue();
+        lowPosition = LiftPositions.LOW.getValue();
         long prevTime;
         int prevPosition;
         liftSwitch = hardwareMap.get(TouchSensor.class, "liftSwitch");
@@ -115,7 +114,7 @@ public class LiftSingleMotor extends Component {
     private boolean stoppedAtTop() {
         boolean stop = false;
         int currentPosition = motor.getCurrentPosition();
-        if (currentPosition > (maxPosition - maxTolerance)) {
+        if (currentPosition > (maxPosition - tolerance)) {
             stop = true;
             stopAtPosition(maxPosition);
         }
@@ -125,7 +124,7 @@ public class LiftSingleMotor extends Component {
     private boolean stoppedAtBottom() {
         boolean stop = false;
         int currentPosition = motor.getCurrentPosition();
-        if (currentPosition < (minPosition - minTolerance)) {
+        if (currentPosition < (minPosition - tolerance)) {
             stop = true;
             stopAtPosition(minPosition);
         }

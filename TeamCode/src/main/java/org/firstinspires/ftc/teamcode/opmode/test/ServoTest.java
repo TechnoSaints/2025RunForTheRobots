@@ -6,29 +6,30 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.common.servos.ServoSimple;
-import org.firstinspires.ftc.teamcode.common.hardwareData.team21528.ArmLeftServoData21528;
+import org.firstinspires.ftc.teamcode.common.hardwareConstants.ExtendoLeftPositions;
 
 @Config
-@TeleOp(name = "TEST ServoSimpleTest", group = "Test")
+@TeleOp(name = "TEST ServoTest", group = "Test")
 @Disabled
-public class ServoSimpleTest extends LinearOpMode {
+public class ServoTest extends LinearOpMode {
 
-    private ServoSimple servo;
+    private Servo servo;
 
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        servo = new ServoSimple(hardwareMap, telemetry, "testServo", new ArmLeftServoData21528());
+
+        servo = hardwareMap.get(Servo.class,"extendoLeft");
 
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
-                servo.close();
+                servo.setPosition(ExtendoLeftPositions.EXTENDED.getValue());
             } else if (gamepad1.left_bumper) {
-                servo.open();
+                servo.setPosition(ExtendoLeftPositions.EXTENDED.getValue());
             }
         }
     }

@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.common.servos;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.common.hardwareData.ServoData;
+import org.firstinspires.ftc.teamcode.common.Component;
 
-public class ServoSlowStop extends ServoSimple {
+public class ServoSlowStop extends Component {
     private double targetPosition, controlPosition;
     private final double slowDownDistance = 0.15;
     private final double controlPositionIncrementDefault = 0.01;
@@ -17,36 +18,19 @@ public class ServoSlowStop extends ServoSimple {
     private double controlDelayIncrementMS = controlDelayMaxIncreaseMS * controlPositionIncrementDefault / slowDownDistance;
     private final double tolerance = controlPositionIncrement / 1.75;
     private ElapsedTime timer = new ElapsedTime();
+    private Servo servo;
 
-    public ServoSlowStop(HardwareMap hardwareMap, Telemetry telemetry, String servoName, ServoData servoData, double delay) {
-        super(hardwareMap, telemetry, servoName, servoData);
+    public ServoSlowStop(HardwareMap hardwareMap, Telemetry telemetry, String servoName, double delay) {
+        super(telemetry);
+        servo = hardwareMap.get(Servo.class, servoName);
         controlDelayDefaultMS = delay;
         controlDelayMS = controlDelayDefaultMS;
         timer.reset();
     }
 
-    public void open() {
-        targetPosition = openPosition;
-        slowStopMove();
-    }
-
-    public void close() {
-        targetPosition = closePosition;
-        slowStopMove();
-    }
-
-    public void middle() {
-        targetPosition = middlePosition;
-        slowStopMove();
-    }
-
-    public void swing() {
-        targetPosition = swingPosition;
-        slowStopMove();
-    }
-
-    public void look() {
-        targetPosition = lookPosition;
+    public void setTargetPosition(double position)
+    {
+        targetPosition = position;
         slowStopMove();
     }
 
