@@ -14,14 +14,14 @@ import org.firstinspires.ftc.teamcode.common.servos.ServoSimple;
 import org.firstinspires.ftc.teamcode.common.servos.ServoSlowStop;
 
 public class Bot extends Component {
-    protected final LiftSingle lift;
+    protected final LiftSingleMotor lift;
     private final ServoSimple grabber, wrist;
     protected ServoSlowStop armLeft, armRight;
     private boolean liftIsLocked;
 
     public Bot(OpMode opMode, Telemetry telemetry, double slowStopServoDelay) {
         super(telemetry);
-        lift = new LiftSingle(opMode.hardwareMap, telemetry, "lift", false, new GoBilda312DcMotorData(), new LiftData21528());
+        lift = new LiftSingleMotor(opMode.hardwareMap, telemetry, "lift", false, new GoBilda312DcMotorData(), new LiftData21528());
         grabber = new ServoSimple(opMode.hardwareMap, telemetry, "grabber", new GrabberServoData21528());
         armLeft = new ServoSlowStop(opMode.hardwareMap, telemetry, "armLeft", new ArmLeftServoData21528(), slowStopServoDelay);
         armRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "armRight", new ArmRightServoData21528(), slowStopServoDelay);
@@ -152,7 +152,6 @@ public class Bot extends Component {
     public void increaseLiftMax(int increment) {
         lift.increaseMax(increment);
     }
-
 
     public void processGamepadInput(Gamepad gamepad) {
         if (gamepad.right_trigger > 0.2) {

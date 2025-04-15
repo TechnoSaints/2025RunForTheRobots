@@ -7,11 +7,11 @@ import com.pedropathing.pathgen.Point;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.opmode.FieldLocations;
-import org.firstinspires.ftc.teamcode.opmode.auto.AutoOpMode;
+import org.firstinspires.ftc.teamcode.opmode.auto.AutoOpmode;
 
 @Autonomous(name = "LimelightNavigationTest-Long", group = "Test")
 
-public class LimelightNavigationTestLong extends AutoOpMode {
+public class LimelightNavigationTestLong extends AutoOpmode {
     private Pose grabPose, currentPose;
     private PathChain grab, retreat;
     protected void autonomousPathUpdate() {

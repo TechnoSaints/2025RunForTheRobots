@@ -2,17 +2,14 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.hardwareData.MotorData;
 import org.firstinspires.ftc.teamcode.common.hardwareData.LiftData;
 
-public class LiftSingle extends Component {
+public class LiftSingleMotor extends Component {
     private final DcMotorEx motor;
     private TouchSensor liftSwitch;
     private final double maxVelocity;
@@ -30,7 +27,7 @@ public class LiftSingle extends Component {
     private final double lockPower = -0.65;
     private boolean stopped = true;
 
-    public LiftSingle(HardwareMap hardwareMap, Telemetry telemetry, String motorName, boolean reverseMotor, MotorData motorData, LiftData liftData) {
+    public LiftSingleMotor(HardwareMap hardwareMap, Telemetry telemetry, String motorName, boolean reverseMotor, MotorData motorData, LiftData liftData) {
         super(telemetry);
         maxVelocity = motorData.maxTicksPerSec;
         maxMovePower = liftData.maxMovePower;

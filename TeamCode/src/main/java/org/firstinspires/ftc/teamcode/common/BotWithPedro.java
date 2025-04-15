@@ -59,7 +59,6 @@ public class BotWithPedro extends Bot {
         }
     }
 
-
     public void update() {
         super.update();
         if (!follower.isBusy() && !teleopDriving) {
@@ -69,4 +68,3 @@ public class BotWithPedro extends Bot {
         follower.update();
     }
 }
-

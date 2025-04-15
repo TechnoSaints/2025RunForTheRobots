@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
@@ -14,9 +13,7 @@ import org.firstinspires.ftc.teamcode.opmode.FieldLocations;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
-import java.lang.reflect.Field;
-
-public abstract class AutoOpMode extends OpMode {
+public abstract class AutoOpmode extends OpMode {
 
     protected Follower follower;
     protected ElapsedTime pauseTimer, sleepTimer;
@@ -126,7 +123,7 @@ public abstract class AutoOpMode extends OpMode {
 
         sample3Pickup = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(FieldLocations.spike3SetupPose), new Point(FieldLocations.spike3Pose)))
-                .setLinearHeadingInterpolation(FieldLocations.spike3SetupPose.getHeading(),FieldLocations. spike3Pose.getHeading())
+                .setLinearHeadingInterpolation(FieldLocations.spike3SetupPose.getHeading(), FieldLocations.spike3Pose.getHeading())
                 .build();
 
         sample3Score = follower.pathBuilder()

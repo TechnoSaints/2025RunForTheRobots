@@ -8,11 +8,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.opmode.FieldLocations;
-import org.firstinspires.ftc.teamcode.opmode.auto.AutoOpMode;
+import org.firstinspires.ftc.teamcode.opmode.auto.AutoOpmode;
 
 @Autonomous(name = "WebcamNavigationTest", group = "Test")
 @Disabled
-public class WebcamNavigationTest extends AutoOpMode {
+public class WebcamNavigationTest extends AutoOpmode {
     private Pose grabPose, currentPose;
     private PathChain grab, retreat;
     protected void autonomousPathUpdate() {

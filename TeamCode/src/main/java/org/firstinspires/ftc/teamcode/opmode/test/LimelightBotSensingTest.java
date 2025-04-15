@@ -4,11 +4,11 @@ import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.opmode.auto.AutoOpMode;
+import org.firstinspires.ftc.teamcode.opmode.auto.AutoOpmode;
 
 @Autonomous(name = "LimelightBotSensingTest", group = "Test")
 
-public class LimelightBotSensingTest extends AutoOpMode {
+public class LimelightBotSensingTest extends AutoOpmode {
     private Pose grabPose, currentPose;
     private PathChain grab, retreat;
 

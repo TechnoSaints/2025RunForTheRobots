@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode;
 import com.pedropathing.localization.Pose;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
-
 public class FieldLocations {
     public final static Pose startPose = new Pose(0, 0, Math.toRadians(0));
 
