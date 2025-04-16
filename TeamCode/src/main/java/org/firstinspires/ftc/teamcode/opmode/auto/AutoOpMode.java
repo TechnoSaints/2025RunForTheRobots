@@ -78,6 +78,15 @@ public abstract class AutoOpMode extends OpMode {
         //bot.armOpen();
     }
 
+    protected void specHangPosition() {
+    }
+
+    protected void hangSpecimen() {
+    }
+
+    protected void specParkPosition() {
+    }
+
     protected void sample3SetupPosition() {
         //bot.armClose();
         //bot.wristClose();

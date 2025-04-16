@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
-@Autonomous(name = "4 Sample Auto", group = "Auto")
-public class Auto4Sample extends AutoOpMode {
+@Autonomous(name = "4 Bucket+Park Auto", group = "Bucket")
+public class Auto4Bucket extends AutoOpMode {
 
     @Override
     public void start() {
@@ -102,7 +101,7 @@ public class Auto4Sample extends AutoOpMode {
 //                    bot.grabberClose();
                     sleepSynch(200);
                     dropPosition();
-                    bot.followPath(Paths.getSampleSpike2ToBucket, true);
+                    bot.followPath(Paths.sampleSpike2ToBucket, true);
                     setPathState(10);
                 }
                 break;
@@ -135,7 +134,7 @@ public class Auto4Sample extends AutoOpMode {
 
             case 13:
                 if (!isBusy()) {
-                    bot.followPath(Paths.sampleSpike3SetupToSpike3, true);
+                    bot.followPath(Paths.sampleSpike3SetupToSampleSpike3, true);
                     setPathState(14);
                 }
                 break;
@@ -149,14 +148,13 @@ public class Auto4Sample extends AutoOpMode {
                 }
                 break;
 
-            // pick up sample at spike3, then move to spike3 setup2 position
             case 15:
                 if (!isBusy()) {
                     sleepSynch(200);
                     grabSample();
                     sleepSynch(200);
                     dropPosition();
-                    bot.followPath(Paths.sampleSpike3, true);
+                    bot.followPath(Paths.sampleSpike3ToBucket, true);
                     setPathState(17);
                 }
                 break;
@@ -168,7 +166,7 @@ public class Auto4Sample extends AutoOpMode {
                     dropSample();
                     sleepSynch(100);
                     approachPosition();
-                    bot.followPath(parkSubSetup, false);
+                    bot.followPath(Paths.bucketToSampleParkSetup, false);
                     setPathState(18);
                 }
                 break;
@@ -176,7 +174,7 @@ public class Auto4Sample extends AutoOpMode {
             // go to park position pose
             case 18:
                 if (!isBusy()) {
-                    bot.followPath(parkSub, false);
+                    bot.followPath(Paths.sampleParkSetupToSamplePark, false);
                     setPathState(19);
                 }
                 break;
@@ -191,7 +189,7 @@ public class Auto4Sample extends AutoOpMode {
 
             case 20:
                 if (!isBusy()) {
-                    bot.armPwmDisable();
+//                    bot.armPwmDisable();
                     setPathState(-1);
                     requestOpModeStop();
                 }

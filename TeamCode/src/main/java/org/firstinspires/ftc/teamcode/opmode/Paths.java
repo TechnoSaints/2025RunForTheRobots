@@ -15,7 +15,7 @@ public class Paths {
 
     // hybrid paths
     public static PathChain bucketToHumanPlayer, humanPlayerSamplePickupToBucket, bucketToHumanPlayerSamplePickupViaBypass,
-            humanPlayerSamplePickupToBucketViaBypass, bucketToHumanPlayerPark;
+            humanPlayerSamplePickupToBucketViaBypass, bucketToHumanPlayerPark, subSideToHumanPlayerPark;
 
     // specimen paths
     public static PathChain startToSubSide, subSideToSpecimenSpike1, specimenSpike1ToHumanPlayerDrop, humanPlayerDropToSpecimenSpike2,
@@ -65,7 +65,7 @@ public class Paths {
 
         bucketToSampleParkSetup = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(FieldLocations.bucketPose), new Point(FieldLocations.sampleParkSetupPose)))
-                .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.samplePSetupPose.getHeading())
+                .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.sampleParkSetupPose.getHeading())
                 .build();
 
         sampleParkSetupToSamplePark = follower.pathBuilder()
@@ -163,6 +163,11 @@ public class Paths {
         subSideToSpecimenGrab = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(FieldLocations.subShortSidePose), new Point(FieldLocations.specimenGrabPose)))
                 .setLinearHeadingInterpolation(FieldLocations.subShortSidePose.getHeading(), FieldLocations.specimenGrabPose.getHeading())
+                .build();
+
+        subSideToHumanPlayerPark = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.subShortSidePose), new Point(FieldLocations.humanPlayerParkPose)))
+                .setLinearHeadingInterpolation(FieldLocations.subShortSidePose.getHeading(), FieldLocations.humanPlayerParkPose.getHeading())
                 .build();
     }
 }

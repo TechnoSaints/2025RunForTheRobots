@@ -6,15 +6,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class LConstants {
     static {
-        PinpointConstants.forwardY = 0.75;
-        PinpointConstants.strafeX = 3.1875;
+        PinpointConstants.forwardY = 1.75; // How far the forward turning wheel is from Left/Right center - left is positive
+        PinpointConstants.strafeX = 5.0; // How far the strafe turning wheel is from Front/Back center - forward is positive
         PinpointConstants.distanceUnit = DistanceUnit.INCH;
         PinpointConstants.hardwareMapName = "pinpoint";
         PinpointConstants.useYawScalar = false;
         PinpointConstants.yawScalar = 1.0;
         PinpointConstants.useCustomEncoderResolution = false;
         PinpointConstants.encoderResolution = GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD;
-        PinpointConstants.customEncoderResolution = 13.26291192;
         PinpointConstants.forwardEncoderDirection = GoBildaPinpointDriver.EncoderDirection.FORWARD;
         PinpointConstants.strafeEncoderDirection = GoBildaPinpointDriver.EncoderDirection.REVERSED;
     }

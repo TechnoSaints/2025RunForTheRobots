@@ -26,6 +26,20 @@ public class BotWithPedro extends Bot {
         teleopDriving = true;
     }
 
+    public void followPath(PathChain path, boolean holdEnd)
+    {
+        follower.followPath(path, holdEnd);
+    }
+
+    public Follower getFollower()
+    {
+        return(follower);
+    }
+    public boolean followerIsBusy()
+    {
+        return (follower.isBusy());
+    }
+
     /* Update Pedro to move the robot based on:
     - Forward/Backward Movement: -gamepad1.left_stick_y
     - Left/Right Movement: -gamepad1.left_stick_x
@@ -51,20 +65,6 @@ public class BotWithPedro extends Bot {
                 follower.setTeleOpMovementVectors(-gamepad.left_stick_y, -gamepad.left_stick_x, -gamepad.right_stick_x, true);
             }
         }
-    }
-
-    public void followPath(PathChain path, boolean holdEnd)
-    {
-        follower.followPath(path, holdEnd);
-    }
-
-    public Follower getFollower()
-    {
-        return(follower);
-    }
-    public boolean followerIsBusy()
-    {
-        return (follower.isBusy());
     }
 
     public void update() {
