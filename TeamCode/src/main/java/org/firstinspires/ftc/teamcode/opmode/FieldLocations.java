@@ -19,10 +19,10 @@ public class FieldLocations {
     // position to grab the brick at the spike mark closest to the wall
     public final static Pose sampleSpike3Pose = new Pose(-15.6, 21.55, Math.toRadians(124.5));
 
-    public final static Pose parkSetupPose = new Pose(0, 50, Math.toRadians(0));
+    public final static Pose sampleParkSetupPose = new Pose(0, 50, Math.toRadians(0));
     // park position
-    public final static Pose parkPose = new Pose(9, 53, Math.toRadians(0));
-    public final static Pose subSampleLongSidePose = new Pose(7, 52.5, Math.toRadians(0));
+    public final static Pose sampleParkPose = new Pose(9, 53, Math.toRadians(0));
+    public final static Pose sampleLookPose = new Pose(7, 52.5, Math.toRadians(0));
 
     public final static Pose humanPlayerSamplePickupPose = new Pose(64.5, 3, Math.toRadians(-14.9));
 
@@ -44,6 +44,6 @@ public class FieldLocations {
 
     public final static Pose specimenGrabPose = null;
 
-    public final static Pose subSpecimenLongSidePose = null;
+    public final static Pose specimenSideSubPose = null;
 
 }
