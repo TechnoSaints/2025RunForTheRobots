@@ -53,10 +53,20 @@ public class BotWithPedro extends Bot {
         }
     }
 
+    public void followPath(PathChain path, boolean holdEnd)
+    {
+        follower.followPath(path, holdEnd);
+    }
+
+    public Follower getFollower()
+    {
+        return(follower);
+    }
     public boolean followerIsBusy()
     {
         return (follower.isBusy());
     }
+
     public void update() {
         super.update();
         if (!followerIsBusy() && !teleopDriving) {

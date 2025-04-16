@@ -15,14 +15,12 @@ public abstract class AutoOpMode extends OpMode {
     protected double pauseDuration = 0;
     protected BotWithPedro bot;
     protected int pathState;
-//    protected Limelight limelight;
 
     /**
      * This method is called once at the start of the OpMode.
      * It runs all the setup actions, including building paths and starting the path system
      **/
-    public void start() {
-    }
+    public abstract void start();
 
     /**
      * This method is called once at the init of the OpMode.
@@ -34,11 +32,7 @@ public abstract class AutoOpMode extends OpMode {
         pauseTimer.reset();
         sleepTimer.reset();
 
-        Constants.setConstants(FConstants.class, LConstants.class);
         bot = new BotWithPedro(this, telemetry);
-    }
-
-    protected void initTestPaths() {
     }
 
     /**
@@ -59,7 +53,7 @@ public abstract class AutoOpMode extends OpMode {
         autonomousPathUpdate();
     }
 
-    abstract protected void autonomousPathUpdate();
+    protected abstract void autonomousPathUpdate();
 
     protected void setPathState(int pState) {
         pathState = pState;
@@ -75,6 +69,59 @@ public abstract class AutoOpMode extends OpMode {
      **/
     @Override
     public void stop() {
+    }
+
+
+    protected void startPosition() {
+        //bot.grabberClose();
+        //bot.wristOpen();
+        //bot.armOpen();
+    }
+
+    protected void sample3SetupPosition() {
+        //bot.armClose();
+        //bot.wristClose();
+        //bot.liftLow();
+    }
+
+    protected void approachPosition() {
+        //bot.armMiddle();
+        //bot.grabberOpen();
+        //bot.wristClose();
+        //bot.liftLow();
+    }
+
+    protected void pickupPosition() {
+        //bot.wristClose();
+        //bot.grabberOpen();
+        //bot.armClose();
+        //bot.liftMin();
+    }
+
+    protected void parkPosition() {
+        //bot.wristClose();
+        //bot.armClose();
+        //bot.liftMin();
+    }
+
+    protected void lookPosition() {
+        //bot.armLook();
+        //bot.wristLook();
+        //bot.liftMin();
+    }
+
+    protected void grabSample() {
+        //bot.grabberClose();
+    }
+
+    protected void dropPosition() {
+        //bot.liftHigh();
+        //bot.armSwing();
+        //bot.wristSwing();
+    }
+
+    protected void dropSample() {
+        //bot.grabberOpen();
     }
 
     protected void sleepSynch(double duration) {

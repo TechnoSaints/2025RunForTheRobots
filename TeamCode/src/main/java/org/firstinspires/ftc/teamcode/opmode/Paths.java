@@ -10,8 +10,8 @@ import com.pedropathing.pathgen.Point;
 public class Paths {
 
     // samples paths
-    public static PathChain startToBucket, bucketToSampleSpike1, sampleSpike1ToBucket, bucketToSampleSpike2, getSampleSpike2ToBucket, bucketToSpike3Setup,
-            spike3SetupToSpike3, spike3ToBucket, bucketToParkSetup, parkSetupToPark, parkSetupToSampleSideLook;
+    public static PathChain startToBucket, bucketToSampleSpike1, sampleSpike1ToBucket, bucketToSampleSpike2, sampleSpike2ToBucket, bucketToSampleSpike3Setup,
+            sampleSpike3SetupToSampleSpike3, sampleSpike3ToSampleSpike3Setup2, sampleSpike3Setup2ToBucket, bucketToSubParkSetup, subParkSetupToSubPark, subParkSetupToSampleSideLook;
 
     // hybrid paths
     public static PathChain bucketToHumanPlayer, humanPlayerSamplePickupToBucket, bucketToHumanPlayerSamplePickupViaBypass,
@@ -114,9 +114,55 @@ public class Paths {
                 .build();
     }
 
-
     public static void buildSpecimenPaths(Follower follower) {
+        startToSubSide = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.startPose), new Point(FieldLocations.subShortSidePose)))
+                .setLinearHeadingInterpolation(FieldLocations.startPose.getHeading(), FieldLocations.subShortSidePose.getHeading())
+                .build();
 
+        subSideToSpecimenSpike1 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.subShortSidePose), new Point(FieldLocations.specimenSpike1Pose)))
+                .setLinearHeadingInterpolation(FieldLocations.subShortSidePose.getHeading(), FieldLocations.specimenSpike1Pose.getHeading())
+                .build();
+
+        specimenSpike1ToHumanPlayerDrop = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.specimenSpike1Pose), new Point(FieldLocations.humanPlayerDropPose)))
+                .setLinearHeadingInterpolation(FieldLocations.specimenSpike1Pose.getHeading(), FieldLocations.humanPlayerDropPose.getHeading())
+                .build();
+
+        humanPlayerDropToSpecimenSpike2 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.humanPlayerDropPose), new Point(FieldLocations.specimenSpike2Pose)))
+                .setLinearHeadingInterpolation(FieldLocations.humanPlayerDropPose.getHeading(), FieldLocations.specimenSpike2Pose.getHeading())
+                .build();
+
+        specimenSpike2ToHumanPlayerDrop = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.specimenSpike2Pose), new Point(FieldLocations.humanPlayerDropPose)))
+                .setLinearHeadingInterpolation(FieldLocations.specimenSpike2Pose.getHeading(), FieldLocations.humanPlayerDropPose.getHeading())
+                .build();
+
+        humanPlayerDropToSpecimenSpike3 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.humanPlayerDropPose), new Point(FieldLocations.specimenSpike3Pose)))
+                .setLinearHeadingInterpolation(FieldLocations.humanPlayerDropPose.getHeading(), FieldLocations.specimenSpike3Pose.getHeading())
+                .build();
+
+        specimenSpike3ToHumanPlayerDrop = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.specimenSpike3Pose), new Point(FieldLocations.humanPlayerDropPose)))
+                .setLinearHeadingInterpolation(FieldLocations.specimenSpike3Pose.getHeading(), FieldLocations.humanPlayerDropPose.getHeading())
+                .build();
+
+        humanPlayerDropToSpecimenGrab = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.humanPlayerDropPose), new Point(FieldLocations.specimenGrabPose)))
+                .setLinearHeadingInterpolation(FieldLocations.humanPlayerDropPose.getHeading(), FieldLocations.specimenGrabPose.getHeading())
+                .build();
+
+        specimenGrabToSubSide = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.specimenGrabPose), new Point(FieldLocations.subShortSidePose)))
+                .setLinearHeadingInterpolation(FieldLocations.specimenGrabPose.getHeading(), FieldLocations.subShortSidePose.getHeading())
+                .build();
+
+        subSideToSpecimenGrab = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.subShortSidePose), new Point(FieldLocations.specimenGrabPose)))
+                .setLinearHeadingInterpolation(FieldLocations.subShortSidePose.getHeading(), FieldLocations.specimenGrabPose.getHeading())
+                .build();
     }
-
 }
