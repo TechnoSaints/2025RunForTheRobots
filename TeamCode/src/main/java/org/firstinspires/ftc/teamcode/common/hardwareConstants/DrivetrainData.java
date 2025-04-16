@@ -11,10 +11,10 @@ public class DrivetrainData {
     public static double wheelDiameterInches = wheelDiameterMM / 25.4;
     public static double wheelCircumferenceInches = Math.PI * wheelDiameterInches;
 
-    public static String leftFrontMotorName = "leftFrontMotor";
-    public static String leftRearMotorName = "leftRearMotor";
-    public static String rightFrontMotorName = "rightFrontMotor";
-    public static String rightRearMotorName = "rightRearMotor";
+    public static String leftFrontMotorName = "leftFrontDrive";
+    public static String leftRearMotorName = "leftRearDrive";
+    public static String rightFrontMotorName = "rightFrontDrive";
+    public static String rightRearMotorName = "rightRearDrive";
 
     public static DcMotorSimple.Direction leftFrontMotorDirection = DcMotorSimple.Direction.REVERSE;
     public static DcMotorSimple.Direction leftRearMotorDirection = DcMotorSimple.Direction.REVERSE;
