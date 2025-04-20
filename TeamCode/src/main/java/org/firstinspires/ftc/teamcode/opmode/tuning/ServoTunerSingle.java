@@ -44,7 +44,7 @@ public class ServoTunerSingle extends LinearOpMode {
             }
 
             // Display the current value
-            telemetry.addData("Servo Position", "%5.2f", position);
+            telemetry.addData("Servo Pos:", "%5.2f", position);
             telemetry.addLine("Right Bumper to Increase");
             telemetry.addLine("Left Bumper to Decrease");
             telemetry.update();
