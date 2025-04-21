@@ -1,12 +1,11 @@
 package org.firstinspires.ftc.teamcode.common.hardwareConstants;
 
-public enum ExtendoRightPositions {
-    RETRACTED(0.55),
-    EXTENDED(0.25);
-
+public enum IntakeSwivelPositions {
+    DEGREES0(0.85),
+    DEGREES180(.29);
     private double value;
 
-    ExtendoRightPositions(double value) {
+    IntakeSwivelPositions(double value) {
         this.value = value;
     }
 

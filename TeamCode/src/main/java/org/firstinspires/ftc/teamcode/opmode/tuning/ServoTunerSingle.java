@@ -23,7 +23,7 @@ public class ServoTunerSingle extends LinearOpMode {
 
         // Connect to servo (Assume Robot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.get(Servo.class, "extendoLeft");
+        servo = hardwareMap.get(Servo.class, "extendoRight");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to tune servo.");
@@ -44,7 +44,7 @@ public class ServoTunerSingle extends LinearOpMode {
             }
 
             // Display the current value
-            telemetry.addData("Servo Pos:", "%5.2f", position);
+            telemetry.addData("Servo Position:", "%5.2f", position);
             telemetry.addLine("Right Bumper to Increase");
             telemetry.addLine("Left Bumper to Decrease");
             telemetry.update();

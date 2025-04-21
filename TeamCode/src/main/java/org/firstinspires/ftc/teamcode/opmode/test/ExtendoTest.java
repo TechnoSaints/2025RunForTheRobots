@@ -21,7 +21,7 @@ public class ExtendoTest extends LinearOpMode {
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         servoL = hardwareMap.get(Servo.class, "extendoLeft");
-        servoR = hardwareMap.get(Servo.class, "extendoReft");
+        servoR = hardwareMap.get(Servo.class, "extendoRight");
 
         waitForStart();
 
