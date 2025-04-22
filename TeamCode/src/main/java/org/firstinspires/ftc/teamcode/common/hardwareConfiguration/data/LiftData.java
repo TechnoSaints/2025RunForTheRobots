@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common.hardwareConstants;
+package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data;
 
 public class LiftData {
     public static double maxMovePower = 0.9;

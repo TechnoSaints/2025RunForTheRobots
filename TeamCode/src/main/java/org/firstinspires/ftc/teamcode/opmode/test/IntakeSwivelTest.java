@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.opmode.test;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.common.hardwareConstants.IntakeSwivelPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeSwivelPositions;
 
 @TeleOp(name = "Intake Swivel Test", group = "Test")
 public class IntakeSwivelTest extends LinearOpMode {
@@ -21,7 +20,7 @@ public class IntakeSwivelTest extends LinearOpMode {
 
         // Connect to servo (Assume Robot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.get(Servo.class, "extendoRight");
+        servo = hardwareMap.get(Servo.class, "extendo");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to tune servo.");

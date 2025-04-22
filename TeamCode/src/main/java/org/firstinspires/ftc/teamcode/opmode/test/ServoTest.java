@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.common.hardwareConstants.ExtendoLeftPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
 
 @Config
 @TeleOp(name = "TEST ServoTest", group = "Test")
@@ -27,9 +27,9 @@ public class ServoTest extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
-                servo.setPosition(ExtendoLeftPositions.EXTENDED.getValue());
+                servo.setPosition(ExtendoPositions.EXTENDED.getValue());
             } else if (gamepad1.left_bumper) {
-                servo.setPosition(ExtendoLeftPositions.EXTENDED.getValue());
+                servo.setPosition(ExtendoPositions.EXTENDED.getValue());
             }
         }
     }

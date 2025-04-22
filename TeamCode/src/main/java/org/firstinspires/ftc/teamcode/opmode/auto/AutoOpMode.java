@@ -61,7 +61,8 @@ public abstract class AutoOpMode extends OpMode {
     }
 
     protected boolean isBusy() {
-        return ((bot.armIsBusy()) || (bot.liftIsBusy()) || (bot.followerIsBusy()));
+//        return ((bot.armIsBusy()) || (bot.liftIsBusy()) || (bot.followerIsBusy()));
+        return false;
     }
 
     /**

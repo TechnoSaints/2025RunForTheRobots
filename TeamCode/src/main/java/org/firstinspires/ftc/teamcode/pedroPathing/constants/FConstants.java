@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.pedroPathing.constants;
 import com.pedropathing.localization.Localizers;
 import com.pedropathing.follower.FollowerConstants;
 
-import org.firstinspires.ftc.teamcode.common.hardwareConstants.DrivetrainData;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.DrivetrainData;
 
 public class FConstants {
     static {

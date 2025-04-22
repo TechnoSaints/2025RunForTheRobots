@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.common.hardwareConstants.GoBilda435DcMotorData;
-import org.firstinspires.ftc.teamcode.common.hardwareConstants.LiftData;
-import org.firstinspires.ftc.teamcode.common.hardwareConstants.LiftPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.GoBilda435DcMotorData;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.LiftData;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.LiftPositions;
 
 public class Lift extends Component {
     private final DcMotorEx motor;

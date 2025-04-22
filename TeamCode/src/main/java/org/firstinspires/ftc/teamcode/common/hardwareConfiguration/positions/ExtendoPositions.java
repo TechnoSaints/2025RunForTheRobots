@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.common.hardwareConstants;
+package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions;
 
-public enum ExtendoLeftPositions {
+public enum ExtendoPositions {
     RETRACTED(0.45),
     EXTENDED(0.75);
 
     private double value;
 
-    ExtendoLeftPositions(double value) {
+    ExtendoPositions(double value) {
         this.value = value;
     }
 
