@@ -146,5 +146,7 @@ public class auto5spec extends AutoOpMode {
                     setPathState(14);
                 }
                 break;
+
         }
     }
+}
