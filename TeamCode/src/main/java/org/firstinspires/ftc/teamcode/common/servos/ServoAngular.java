@@ -6,7 +6,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ServoAngular extends ServoSimple {
     private final double rangeTicks, rangeDegrees, ticksPerDegree, minPosDegrees, ticksAtMinPosDegrees, maxPosDegrees, ticksAtMaxPosDegrees;
-    private double currentPosTicks, currentPosDegrees;
+    private double currentPosDegrees;
 
     public ServoAngular(HardwareMap hardwareMap, Telemetry telemetry, String servoName, double minPosDegrees, double ticksAtMinPosDegrees, double maxPosDegrees, double ticksAtMaxPosDegrees) {
         super(hardwareMap, telemetry, servoName);
@@ -16,7 +16,7 @@ public class ServoAngular extends ServoSimple {
         this.ticksAtMaxPosDegrees = ticksAtMaxPosDegrees;
 
         rangeDegrees = this.maxPosDegrees - this.minPosDegrees;
-        rangeTicks = Math.abs(this.ticksAtMaxPosDegrees - this.ticksAtMinPosDegrees);
+        rangeTicks = this.ticksAtMaxPosDegrees - this.ticksAtMinPosDegrees;
         ticksPerDegree = rangeTicks / rangeDegrees;
 
         setPositionDegrees(minPosDegrees);
@@ -26,7 +26,6 @@ public class ServoAngular extends ServoSimple {
         if (!stopAtLimit(posDegrees)) {
             setPositionTicks(degreesToTicks(posDegrees));
             currentPosDegrees = posDegrees;
-            currentPosTicks = getPositionTicks();
         }
     }
 

@@ -12,11 +12,12 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Int
 import org.firstinspires.ftc.teamcode.common.servos.ServoSimple;
 
 public class Bot extends Component {
-    private final ServoSimple extendo, intakeWrist, intakeSwivel, intakeGrabber, intakeLight;
+    private final ServoSimple intakeWrist, intakeSwivel, intakeGrabber, intakeLight;
+    private final Extendo extendo;
 
     public Bot(OpMode opMode, Telemetry telemetry) {
         super(telemetry);
-        extendo = new ServoSimple(opMode.hardwareMap, telemetry, "extendo");
+        extendo = new Extendo(opMode.hardwareMap, telemetry, "extendo");
         intakeWrist = new ServoSimple(opMode.hardwareMap, telemetry, "intakeWrist");
         intakeSwivel = new ServoSimple(opMode.hardwareMap, telemetry, "intakeSwivel");
         intakeGrabber = new ServoSimple(opMode.hardwareMap, telemetry, "intakeGrabber");
@@ -26,7 +27,7 @@ public class Bot extends Component {
     }
 
     public void setExtendoPosition(ExtendoPositions position) {
-        extendo.setPositionTicks(position.getValue());
+        extendo.goToLinearPosition(position.getValue());
     }
 
     public void setIntakeWristPosition(IntakeWristPositions position) {
@@ -56,9 +57,9 @@ public class Bot extends Component {
         }
 
         if (gamepad.right_bumper) {
-            deployIntake();
+            extendo.extendSlowly(1.0);
         } else if (gamepad.left_bumper) {
-            retractIntake();
+            extendo.extendSlowly(-1.0);
         }
     }
 

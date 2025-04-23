@@ -7,28 +7,26 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
+import org.firstinspires.ftc.teamcode.common.Bot;
 
 @Config
-@TeleOp(name = "ExtendoTest", group = "Test")
+@TeleOp(name = "BotTest", group = "Test")
 
-public class ExtendoTest extends LinearOpMode {
+public class BotTest extends LinearOpMode {
 
+    private Bot bot;
     private Servo servo;
 
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        servo = hardwareMap.get(Servo.class, "extendo");
+        bot = new Bot(this, telemetry);
 
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
-            if (gamepad1.right_bumper) {
-                servo.setPosition(ExtendoPositions.EXTENDED.getValue());
-            } else if (gamepad1.left_bumper) {
-                servo.setPosition(ExtendoPositions.RETRACTED.getValue());
-            }
+            bot.processGamepadInput(gamepad1);
+            bot.update();
         }
     }
 }
