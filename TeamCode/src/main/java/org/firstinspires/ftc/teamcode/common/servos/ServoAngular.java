@@ -10,6 +10,11 @@ public class ServoAngular extends ServoSimple {
 
     public ServoAngular(HardwareMap hardwareMap, Telemetry telemetry, String servoName, double minPosDegrees, double ticksAtMinPosDegrees, double maxPosDegrees, double ticksAtMaxPosDegrees) {
         super(hardwareMap, telemetry, servoName);
+
+        if (minPosDegrees >= maxPosDegrees) {
+            throw new IllegalArgumentException();
+         }
+
         this.minPosDegrees = minPosDegrees;
         this.ticksAtMinPosDegrees = ticksAtMinPosDegrees;
         this.maxPosDegrees = maxPosDegrees;
@@ -31,6 +36,14 @@ public class ServoAngular extends ServoSimple {
 
     public void rotateDegrees(double angleDegrees) {
         setPositionDegrees(currentPosDegrees + angleDegrees);
+    }
+
+    public double getPositionDegrees() {
+        return (currentPosDegrees);
+    }
+
+    public double getPositionTicks() {
+        return (servo.getPosition());
     }
 
     private boolean stopAtLimit(double posDegrees) {

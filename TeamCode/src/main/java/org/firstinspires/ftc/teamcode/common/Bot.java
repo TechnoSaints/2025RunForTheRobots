@@ -27,7 +27,7 @@ public class Bot extends Component {
     }
 
     public void setExtendoPosition(ExtendoPositions position) {
-        extendo.goToLinearPosition(position.getValue());
+        extendo.goToPresetPosition(position);
     }
 
     public void setIntakeWristPosition(IntakeWristPositions position) {

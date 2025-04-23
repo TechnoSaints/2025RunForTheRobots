@@ -11,11 +11,11 @@ import org.firstinspires.ftc.teamcode.common.servos.ServoAngular;
 
 public class ServoTunerSingleAngular extends LinearOpMode {
     static final double INCREMENT = 0.1;     // amount to slew servo each CYCLE_MS cycle
-    static final int CYCLE_MS = 50;     // period of each cycle
+    static final int CYCLE_MS = 5;     // period of each cycle
     static final double MAX_POS_DEGREES = 180;     // Maximum rotational position
-    static final double MAX_POS_TICKS = 0.29;     // Maximum rotational position
+    static final double MAX_POS_TICKS = 0.22;     // Maximum rotational position
     static final double MIN_POS_DEGREES = 0.0;     // Minimum rotational position
-    static final double MIN_POS_TICKS = 0.29;     // Maximum rotational position
+    static final double MIN_POS_TICKS = 0.90;     // Maximum rotational position
 
     // Define class members
     ServoAngular servo;
@@ -24,7 +24,7 @@ public class ServoTunerSingleAngular extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        servo = new ServoAngular(hardwareMap, telemetry, "intakeSwivel", MIN_POS_DEGREES, MIN_POS_TICKS, MAX_POS_DEGREES, MAX_POS_TICKS);
+        servo = new ServoAngular(hardwareMap, telemetry, "testServo", MIN_POS_DEGREES, MIN_POS_TICKS, MAX_POS_DEGREES, MAX_POS_TICKS);
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to tune servo.");

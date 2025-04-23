@@ -5,40 +5,48 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.ExtendoData;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
 import org.firstinspires.ftc.teamcode.common.servos.ServoAngular;
 
 public class Extendo extends Component {
     private ServoAngular servo;
     private double currentLength;
     private ElapsedTime timer;
-    private final double slowMoveDelayMS = 1000;
-    private final double slowMoveIncrement = 0.1;
+    private final double slowMoveDelayMS = 50;
+    private final double slowMoveIncrement = 0.5;
 
     public Extendo(HardwareMap hardwareMap, Telemetry telemetry, String extendoName) {
         super(telemetry);
-        double minLengthAngle, maxLengthAngle;
-        minLengthAngle = angleForLength(ExtendoData.minLengthInches);
-        maxLengthAngle = angleForLength(ExtendoData.maxLengthInches);
-        timer = new ElapsedTime();
+        double angleAtMinLength, angleAtMaxLength;
+        angleAtMinLength = lengthToAngle(ExtendoData.minLengthInches);
+        angleAtMaxLength = lengthToAngle(ExtendoData.maxLengthInches);
+        servo = new ServoAngular(hardwareMap, telemetry, extendoName, angleAtMaxLength, ExtendoData.maxLengthTicks, angleAtMinLength, ExtendoData.minLengthTicks);
 
-        servo = new ServoAngular(hardwareMap, telemetry, extendoName, minLengthAngle, ExtendoData.minLengthTicks, maxLengthAngle, ExtendoData.maxLengthTicks);
-        goToLinearPosition(ExtendoData.minLengthInches);
+        timer = new ElapsedTime();
+        timer.reset();
+
+        goToPresetPosition(ExtendoPositions.RETRACTED);
     }
 
-    public void goToLinearPosition(double targetPosInches) {
-        if (!stopAtLimit(targetPosInches)) {
-            servo.setPositionDegrees(angleForLength(targetPosInches));
-            currentLength = targetPosInches;
-        }
+    public void goToPresetPosition(ExtendoPositions position) {
+        goToLength(position.getValue());
+    }
+
+    private void goToLength(double targetPosInches) {
+//        if (!stopAtLimit(targetPosInches)) {
+        servo.setPositionDegrees(lengthToAngle(targetPosInches));
+        currentLength = targetPosInches;
+//            currentLength = angleToLength(servo.getPositionDegrees());
+//        }
     }
 
     public void moveLinearDistance(double distanceInches) {
-        goToLinearPosition(currentLength + distanceInches);
+        goToLength(currentLength + distanceInches);
     }
 
     public void extendSlowly(double direction) {
         if (timer.milliseconds() > slowMoveDelayMS) {
-            goToLinearPosition(currentLength + (direction * slowMoveIncrement));
+            goToLength(currentLength + (direction * slowMoveIncrement));
             timer.reset();
         }
     }
@@ -47,24 +55,40 @@ public class Extendo extends Component {
         boolean atLimit = false;
 
         if (targetLengthInches <= ExtendoData.minLengthInches) {
-            goToLinearPosition(ExtendoData.minLengthInches);
+            goToLength(ExtendoData.minLengthInches);
             atLimit = true;
         } else if (targetLengthInches >= ExtendoData.maxLengthInches) {
-            goToLinearPosition(ExtendoData.maxLengthInches);
+            goToLength(ExtendoData.maxLengthInches);
             atLimit = true;
         }
         return (atLimit);
     }
 
     // my formula
+    // d = l1cos(x)+sqrt(l2^2 - l1^2 + l2^2 * cos(x)^2)
+    public double angleToLength(double angle) {
+        double l1squared = Math.pow(ExtendoData.nearLinkageLengthInches,2);
+        double l2squared = Math.pow(ExtendoData.farLinkageLengthInches,2);
+        double cosx = Math.cos(Math.toRadians(angle));
+        
+        return ((l1squared*cosx)+Math.sqrt(l2squared-l1squared+l1squared*Math.pow(cosx, 2)));
+    }
+
+    // my formula
     // angle = arccos((d^2 + l1^2 - l2^2)/(2dl1))
-    private double angleForLength(double targetLength) {
-        double temp = ((targetLength * targetLength) + (ExtendoData.nearLinkageLengthInches * ExtendoData.nearLinkageLengthInches) -
+    private double lengthToAngle(double length) {
+        double temp = ((length * length) + (ExtendoData.nearLinkageLengthInches * ExtendoData.nearLinkageLengthInches) -
                 (ExtendoData.farLinkageLengthInches * ExtendoData.farLinkageLengthInches));
-        temp = temp / (2.0 * targetLength * ExtendoData.nearLinkageLengthInches);
-        return (Math.acos(temp));
+        temp = temp / (2.0 * length * ExtendoData.nearLinkageLengthInches);
+        return (Math.toDegrees(Math.acos(temp)));
     }
 
     public void update() {
+    }
+
+    public void log() {
+        telemetry.addData("currentLength: ", currentLength);
+        telemetry.addData("lengthToAngle(): ", lengthToAngle(currentLength));
+        telemetry.update();
     }
 }

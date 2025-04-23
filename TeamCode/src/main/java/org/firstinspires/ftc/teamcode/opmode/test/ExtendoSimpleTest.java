@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.common.Extendo;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
 
 @Config
@@ -18,17 +19,24 @@ public class ExtendoSimpleTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        servo = hardwareMap.get(Servo.class, "extendo");
+//        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        Extendo extendo = new Extendo(this.hardwareMap, telemetry, "testServo");
 
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
-                servo.setPosition(ExtendoPositions.EXTENDED.getValue());
+                extendo.goToPresetPosition(ExtendoPositions.EXTENDED);
             } else if (gamepad1.left_bumper) {
-                servo.setPosition(ExtendoPositions.RETRACTED.getValue());
+                extendo.goToPresetPosition(ExtendoPositions.RETRACTED);
             }
+
+            if (gamepad1.right_trigger > 0.2) {
+                extendo.extendSlowly(1);
+            } else if (gamepad1.left_trigger > 0.2) {
+                extendo.extendSlowly(-1);
+            }
+            extendo.log();
         }
     }
 }
