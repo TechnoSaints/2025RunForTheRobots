@@ -51,9 +51,11 @@ public class ServoAngular extends ServoSimple {
 
         if (posDegrees <= minPosDegrees) {
             setPositionTicks(ticksAtMinPosDegrees);
+            currentPosDegrees = posDegrees;
             atLimit = true;
         } else if (posDegrees >= maxPosDegrees) {
             setPositionTicks(ticksAtMaxPosDegrees);
+            currentPosDegrees = posDegrees;
             atLimit = true;
         }
         return (atLimit);
