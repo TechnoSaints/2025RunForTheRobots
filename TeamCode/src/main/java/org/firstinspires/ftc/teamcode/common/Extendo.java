@@ -55,9 +55,11 @@ public class Extendo extends Component {
 
     public void extendSlowly(double direction) {
         if (timer.milliseconds() > slowMoveDelayMS) {
-            telemetry.addData("currentLength: ", currentLength);
+            telemetry.addData("currentLength before: ", currentLength);
             telemetry.addData("increment+dir: ", (direction * slowMoveIncrement));
             goToLength(currentLength + (direction * slowMoveIncrement));
+            telemetry.addData("currentLength after: ", currentLength);
+
             timer.reset();
         }
     }
