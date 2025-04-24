@@ -12,8 +12,10 @@ public class Extendo extends Component {
     private ServoAngular servo;
     private double currentLength;
     private ElapsedTime timer;
-    private final double slowMoveDelayMS = 1000;
-    private final double slowMoveIncrement = 0.5;
+
+    private final double totalSlowExtensionTimeMS = 2500.0;
+    private final double slowMoveIncrementInches = 0.1;
+    private final double slowMoveDelayMS = (totalSlowExtensionTimeMS*slowMoveIncrementInches)/(ExtendoData.maxLengthInches - ExtendoData.minLengthInches);
 
     public Extendo(HardwareMap hardwareMap, Telemetry telemetry, String extendoName) {
         super(telemetry);
@@ -38,10 +40,10 @@ public class Extendo extends Component {
 //        telemetry.addData("targetPosAngle: ", lengthToAngle(targetPosInches));
 
         servo.setPositionDegrees(lengthToAngle(targetPosInches));
-        telemetry.addData("lengthToAngle(): ",lengthToAngle(targetPosInches));
+//        telemetry.addData("lengthToAngle(): ",lengthToAngle(targetPosInches));
         //currentLength = targetPosInches;
         currentLength = angleToLength(servo.getPositionDegrees());
-        telemetry.addData("length: ",getCurrentLength());
+//        telemetry.addData("length: ",getCurrentLength());
 //        telemetry.addData("targetPosInches: ", currentLength);
 //        telemetry.addData("targetPosAngle: ", servo.getPositionDegrees());
 //        telemetry.update();
@@ -55,10 +57,11 @@ public class Extendo extends Component {
 
     public void extendSlowly(double direction) {
         if (timer.milliseconds() > slowMoveDelayMS) {
-            telemetry.addData("currentLength before: ", currentLength);
-            telemetry.addData("increment+dir: ", (direction * slowMoveIncrement));
-            goToLength(currentLength + (direction * slowMoveIncrement));
-            telemetry.addData("currentLength after: ", currentLength);
+//            telemetry.addData("currentLength before: ", currentLength);
+//            telemetry.addData("target length: ", (currentLength + direction * slowMoveIncrementInches));
+            goToLength(currentLength + (direction * slowMoveIncrementInches));
+//            telemetry.addData("currentLength after: ", currentLength);
+//            telemetry.update();
 
             timer.reset();
         }

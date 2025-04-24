@@ -13,7 +13,7 @@ public class ServoAngular extends ServoSimple {
 
         if (minPosDegrees >= maxPosDegrees) {
             throw new IllegalArgumentException();
-         }
+        }
 
         this.minPosDegrees = minPosDegrees;
         this.ticksAtMinPosDegrees = ticksAtMinPosDegrees;
@@ -25,12 +25,13 @@ public class ServoAngular extends ServoSimple {
         ticksPerDegree = rangeTicks / rangeDegrees;
 
         setPositionDegrees(minPosDegrees);
+        currentPosDegrees = minPosDegrees;
     }
 
     public void setPositionDegrees(double posDegrees) {
-        telemetry.addData("posDegrees: ",posDegrees);
-        telemetry.addData("degreesToTicks(): ", degreesToTicks(posDegrees));
-        telemetry.update();
+//        telemetry.addData("posDegrees: ",posDegrees);
+//        telemetry.addData("degreesToTicks(): ", degreesToTicks(posDegrees));
+//        telemetry.update();
         if (!stopAtLimit(posDegrees)) {
             setPositionTicks(degreesToTicks(posDegrees));
             currentPosDegrees = posDegrees;
@@ -51,16 +52,26 @@ public class ServoAngular extends ServoSimple {
 
     private boolean stopAtLimit(double posDegrees) {
         boolean atLimit = false;
-
+//        telemetry.addData("target: ",posDegrees );
+//        telemetry.addData("maxPos: ", maxPosDegrees);
+//        telemetry.addData("ticksAtMax: ", ticksAtMaxPosDegrees);
+//        telemetry.addData("currentPosDegrees before: ", currentPosDegrees);
+//        telemetry.addData("currentPosTicks before: ", getPositionTicks());
+//        telemetry.addData("atLimit before ", atLimit);
         if (posDegrees <= minPosDegrees) {
             setPositionTicks(ticksAtMinPosDegrees);
-            currentPosDegrees = posDegrees;
+            currentPosDegrees = minPosDegrees;
+
             atLimit = true;
         } else if (posDegrees >= maxPosDegrees) {
             setPositionTicks(ticksAtMaxPosDegrees);
-            currentPosDegrees = posDegrees;
+            currentPosDegrees = maxPosDegrees;
             atLimit = true;
         }
+//        telemetry.addData("currentPosDegrees after: ", currentPosDegrees);
+//        telemetry.addData("currentPosTicks after: ", getPositionTicks());
+//        telemetry.addData("atLimit after: ", atLimit);
+//        telemetry.update();
         return (atLimit);
     }
 

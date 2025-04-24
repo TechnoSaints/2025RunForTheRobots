@@ -20,9 +20,9 @@ public class ExtendoTest extends LinearOpMode {
     @Override
     public void runOpMode() {
 //        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        Extendo extendo = new Extendo(this.hardwareMap, telemetry, "testServo");
+        Extendo extendo = new Extendo(this.hardwareMap, telemetry, "extendo");
 
-//        extendo.log();
+        extendo.log();
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
@@ -37,7 +37,7 @@ public class ExtendoTest extends LinearOpMode {
             } else if (gamepad1.left_trigger > 0.2) {
                 extendo.extendSlowly(-1);
             }
-///            extendo.log();
+            extendo.log();
         }
     }
 }
