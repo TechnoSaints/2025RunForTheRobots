@@ -34,10 +34,17 @@ public class Extendo extends Component {
 
     private void goToLength(double targetPosInches) {
 //        if (!stopAtLimit(targetPosInches)) {
+        telemetry.addData("targetPosInches: ", targetPosInches);
+        telemetry.addData("targetPosAngle: ", lengthToAngle(targetPosInches));
+
         servo.setPositionDegrees(lengthToAngle(targetPosInches));
         //currentLength = targetPosInches;
         currentLength = angleToLength(servo.getPositionDegrees());
-//        }
+        telemetry.addData("targetPosInches: ", currentLength);
+        telemetry.addData("targetPosAngle: ", servo.getPositionDegrees());
+        telemetry.update();
+
+        //        }
     }
 
     public void moveLinearDistance(double distanceInches) {

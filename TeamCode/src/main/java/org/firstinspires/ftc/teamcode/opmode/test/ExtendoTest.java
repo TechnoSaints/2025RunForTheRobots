@@ -19,9 +19,10 @@ public class ExtendoTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+//        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         Extendo extendo = new Extendo(this.hardwareMap, telemetry, "testServo");
 
+//        extendo.log();
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
