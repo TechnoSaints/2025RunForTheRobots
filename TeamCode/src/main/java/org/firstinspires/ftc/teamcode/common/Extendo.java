@@ -12,7 +12,7 @@ public class Extendo extends Component {
     private ServoAngular servo;
     private double currentLength;
     private ElapsedTime timer;
-    private final double slowMoveDelayMS = 50;
+    private final double slowMoveDelayMS = 1000;
     private final double slowMoveIncrement = 0.5;
 
     public Extendo(HardwareMap hardwareMap, Telemetry telemetry, String extendoName) {
@@ -34,15 +34,17 @@ public class Extendo extends Component {
 
     private void goToLength(double targetPosInches) {
 //        if (!stopAtLimit(targetPosInches)) {
-        telemetry.addData("targetPosInches: ", targetPosInches);
-        telemetry.addData("targetPosAngle: ", lengthToAngle(targetPosInches));
+//        telemetry.addData("targetPosInches: ", targetPosInches);
+//        telemetry.addData("targetPosAngle: ", lengthToAngle(targetPosInches));
 
         servo.setPositionDegrees(lengthToAngle(targetPosInches));
+        telemetry.addData("lengthToAngle(): ",lengthToAngle(targetPosInches));
         //currentLength = targetPosInches;
         currentLength = angleToLength(servo.getPositionDegrees());
-        telemetry.addData("targetPosInches: ", currentLength);
-        telemetry.addData("targetPosAngle: ", servo.getPositionDegrees());
-        telemetry.update();
+        telemetry.addData("length: ",getCurrentLength());
+//        telemetry.addData("targetPosInches: ", currentLength);
+//        telemetry.addData("targetPosAngle: ", servo.getPositionDegrees());
+//        telemetry.update();
 
         //        }
     }
@@ -53,23 +55,25 @@ public class Extendo extends Component {
 
     public void extendSlowly(double direction) {
         if (timer.milliseconds() > slowMoveDelayMS) {
+            telemetry.addData("currentLength: ", currentLength);
+            telemetry.addData("increment+dir: ", (direction * slowMoveIncrement));
             goToLength(currentLength + (direction * slowMoveIncrement));
             timer.reset();
         }
     }
 
-    private boolean stopAtLimit(double targetLengthInches) {
-        boolean atLimit = false;
-
-        if (targetLengthInches <= ExtendoData.minLengthInches) {
-            goToLength(ExtendoData.minLengthInches);
-            atLimit = true;
-        } else if (targetLengthInches >= ExtendoData.maxLengthInches) {
-            goToLength(ExtendoData.maxLengthInches);
-            atLimit = true;
-        }
-        return (atLimit);
-    }
+//    private boolean stopAtLimit(double targetLengthInches) {
+//        boolean atLimit = false;
+//
+//        if (targetLengthInches <= ExtendoData.minLengthInches) {
+//            goToLength(ExtendoData.minLengthInches);
+//            atLimit = true;
+//        } else if (targetLengthInches >= ExtendoData.maxLengthInches) {
+//            goToLength(ExtendoData.maxLengthInches);
+//            atLimit = true;
+//        }
+//        return (atLimit);
+//    }
 
     // my formula
     // d = l1cos(x)+sqrt(l2^2 - l1^2 + l2^2 * cos(x)^2)
@@ -78,7 +82,7 @@ public class Extendo extends Component {
         double l2squared = Math.pow(ExtendoData.farLinkageLengthInches, 2);
         double cosx = Math.cos(Math.toRadians(angle));
 
-        return ((l1squared * cosx) + Math.sqrt(l2squared - l1squared + l1squared * Math.pow(cosx, 2)));
+        return ((ExtendoData.nearLinkageLengthInches * cosx) + Math.sqrt(l2squared - l1squared + l1squared * Math.pow(cosx, 2)));
     }
 
     // my formula

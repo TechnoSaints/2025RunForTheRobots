@@ -37,7 +37,7 @@ public class ExtendoTest extends LinearOpMode {
             } else if (gamepad1.left_trigger > 0.2) {
                 extendo.extendSlowly(-1);
             }
-            extendo.log();
+///            extendo.log();
         }
     }
 }

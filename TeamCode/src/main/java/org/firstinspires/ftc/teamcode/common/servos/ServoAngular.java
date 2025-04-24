@@ -28,6 +28,9 @@ public class ServoAngular extends ServoSimple {
     }
 
     public void setPositionDegrees(double posDegrees) {
+        telemetry.addData("posDegrees: ",posDegrees);
+        telemetry.addData("degreesToTicks(): ", degreesToTicks(posDegrees));
+        telemetry.update();
         if (!stopAtLimit(posDegrees)) {
             setPositionTicks(degreesToTicks(posDegrees));
             currentPosDegrees = posDegrees;
