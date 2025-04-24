@@ -147,6 +147,27 @@ public class auto5spec extends AutoOpMode {
                 }
                 break;
 
+            case 14:
+                if (!isBusy()) {
+                    hangSpecimen();
+                    sleepSynch(500);
+                    specParkPosition();
+                    bot.followPath(Paths.subSideToSpecimenGrab, true);
+                    sleepSynch(200);
+                    setPathState(15);
+                }
+                break;
+
+            // go to sub side
+            case 15:
+                if (!isBusy()) {
+                    bot.followPath(Paths.specimenGrabToSubSide, true);
+                    requestOpModeStop();
+                    setPathState(16);
+                }
+                break;
+
+
         }
     }
 }
