@@ -35,8 +35,8 @@ public class Extendo extends Component {
     private void goToLength(double targetPosInches) {
 //        if (!stopAtLimit(targetPosInches)) {
         servo.setPositionDegrees(lengthToAngle(targetPosInches));
-        currentLength = targetPosInches;
-//            currentLength = angleToLength(servo.getPositionDegrees());
+        //currentLength = targetPosInches;
+        currentLength = angleToLength(servo.getPositionDegrees());
 //        }
     }
 
@@ -66,12 +66,12 @@ public class Extendo extends Component {
 
     // my formula
     // d = l1cos(x)+sqrt(l2^2 - l1^2 + l2^2 * cos(x)^2)
-    public double angleToLength(double angle) {
-        double l1squared = Math.pow(ExtendoData.nearLinkageLengthInches,2);
-        double l2squared = Math.pow(ExtendoData.farLinkageLengthInches,2);
+    private double angleToLength(double angle) {
+        double l1squared = Math.pow(ExtendoData.nearLinkageLengthInches, 2);
+        double l2squared = Math.pow(ExtendoData.farLinkageLengthInches, 2);
         double cosx = Math.cos(Math.toRadians(angle));
-        
-        return ((l1squared*cosx)+Math.sqrt(l2squared-l1squared+l1squared*Math.pow(cosx, 2)));
+
+        return ((l1squared * cosx) + Math.sqrt(l2squared - l1squared + l1squared * Math.pow(cosx, 2)));
     }
 
     // my formula
@@ -80,15 +80,26 @@ public class Extendo extends Component {
         double temp = ((length * length) + (ExtendoData.nearLinkageLengthInches * ExtendoData.nearLinkageLengthInches) -
                 (ExtendoData.farLinkageLengthInches * ExtendoData.farLinkageLengthInches));
         temp = temp / (2.0 * length * ExtendoData.nearLinkageLengthInches);
+
         return (Math.toDegrees(Math.acos(temp)));
+    }
+
+    public double getCurrentLength()
+    {
+        return (currentLength);
+    }
+
+    public double getCurrentAngle()
+    {
+        return (servo.getPositionDegrees());
     }
 
     public void update() {
     }
 
     public void log() {
-        telemetry.addData("currentLength: ", currentLength);
-        telemetry.addData("lengthToAngle(): ", lengthToAngle(currentLength));
+        telemetry.addData("currentLength: ", getCurrentLength());
+        telemetry.addData("lengthToAngle(): ", getCurrentAngle());
         telemetry.update();
     }
 }

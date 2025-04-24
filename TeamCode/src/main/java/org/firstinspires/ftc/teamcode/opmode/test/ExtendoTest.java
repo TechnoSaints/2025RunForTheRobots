@@ -11,15 +11,15 @@ import org.firstinspires.ftc.teamcode.common.Extendo;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
 
 @Config
-@TeleOp(name = "ExtendoSimpleTest", group = "Test")
+@TeleOp(name = "ExtendoTest", group = "Test")
 
-public class ExtendoSimpleTest extends LinearOpMode {
+public class ExtendoTest extends LinearOpMode {
 
     private Servo servo;
 
     @Override
     public void runOpMode() {
-//        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         Extendo extendo = new Extendo(this.hardwareMap, telemetry, "testServo");
 
         waitForStart();
