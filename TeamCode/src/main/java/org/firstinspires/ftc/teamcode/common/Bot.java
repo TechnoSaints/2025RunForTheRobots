@@ -15,6 +15,21 @@ public class Bot extends Component {
     private final ServoSimple intakeWrist, intakeSwivel, intakeGrabber, intakeLight;
     private final Extendo extendo;
 
+    private Modes currentMode = Modes.WAITING_AT_START;
+    enum Modes {
+        WAITING_AT_START,
+        CRUISING,
+        LOOKING_FOR_BRICK,
+        INTAKING_BRICK_FROM_FLOOR,
+        INTAKING_SPECIMEN_FROM_WALL,
+        PLACING_BRICK_IN_HP_AREA,
+        SCORING_SAMPLE,
+        SCORING_SPECIMEN,
+        PARKING_AT_SUB,
+        PARKING_IN_HP_AREA,
+        CLIMBING,
+    };
+
     public Bot(OpMode opMode, Telemetry telemetry) {
         super(telemetry);
         extendo = new Extendo(opMode.hardwareMap, telemetry, "extendo");
@@ -46,6 +61,21 @@ public class Bot extends Component {
         intakeLight.setPositionTicks(position.getValue());
     }
 
+    private void deployIntake() {
+        setExtendoPosition(ExtendoPositions.EXTENDED);
+        setIntakeWristPosition(IntakeWristPositions.LOOK);
+        setIntakeSwivelPosition(IntakeSwivelPositions.DEGREES0);
+        setIntakeGrabberPosition(IntakeGrabberPositions.OPEN);
+        setIntakeLightPosition(IntakeLightPositions.HIGH);
+    }
+
+    private void retractIntake() {
+        setIntakeWristPosition(IntakeWristPositions.UP);
+        setIntakeSwivelPosition(IntakeSwivelPositions.DEGREES0);
+        setIntakeGrabberPosition(IntakeGrabberPositions.CLOSED_TIGHT);
+        setIntakeLightPosition(IntakeLightPositions.OFF);
+        setExtendoPosition(ExtendoPositions.RETRACTED);
+    }
 
     public void processGamepadInput(Gamepad gamepad) {
         if (gamepad.x) {
@@ -61,23 +91,6 @@ public class Bot extends Component {
         } else if (gamepad.left_bumper) {
             extendo.extendSlowly(-1.0);
         }
-    }
-
-    private void deployIntake() {
-        setExtendoPosition(ExtendoPositions.EXTENDED);
-        setIntakeWristPosition(IntakeWristPositions.LOOK);
-        setIntakeSwivelPosition(IntakeSwivelPositions.DEGREES0);
-        setIntakeGrabberPosition(IntakeGrabberPositions.OPEN);
-        setIntakeLightPosition(IntakeLightPositions.HIGH);
-    }
-
-
-    private void retractIntake() {
-        setIntakeWristPosition(IntakeWristPositions.UP);
-        setIntakeSwivelPosition(IntakeSwivelPositions.DEGREES0);
-        setIntakeGrabberPosition(IntakeGrabberPositions.CLOSED_TIGHT);
-        setIntakeLightPosition(IntakeLightPositions.OFF);
-        setExtendoPosition(ExtendoPositions.RETRACTED);
     }
 
     public void update() {
