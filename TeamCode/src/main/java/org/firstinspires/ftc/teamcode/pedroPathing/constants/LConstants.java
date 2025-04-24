@@ -6,8 +6,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class LConstants {
     static {
-        PinpointConstants.forwardY = -4.625; // How far the forward turning wheel is from Left/Right center - left is positive
-        PinpointConstants.strafeX = -4.1875; // How far the strafe turning wheel is from Front/Back center - forward is positive
+        PinpointConstants.forwardY = -4.125; // How far the forward turning wheel is from Left/Right center - left is positive
+        PinpointConstants.strafeX = -3.4375; // How far the strafe turning wheel is from Front/Back center - forward is positive
         PinpointConstants.distanceUnit = DistanceUnit.INCH;
         PinpointConstants.hardwareMapName = "pinpoint";
         PinpointConstants.useYawScalar = false;
