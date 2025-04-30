@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class DrivetrainData {
-    public static double maxFastPower = 0.8;
-    public static double maxMediumPower = 0.5;
-    public static double maxSlowPower = 0.25;
+    public static double maxFastTeleopPower = 0.5;
+    public static double maxMediumTeleopPower = 0.35;
+    public static double maxSlowTeleopPower = 0.20;
 
     public static double wheelDiameterMM = 104.0;
     public static double wheelDiameterInches = wheelDiameterMM / 25.4;

@@ -14,7 +14,8 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 public class BotWithPedro extends Bot {
     private final Follower follower;
-    private final double maxSlowPower = DrivetrainData.maxSlowPower;
+    private final double maxSlowPower = DrivetrainData.maxSlowTeleopPower;
+    private final double maxFastPower = DrivetrainData.maxFastTeleopPower;
     private Pose currentPose;
     private boolean teleopDriving;
 
@@ -63,7 +64,7 @@ public class BotWithPedro extends Bot {
                 teleopDriving = false;
                 // follower.setTeleOpMovementVectors(0, 0, 0, true);
             } else {
-                follower.setTeleOpMovementVectors(-gamepad.left_stick_y, -gamepad.left_stick_x, -gamepad.right_stick_x, true);
+                follower.setTeleOpMovementVectors(-gamepad.left_stick_y * maxFastPower, -gamepad.left_stick_x * maxFastPower, -gamepad.right_stick_x * maxFastPower, true);
             }
         }
     }
