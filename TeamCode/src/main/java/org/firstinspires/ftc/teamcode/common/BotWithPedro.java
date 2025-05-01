@@ -60,23 +60,24 @@ public class BotWithPedro extends Bot {
             moveTeleop(0, -maxSlowPower, 0);
         } else {
             if ((Math.abs(-gamepad.left_stick_y) < 0.2) && (Math.abs(-gamepad.left_stick_x) < 0.2) && (Math.abs(-gamepad.right_stick_x) < 0.2)) {
-                follower.holdPoint(follower.getPose());
-                teleop = false;
+                moveTeleop(0,0,0);
+                //                follower.holdPoint(follower.getPose());
+//                teleop = false;
             } else {
                 moveTeleop(-gamepad.left_stick_y * maxFastPower, -gamepad.left_stick_x * maxFastPower, -gamepad.right_stick_x * maxFastPower);
             }
         }
 
-        if (!follower.isBusy() && !teleop)
-        {
+    }
+
+    private void moveTeleop(double forward, double lateral, double heading) {
+//        if (!follower.isBusy() && !teleop)
+/*
+        if (!teleop) {
             teleop = true;
             follower.startTeleopDrive();
         }
-    }
-
-    private void moveTeleop(double forward, double lateral, double heading)
-    {
-//        follower.startTeleopDrive();
+*/
         follower.setTeleOpMovementVectors(forward, lateral, heading, true);
     }
 
