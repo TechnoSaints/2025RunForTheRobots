@@ -16,15 +16,11 @@ public class BotWithPedro extends Bot {
     private final Follower follower;
     private final double maxSlowPower = DrivetrainData.maxSlowTeleopPower;
     private final double maxFastPower = DrivetrainData.maxFastTeleopPower;
-    private Pose currentPose;
-    private boolean teleopDriving;
-
     public BotWithPedro(OpMode opMode, Telemetry telemetry) {
         super(opMode, telemetry);
         follower = new Follower(opMode.hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(FieldLocations.startPose);
         follower.startTeleopDrive();
-        teleopDriving = true;
     }
 
     public void followPath(PathChain path, boolean holdEnd) {
@@ -38,7 +34,7 @@ public class BotWithPedro extends Bot {
 
     public boolean followerIsBusy() {
 
-        return (follower.isBusy());
+        return (super.isBusy() || follower.isBusy());
     }
 
     /* Update Pedro to move the robot based on:
@@ -51,30 +47,30 @@ public class BotWithPedro extends Bot {
         super.processGamepadInput(gamepad);
 
         if (gamepad.dpad_up) {
-            follower.setTeleOpMovementVectors(maxSlowPower, 0, 0, true);
+            moveTeleop(maxSlowPower, 0, 0);
         } else if (gamepad.dpad_down) {
-            follower.setTeleOpMovementVectors(-maxSlowPower, 0, 0, true);
+            moveTeleop(-maxSlowPower, 0, 0);
         } else if (gamepad.dpad_left) {
-            follower.setTeleOpMovementVectors(0, maxSlowPower, 0, true);
+            moveTeleop(0, maxSlowPower, 0);
         } else if (gamepad.dpad_right) {
-            follower.setTeleOpMovementVectors(0, -maxSlowPower, 0, true);
+            moveTeleop(0, -maxSlowPower, 0);
         } else {
             if ((Math.abs(-gamepad.left_stick_y) < 0.2) && (Math.abs(-gamepad.left_stick_x) < 0.2) && (Math.abs(-gamepad.right_stick_x) < 0.2)) {
                 follower.holdPoint(follower.getPose());
-                teleopDriving = false;
-                // follower.setTeleOpMovementVectors(0, 0, 0, true);
             } else {
-                follower.setTeleOpMovementVectors(-gamepad.left_stick_y * maxFastPower, -gamepad.left_stick_x * maxFastPower, -gamepad.right_stick_x * maxFastPower, true);
+                moveTeleop(-gamepad.left_stick_y * maxFastPower, -gamepad.left_stick_x * maxFastPower, -gamepad.right_stick_x * maxFastPower);
             }
         }
     }
 
+    private void moveTeleop(double forward, double lateral, double heading)
+    {
+        follower.startTeleopDrive();
+        follower.setTeleOpMovementVectors(forward, lateral, heading, true);
+    }
+
     public void update() {
         super.update();
-        if (!followerIsBusy() && !teleopDriving) {
-            follower.startTeleopDrive();
-            teleopDriving = true;
-        }
         follower.update();
     }
 }

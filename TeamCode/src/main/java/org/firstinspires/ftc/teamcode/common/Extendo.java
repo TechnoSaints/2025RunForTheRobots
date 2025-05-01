@@ -27,10 +27,11 @@ public class Extendo extends Component {
         timer = new ElapsedTime();
         timer.reset();
 
-        goToPresetPosition(ExtendoPositions.RETRACTED);
+        setPositionPreset(ExtendoPositions.RETRACTED);
     }
 
-    public void goToPresetPosition(ExtendoPositions position) {
+    public void setPositionPreset(ExtendoPositions position)
+    {
         goToLength(position.getValue());
     }
 

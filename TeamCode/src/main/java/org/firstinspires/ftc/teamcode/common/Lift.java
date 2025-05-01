@@ -12,48 +12,33 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Lif
 
 public class Lift extends Component {
     private final DcMotorEx motor;
-    private TouchSensor liftSwitch;
     private final double maxVelocity;
     private final double maxMovePower;
     private final double stopPower;
-    private int maxPosition;
+    private final int maxPosition;
     private final int tolerance;
     private final int minPosition;
     private double targetVelocity;
-    private final int highPosition;
-    private final int mediumPosition;
-    private final int lowPosition;
     private int direction = 1;
-    private final double lockPower = -0.65;
-    private boolean stopped = true;
+    private final double lockPower;
 
     public Lift(HardwareMap hardwareMap, Telemetry telemetry, String motorName, boolean reverseMotor) {
         super(telemetry);
         maxVelocity = GoBilda435DcMotorData.maxTicksPerSec;
         maxMovePower = LiftData.maxMovePower;
         stopPower = LiftData.stopPower;
+        lockPower = LiftData.lockPower;
         maxPosition = LiftPositions.MAX.getValue();
         tolerance = LiftData.tolerance;
         minPosition = LiftPositions.MIN.getValue();
-        highPosition = LiftPositions.HIGH.getValue();
-        mediumPosition = LiftPositions.MEDIUM.getValue();
-        lowPosition = LiftPositions.LOW.getValue();
-        long prevTime;
-        int prevPosition;
-        liftSwitch = hardwareMap.get(TouchSensor.class, "liftSwitch");
         motor = hardwareMap.get(DcMotorEx.class, motorName);
 
         if (reverseMotor) {
             direction = -1;
-//            motor.setDirection(DcMotor.Direction.REVERSE);
         } else {
-//            motor.setDirection(DcMotorSimple.Direction.FORWARD);
             direction = 1;
         }
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        stopped = true;
+        resetEncoder();
     }
 
     public void stop() {
@@ -64,7 +49,6 @@ public class Lift extends Component {
         if (!stoppedAtTop()) {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             targetVelocity = direction * targetPower * maxMovePower * maxVelocity;
-//            motor.setPower(targetPower);
             motor.setVelocity(targetVelocity);
             telemetry.addData("Stopped at Top: ", "false");
         } else {
@@ -77,7 +61,6 @@ public class Lift extends Component {
         if (!stoppedAtBottom()) {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             targetVelocity = direction * -targetPower * maxMovePower * maxVelocity;
-//            motor.setPower(targetPower);
             motor.setVelocity(targetVelocity);
             telemetry.addData("Stopped at Bottom: ", " false");
         } else {
@@ -86,29 +69,12 @@ public class Lift extends Component {
         log();
     }
 
-    public void high() {
-        stopAtPosition(highPosition);
-        log();
+    public void setPositionPreset(LiftPositions position) {
+        setPositionTicks(position.getValue());
     }
 
-    public void medium() {
-        stopAtPosition(mediumPosition);
-        log();
-    }
-
-    public void low() {
-        stopAtPosition(lowPosition);
-        log();
-    }
-
-    public void min() {
-        stopAtPosition(minPosition);
-        log();
-    }
-
-    public void increaseMax(int increment)
-    {
-        maxPosition = maxPosition + increment;
+    private void setPositionTicks(int ticks) {
+        motor.setTargetPosition(ticks);
     }
 
     private boolean stoppedAtTop() {
@@ -144,6 +110,7 @@ public class Lift extends Component {
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
+/*
     public void moveDownToSwitch() {
         down(0.2);
         while (!liftSwitch.isPressed()) {
@@ -151,6 +118,7 @@ public class Lift extends Component {
         stop();
         log();
     }
+*/
 
     public void lock() {
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -167,12 +135,7 @@ public class Lift extends Component {
     }
 
     public void log() {
-//        prevTime = timer.milliseconds();
-//        prevPosition = motor.getCurrentPosition();
         telemetry.addData("Position:  ", motor.getCurrentPosition());
-//        telemetry.addData("targetVelocity: ", targetVelocity);
-//        opMode.sleep(1000);
-//        telemetry.addData("Velocity: ", ((motor.getCurrentPosition() - prevPosition) * 1000) / (timer.milliseconds() - prevTime));
         telemetry.update();
     }
 }
