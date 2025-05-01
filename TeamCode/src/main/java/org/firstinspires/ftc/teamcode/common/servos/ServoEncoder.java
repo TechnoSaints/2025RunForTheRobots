@@ -7,8 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.Component;
-
-public class ServoEncoder extends Component {
+public class ServoEncoder extends ServoSimple {
     private final AnalogInput servoEncoder;
     private double setPoint;
     private double controlPosition;
@@ -17,20 +16,12 @@ public class ServoEncoder extends Component {
     private double delay = 50;
     private ElapsedTime timer;
 
-    private Servo servo;
-
     public ServoEncoder(HardwareMap hardwareMap, Telemetry telemetry, String servoName, String encoderName) {
-        super(telemetry);
-        servo = hardwareMap.get(Servo.class, servoName);
+        super(hardwareMap, telemetry, servoName);
         timer = new ElapsedTime();
         timer.reset();
         servoEncoder = hardwareMap.get(AnalogInput.class, encoderName);
         controlPosition = setPoint;
-    }
-
-    public void setPosition(double position)
-    {
-        servo.setPosition(position);
     }
 
     private double getEncoderPosition() {

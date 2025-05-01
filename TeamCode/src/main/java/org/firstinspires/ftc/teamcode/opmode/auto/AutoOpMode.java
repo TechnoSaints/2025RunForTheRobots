@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -27,6 +29,8 @@ public abstract class AutoOpMode extends OpMode {
      **/
     @Override
     public void init() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
         pauseTimer = new ElapsedTime();
         sleepTimer = new ElapsedTime();
         pauseTimer.reset();
@@ -61,7 +65,8 @@ public abstract class AutoOpMode extends OpMode {
     }
 
     protected boolean isBusy() {
-        return ((bot.armIsBusy()) || (bot.liftIsBusy()) || (bot.followerIsBusy()));
+//        return ((bot.armIsBusy()) || (bot.liftIsBusy()) || (bot.followerIsBusy()));
+        return false;
     }
 
     /**

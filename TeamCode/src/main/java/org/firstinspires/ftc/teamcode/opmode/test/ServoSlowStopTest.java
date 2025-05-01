@@ -19,7 +19,7 @@ public class ServoSlowStopTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        Bot bot = new Bot(this, telemetry, 5);
+        Bot bot = new Bot(this, telemetry);
 //        BotDrivetrain bot = new BotDrivetrain(this, telemetry);
         waitForStart();
 

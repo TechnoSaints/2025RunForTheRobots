@@ -5,9 +5,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.common.Component;
 
-public class ServoSlowStop extends Component {
+public class ServoSlowStop extends ServoSimple {
     private double targetPosition, controlPosition;
     private final double slowDownDistance = 0.15;
     private final double controlPositionIncrementDefault = 0.01;
@@ -21,7 +20,7 @@ public class ServoSlowStop extends Component {
     private Servo servo;
 
     public ServoSlowStop(HardwareMap hardwareMap, Telemetry telemetry, String servoName, double delay) {
-        super(telemetry);
+        super(hardwareMap, telemetry, servoName);
         servo = hardwareMap.get(Servo.class, servoName);
         controlDelayDefaultMS = delay;
         controlDelayMS = controlDelayDefaultMS;
@@ -62,7 +61,7 @@ public class ServoSlowStop extends Component {
                     controlDelayMS += controlDelayIncrementMS;
                 }
                 controlPosition += controlPositionIncrement;
-                servo.setPosition(controlPosition);
+                setPositionTicks(controlPosition);
                 timer.reset();
             }
         }

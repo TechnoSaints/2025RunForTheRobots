@@ -2,207 +2,128 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.common.hardwareConstants.GoBilda435DcMotorData;
-import org.firstinspires.ftc.teamcode.common.hardwareConstants.IntakeGrabberPositions;
-import org.firstinspires.ftc.teamcode.common.servos.ServoSlowStop;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeGrabberPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeLightPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeSwivelPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeWristPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.LiftPositions;
+import org.firstinspires.ftc.teamcode.common.servos.ServoSimple;
 
 public class Bot extends Component {
-    private Servo testServo;
-    private final Servo intakeGrabber, intakeWrist, intakeSwivel;
-    protected ServoSlowStop extendoLeft, extendoRight, armLeft, armRight;
-    protected Lift lift;
+    private final ServoSimple intakeWrist, intakeSwivel, intakeGrabber, intakeLight;
+    private final Extendo extendo;
+    private final Lift lift;
 
-   public Bot(OpMode opMode, Telemetry telemetry, double slowStopServoDelay) {
+    private Modes currentMode = Modes.WAITING_AT_START;
+
+    enum Modes {
+        WAITING_AT_START,
+        CRUISING,
+        LOOKING_FOR_BRICK,
+        INTAKING_BRICK_FROM_FLOOR,
+        INTAKING_SPECIMEN_FROM_WALL,
+        PLACING_BRICK_IN_HP_AREA,
+        SCORING_SAMPLE,
+        SCORING_SPECIMEN,
+        PARKING_AT_SUB,
+        PARKING_IN_HP_AREA,
+        CLIMBING,
+    }
+
+    ;
+
+    public Bot(OpMode opMode, Telemetry telemetry) {
         super(telemetry);
-        intakeGrabber = opMode.hardwareMap.get(Servo.class, "intakeGrabber");
-        intakeWrist = opMode.hardwareMap.get(Servo.class, "intakeWrist");
-        intakeSwivel = opMode.hardwareMap.get(Servo.class, "intakeSwivel");
-
-        extendoLeft = new ServoSlowStop(opMode.hardwareMap, telemetry, "extendoLeft", 0);
-        extendoRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "extendoRight", 0);
-
-//        handlerGrabber = new Servo(opMode.hardwareMap, telemetry, "handlerGrabber", new HandlerGrabberServoData21528());
-//        handlerWrist = new Servo(opMode.hardwareMap, telemetry, "handlerWrist", new HandlerWristServoData21528());
-        armLeft = new ServoSlowStop(opMode.hardwareMap, telemetry, "armLeft", 0);
-        armRight = new ServoSlowStop(opMode.hardwareMap, telemetry, "armRight", 0);
-
+        extendo = new Extendo(opMode.hardwareMap, telemetry, "extendo");
+        intakeWrist = new ServoSimple(opMode.hardwareMap, telemetry, "intakeWrist");
+        intakeSwivel = new ServoSimple(opMode.hardwareMap, telemetry, "intakeSwivel");
+        intakeGrabber = new ServoSimple(opMode.hardwareMap, telemetry, "intakeGrabber");
+        intakeLight = new ServoSimple(opMode.hardwareMap, telemetry, "intakeLight");
         lift = new Lift(opMode.hardwareMap, telemetry, "lift", false);
-//        liftIsLocked = false;
-//        liftResetEncoder();
+
+        retractIntake();
     }
 
-    public void intakeGrabberSetPosition(IntakeGrabberPositions position)
-    {
-        intakeGrabber.setPosition(position.getValue());
-    }
-/*
-    public void armOpen() {
-        armLeft.open();
-        armRight.open();
+    public void setExtendoPositionPreset(ExtendoPositions position) {
+        extendo.setPositionPreset(position);
     }
 
-    public void armClose() {
-        armLeft.close();
-        armRight.close();
+    public void setIntakeWristPositionPreset(IntakeWristPositions position) {
+        intakeWrist.setPositionTicks(position.getValue());
     }
 
-    public void armMiddle() {
-        armLeft.middle();
-        armRight.middle();
+    public void setIntakeSwivelPositionPreset(IntakeSwivelPositions position) {
+        intakeSwivel.setPositionTicks(position.getValue());
     }
 
-    public void armSwing() {
-        armLeft.swing();
-        armRight.swing();
+    public void setIntakeGrabberPositionPreset(IntakeGrabberPositions position) {
+        intakeGrabber.setPositionTicks(position.getValue());
     }
 
-    public void armLook() {
-        armLeft.look();
-        armRight.look();
+    public void setIntakeLightPositionPreset(IntakeLightPositions position) {
+        intakeLight.setPositionTicks(position.getValue());
     }
 
-    public void armPwmDisable() {
-        armLeft.pwmDisable();
-        armRight.pwmDisable();
+    public void setLiftPositionPreset(LiftPositions position) {
+        lift.setPositionPreset(position);
     }
 
-    public void armPwmEnable() {
-        armLeft.pwmEnable();
-        armRight.pwmEnable();
-    }
-*/
-    public boolean armIsBusy() {
-        return (armLeft.isBusy() || armRight.isBusy());
-    }
-/*
-    public void intakeWristOpen() {
-        intakeWrist.open();
+    private void deployIntake() {
+        setExtendoPositionPreset(ExtendoPositions.EXTENDED);
+        setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
+        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+        setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+        setIntakeLightPositionPreset(IntakeLightPositions.HIGH);
     }
 
-    public void intakeWristClose() {
-        intakeWrist.close();
+    private void retractIntake() {
+        setIntakeWristPositionPreset(IntakeWristPositions.UP);
+        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+        setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
+        setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+        setExtendoPositionPreset(ExtendoPositions.RETRACTED);
     }
 
-    public void intakeWristMiddle() {
-        intakeWrist.middle();
-    }
-
-    public void intakeWristSwing() {
-        intakeWrist.swing();
-    }
-
-    public void intakeWristLook() {
-        intakeWrist.look();
-    }
-/*
-    public void liftUp(double speed) {
-        lift.up(speed);
-    }
-
-    public void liftDown(double speed) {
-        lift.down(speed);
-    }
-
-    public void liftHigh() {
-        lift.high();
-    }
-
-    public void liftMedium() {
-        lift.medium();
-    }
-
-    public void liftLow() {
-        lift.low();
-    }
-
-    public void liftMin() {
-        lift.min();
-    }
-
-    public void liftStop() {
-        lift.stop();
-    }
-
-    public void liftLock() {
-        lift.lock();
-    }
-
-    public void liftUnlock() {
-        lift.unlock();
-    }
-
-    public void liftMoveDownToSwitch() {
-        lift.moveDownToSwitch();
-    }
-
-    public void liftResetEncoder() {
-        lift.resetEncoder();
-    }
-*/
-    public boolean liftIsBusy() {
-        return (lift.isBusy());
-    }
-/*
-    public void increaseLiftMax(int increment) {
-        lift.increaseMax(increment);
-    }
-*/
     public void processGamepadInput(Gamepad gamepad) {
-        /*
-        if (gamepad.right_trigger > 0.2) {
-            liftUp(gamepad.right_trigger);
-        } else if (gamepad.left_trigger > 0.2) {
-            liftDown(gamepad.left_trigger);
-        } else {
-            liftStop();
-        }
-
         if (gamepad.x) {
-            intakeGrabberClose();
+            setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
         } else if (gamepad.a) {
-            intakeGrabberOpen();
+            setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
         } else if (gamepad.y) {
-            intakeGrabberMiddle();
+            setIntakeGrabberPositionPreset(IntakeGrabberPositions.MIDDLE);
         }
 
-        if (gamepad.left_bumper) {
-            armClose();
-            wristClose();
-        } else if (gamepad.right_bumper) {
-            armMiddle();
-            wristClose();
+        if (gamepad.right_bumper) {
+            extendo.extendSlowly(1.0);
+        } else if (gamepad.left_bumper) {
+            extendo.extendSlowly(-1.0);
         }
 
-        if (gamepad.b) {
-            armSwing();
-            wristSwing();
+        if (gamepad.right_trigger > 0.2) {
+            lift.up(gamepad.right_trigger);
+        } else if (gamepad.left_trigger > 0.2) {
+            lift.down(gamepad.left_trigger);
+        } else {
+            lift.stop();
         }
 
-        if ((gamepad.start) && (gamepad.share)) {
-            liftMoveDownToSwitch();
-            liftResetEncoder();
-        }
-
-        if (gamepad.touchpad || liftIsLocked == true) {
-            liftLock();
-            liftIsLocked = true;
+        if (gamepad.touchpad) {
+            lift.lock();
         }
 
         if (gamepad.ps) {
-            liftUnlock();
-            liftIsLocked = false;
+            lift.unlock();
         }
-*/
+
     }
 
+    public boolean isBusy() {
+        return (lift.isBusy());
+    }
 
     public void update() {
-        extendoLeft.update();
-        extendoRight.update();
-//        armLeft.update();
-//        armRight.update();
     }
 }
