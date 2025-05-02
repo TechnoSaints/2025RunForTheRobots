@@ -31,7 +31,7 @@ public class Bot extends Component {
         SCORING_SPECIMEN,
         PARKING_AT_SUB,
         PARKING_IN_HP_AREA,
-        CLIMBING,
+        CLIMBING
     }
 
     ;
