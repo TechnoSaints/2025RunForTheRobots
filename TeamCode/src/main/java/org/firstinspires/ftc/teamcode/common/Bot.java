@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
@@ -17,13 +18,17 @@ public class Bot extends Component {
     private final ServoSimple handlerArm, handlerWrist, handlerGrabber;
     private final Extendo extendo;
     private final Lift lift;
+    private ElapsedTime delayTimer = new ElapsedTime();
 
     private Modes currentMode = Modes.WAITING_AT_START;
+
+    private boolean busy = false;
 
     enum Modes {
         WAITING_AT_START,
         CRUISING,
         LOOKING_FOR_BRICK,
+        HOLDING_BRICK,
         INTAKING_BRICK_FROM_FLOOR,
         INTAKING_SPECIMEN_FROM_WALL,
         PLACING_BRICK_IN_HP_AREA,
@@ -47,8 +52,12 @@ public class Bot extends Component {
         handlerWrist = new ServoSimple(opMode.hardwareMap, telemetry, "handlerWrist");
         handlerGrabber = new ServoSimple(opMode.hardwareMap, telemetry, "handlerGrabber");
         lift = new Lift(opMode.hardwareMap, telemetry, "lift", false);
+        setMode(Modes.WAITING_AT_START);
+    }
 
-        retractIntake();
+    private void setMode(Modes newMode) {
+        currentMode = newMode;
+        busy = true;
     }
 
     public void setExtendoPositionPreset(ExtendoPositions position) {
@@ -75,46 +84,32 @@ public class Bot extends Component {
         lift.setPositionPreset(position);
     }
 
-    private void deployIntake() {
-        setExtendoPositionPreset(ExtendoPositions.EXTENDED);
-        setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
-        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
-        setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
-        setIntakeLightPositionPreset(IntakeLightPositions.HIGH);
-    }
-
-    private void retractIntake() {
-        setIntakeWristPositionPreset(IntakeWristPositions.UP);
-        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
-        setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_LOOSE);
-        setIntakeLightPositionPreset(IntakeLightPositions.OFF);
-        setExtendoPositionPreset(ExtendoPositions.RETRACTED);
-    }
-    private void deployHandler() {
-        
-    }
-    private void retractHandler() {
-
+    public boolean isBusy() {
+        return (lift.isBusy() || (busy));
     }
 
     public void processGamepadInput(Gamepad gamepad) {
         if (gamepad.x) {
-            retractIntake();
+            if (!(currentMode == Modes.HOLDING_BRICK))
+            {
+                setMode(Modes.HOLDING_BRICK);
+            }
         } else if (gamepad.a) {
-            deployIntake();
+            if (!(currentMode == Modes.LOOKING_FOR_BRICK))
+            {
+                setMode(Modes.LOOKING_FOR_BRICK);
+            }
+            else
+            {
+                //Controls while looking for brick
+                if (gamepad.right_bumper) {
+                    extendo.extendSlowly(1.0);
+                } else if (gamepad.left_bumper) {
+                    extendo.extendSlowly(-1.0);
+                }
+            }
         }
 
-        if (gamepad.y) {
-
-        } else if (gamepad.b) {
-
-        }
-
-        if (gamepad.right_bumper) {
-            extendo.extendSlowly(1.0);
-        } else if (gamepad.left_bumper) {
-            extendo.extendSlowly(-1.0);
-        }
 
         if (gamepad.right_trigger > 0.2) {
             lift.up(gamepad.right_trigger);
@@ -123,6 +118,7 @@ public class Bot extends Component {
         } else {
             lift.stop();
         }
+
 
         if (gamepad.touchpad) {
             lift.lock();
@@ -134,11 +130,35 @@ public class Bot extends Component {
 
     }
 
-    public boolean isBusy() {
-        return (lift.isBusy());
-    }
-
     public void update() {
+        switch (currentMode) {
+            case HOLDING_BRICK:
+                if (busy) {
+                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
+                    setIntakeWristPositionPreset(IntakeWristPositions.UP);
+                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                    setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+                    delayTimer.reset();
+                    if (delayTimer.milliseconds() > 100) {
+                        setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                        busy = false;
+                    }
+                }
+                break;
 
+            case LOOKING_FOR_BRICK:
+                if (busy) {
+                    setExtendoPositionPreset(ExtendoPositions.EXTENDED);
+                    delayTimer.reset();
+                    if (delayTimer.milliseconds() > 250) {
+                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+                        setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
+                        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                        setIntakeLightPositionPreset(IntakeLightPositions.HIGH);
+                        busy = false;
+                    }
+                }
+                break;
+        }
     }
 }
