@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.common.servos.ServoSimple;
 
 public class Bot extends Component {
     private final ServoSimple intakeWrist, intakeSwivel, intakeGrabber, intakeLight;
+    private final ServoSimple handlerArm, handlerWrist, handlerGrabber;
     private final Extendo extendo;
     private final Lift lift;
 
@@ -42,6 +43,9 @@ public class Bot extends Component {
         intakeSwivel = new ServoSimple(opMode.hardwareMap, telemetry, "intakeSwivel");
         intakeGrabber = new ServoSimple(opMode.hardwareMap, telemetry, "intakeGrabber");
         intakeLight = new ServoSimple(opMode.hardwareMap, telemetry, "intakeLight");
+        handlerArm = new ServoSimple(opMode.hardwareMap, telemetry, "handlerArm");
+        handlerWrist = new ServoSimple(opMode.hardwareMap, telemetry, "handlerWrist");
+        handlerGrabber = new ServoSimple(opMode.hardwareMap, telemetry, "handlerGrabber");
         lift = new Lift(opMode.hardwareMap, telemetry, "lift", false);
 
         retractIntake();
@@ -82,18 +86,28 @@ public class Bot extends Component {
     private void retractIntake() {
         setIntakeWristPositionPreset(IntakeWristPositions.UP);
         setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
-        setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
+        setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_LOOSE);
         setIntakeLightPositionPreset(IntakeLightPositions.OFF);
         setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+    }
+    private void deployHandler() {
+        
+    }
+    private void retractHandler() {
+
     }
 
     public void processGamepadInput(Gamepad gamepad) {
         if (gamepad.x) {
-            setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
+            retractIntake();
         } else if (gamepad.a) {
-            setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
-        } else if (gamepad.y) {
-            setIntakeGrabberPositionPreset(IntakeGrabberPositions.MIDDLE);
+            deployIntake();
+        }
+
+        if (gamepad.y) {
+
+        } else if (gamepad.b) {
+
         }
 
         if (gamepad.right_bumper) {
@@ -125,5 +139,6 @@ public class Bot extends Component {
     }
 
     public void update() {
+
     }
 }
