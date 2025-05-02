@@ -40,9 +40,7 @@ public class Bot extends Component {
         PARKING_AT_SUB,
         PARKING_IN_HP_AREA,
         CLIMBING
-    }
-
-    ;
+    };
 
     public Bot(OpMode opMode, Telemetry telemetry) {
         super(telemetry);
