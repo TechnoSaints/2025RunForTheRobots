@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerArmPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerGrabberPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerWristPositions;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeGrabberPositions;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeLightPositions;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeSwivelPositions;
@@ -37,9 +40,7 @@ public class Bot extends Component {
         PARKING_AT_SUB,
         PARKING_IN_HP_AREA,
         CLIMBING
-    }
-
-    ;
+    };
 
     public Bot(OpMode opMode, Telemetry telemetry) {
         super(telemetry);
@@ -82,6 +83,18 @@ public class Bot extends Component {
 
     public void setLiftPositionPreset(LiftPositions position) {
         lift.setPositionPreset(position);
+    }
+    public void setHandlerArmPositionPreset(HandlerArmPositions position)
+    {
+        handlerArm.setPositionTicks(position.getValue());
+    }
+    public void setHandlerWristPositionPreset(HandlerWristPositions position)
+    {
+        handlerWrist.setPositionTicks(position.getValue());
+    }
+    public void setHandlerGrabberPositionPreset(HandlerGrabberPositions position)
+    {
+        handlerGrabber.setPositionTicks(position.getValue());
     }
 
     public boolean isBusy() {
