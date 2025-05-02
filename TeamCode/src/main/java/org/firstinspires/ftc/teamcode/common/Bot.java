@@ -40,7 +40,9 @@ public class Bot extends Component {
         PARKING_AT_SUB,
         PARKING_IN_HP_AREA,
         CLIMBING
-    };
+    }
+
+    ;
 
     public Bot(OpMode opMode, Telemetry telemetry) {
         super(telemetry);
@@ -84,16 +86,16 @@ public class Bot extends Component {
     public void setLiftPositionPreset(LiftPositions position) {
         lift.setPositionPreset(position);
     }
-    public void setHandlerArmPositionPreset(HandlerArmPositions position)
-    {
+
+    public void setHandlerArmPositionPreset(HandlerArmPositions position) {
         handlerArm.setPositionTicks(position.getValue());
     }
-    public void setHandlerWristPositionPreset(HandlerWristPositions position)
-    {
+
+    public void setHandlerWristPositionPreset(HandlerWristPositions position) {
         handlerWrist.setPositionTicks(position.getValue());
     }
-    public void setHandlerGrabberPositionPreset(HandlerGrabberPositions position)
-    {
+
+    public void setHandlerGrabberPositionPreset(HandlerGrabberPositions position) {
         handlerGrabber.setPositionTicks(position.getValue());
     }
 
@@ -103,17 +105,13 @@ public class Bot extends Component {
 
     public void processGamepadInput(Gamepad gamepad) {
         if (gamepad.x) {
-            if (!(currentMode == Modes.HOLDING_BRICK))
-            {
+            if (!(currentMode == Modes.HOLDING_BRICK)) {
                 setMode(Modes.HOLDING_BRICK);
             }
         } else if (gamepad.a) {
-            if (!(currentMode == Modes.LOOKING_FOR_BRICK))
-            {
+            if (!(currentMode == Modes.LOOKING_FOR_BRICK)) {
                 setMode(Modes.LOOKING_FOR_BRICK);
-            }
-            else
-            {
+            } else {
                 //Controls while looking for brick
                 if (gamepad.right_bumper) {
                     extendo.extendSlowly(1.0);
@@ -145,6 +143,19 @@ public class Bot extends Component {
 
     public void update() {
         switch (currentMode) {
+
+            case WAITING_AT_START:
+                if (busy) {
+                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
+                    setIntakeWristPositionPreset(IntakeWristPositions.UP);
+                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                    setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+                    setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                    busy = false;
+                }
+
+                break;
+
             case HOLDING_BRICK:
                 if (busy) {
                     setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
