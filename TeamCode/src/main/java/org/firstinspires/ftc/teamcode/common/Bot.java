@@ -23,7 +23,7 @@ public class Bot extends Component {
     private final Lift lift;
     private ElapsedTime delayTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     private Modes currentMode = Modes.WAITING_AT_START;
-    private boolean busy = false;
+    private boolean busy, waiting = false;
 
     enum Modes {
         WAITING_AT_START,
@@ -38,7 +38,9 @@ public class Bot extends Component {
         PARKING_AT_SUB,
         PARKING_IN_HP_AREA,
         CLIMBING
-    };
+    }
+
+    ;
 
     public Bot(OpMode opMode, Telemetry telemetry) {
         super(telemetry);
@@ -107,15 +109,20 @@ public class Bot extends Component {
         } else if (gamepad.a) {
             if (!(currentMode == Modes.LOOKING_FOR_BRICK)) {
                 setMode(Modes.LOOKING_FOR_BRICK);
-            } else {
+            }
+/*
+            else {
                 //Controls while looking for brick
                 if (gamepad.right_bumper) {
                     extendo.extendSlowly(1.0);
                 } else if (gamepad.left_bumper) {
                     extendo.extendSlowly(-1.0);
                 }
+
             }
+*/
         }
+/*
 
         if (gamepad.right_trigger > 0.2) {
             lift.up(gamepad.right_trigger);
@@ -124,7 +131,9 @@ public class Bot extends Component {
         } else {
             lift.stop();
         }
+*/
 
+/*
         if (gamepad.touchpad) {
             lift.lock();
         }
@@ -132,6 +141,7 @@ public class Bot extends Component {
         if (gamepad.ps) {
             lift.unlock();
         }
+*/
     }
 
     public void update() {
@@ -154,10 +164,15 @@ public class Bot extends Component {
                     setIntakeWristPositionPreset(IntakeWristPositions.UP);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                     setIntakeLightPositionPreset(IntakeLightPositions.OFF);
-                    delayTimer.reset();
-                    if (delayTimer.milliseconds() > 100) {
-                        setExtendoPositionPreset(ExtendoPositions.RETRACTED);
-                        busy = false;
+                    if (!waiting) {
+                        delayTimer.reset();
+                        waiting = true;
+                    } else {
+                        if (delayTimer.milliseconds() > 100) {
+                            waiting = false;
+                            setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                            busy = false;
+                        }
                     }
                 }
                 break;
@@ -165,8 +180,11 @@ public class Bot extends Component {
             case LOOKING_FOR_BRICK:
                 if (busy) {
                     setExtendoPositionPreset(ExtendoPositions.EXTENDED);
-                    delayTimer.reset();
-                    if (delayTimer.milliseconds() > 250) {
+                    if (!waiting) {
+                        delayTimer.reset();
+                        waiting = true;
+                    } else if (delayTimer.milliseconds() > 250) {
+                        waiting = false;
                         setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
                         setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
                         setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
