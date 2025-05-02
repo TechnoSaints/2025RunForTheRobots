@@ -21,10 +21,8 @@ public class Bot extends Component {
     private final ServoSimple handlerArm, handlerWrist, handlerGrabber;
     private final Extendo extendo;
     private final Lift lift;
-    private ElapsedTime delayTimer = new ElapsedTime();
-
+    private ElapsedTime delayTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     private Modes currentMode = Modes.WAITING_AT_START;
-
     private boolean busy = false;
 
     enum Modes {
@@ -119,7 +117,6 @@ public class Bot extends Component {
             }
         }
 
-
         if (gamepad.right_trigger > 0.2) {
             lift.up(gamepad.right_trigger);
         } else if (gamepad.left_trigger > 0.2) {
@@ -128,7 +125,6 @@ public class Bot extends Component {
             lift.stop();
         }
 
-
         if (gamepad.touchpad) {
             lift.lock();
         }
@@ -136,7 +132,6 @@ public class Bot extends Component {
         if (gamepad.ps) {
             lift.unlock();
         }
-
     }
 
     public void update() {
@@ -151,12 +146,11 @@ public class Bot extends Component {
                     setExtendoPositionPreset(ExtendoPositions.RETRACTED);
                     busy = false;
                 }
-
                 break;
 
             case HOLDING_BRICK:
                 if (busy) {
-                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
+                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_LOOSE);
                     setIntakeWristPositionPreset(IntakeWristPositions.UP);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                     setIntakeLightPositionPreset(IntakeLightPositions.OFF);
