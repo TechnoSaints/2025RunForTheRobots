@@ -58,7 +58,7 @@ public class Bot extends Component {
 
     private void initAsynchTimer() {
         delayTimer.reset();
-        delay = 0;
+        delay = -1;
     }
 
     private void setAsynchDelay(double delayTime) {
@@ -68,10 +68,13 @@ public class Bot extends Component {
         }
     }
     private boolean waitingAsynch() {
-        if (delayTimer.milliseconds() >= delay) {
-            return (false);
-        } else {
+        telemetry.addData("delay: ", delay);
+        telemetry.addData("timer in MS: ", delayTimer.milliseconds());
+        telemetry.update();
+        if (delayTimer.milliseconds() < delay) {
             return (true);
+        } else {
+            return (false);
         }
     }
 
