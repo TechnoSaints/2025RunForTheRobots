@@ -24,6 +24,7 @@ public class Bot extends Component {
     private ElapsedTime delayTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     private Modes currentMode = Modes.WAITING_AT_START;
     private boolean busy, waiting = false;
+    private int phase;
     private double delay = 0;
 
     enum Modes {
@@ -33,7 +34,7 @@ public class Bot extends Component {
         HOLDING_BRICK,
         INTAKING_BRICK_FROM_FLOOR,
         INTAKING_SPECIMEN_FROM_WALL,
-        PLACING_BRICK_IN_HP_AREA,
+        PLACING_BRICK_ON_FLOOR,
         SCORING_SAMPLE,
         SCORING_SPECIMEN,
         PARKING_AT_SUB,
@@ -81,8 +82,17 @@ public class Bot extends Component {
         }
     }
 
+    private void synchDelay(double delayTime) {
+        assert (delayTime < 250);
+        delayTimer.reset();
+        delay = delayTime;
+        while (delayTimer.milliseconds() < delay) {
+        }
+    }
+
     private void setMode(Modes newMode) {
         currentMode = newMode;
+        phase = 1;
         busy = true;
     }
 
@@ -135,18 +145,19 @@ public class Bot extends Component {
             if (!(currentMode == Modes.LOOKING_FOR_BRICK)) {
                 setMode(Modes.LOOKING_FOR_BRICK);
             }
-/*
-            else {
-                //Controls while looking for brick
-                if (gamepad.right_bumper) {
-                    extendo.extendSlowly(1.0);
-                } else if (gamepad.left_bumper) {
-                    extendo.extendSlowly(-1.0);
-                }
-
-            }
-*/
         }
+        if (gamepad.right_trigger > 0.2) {
+            lift.up(gamepad.right_trigger);
+        } else if (gamepad.left_trigger > 0.2) {
+            lift.down(gamepad.left_trigger);
+        } else {
+            lift.stop();
+        }
+        //Controls while looking for brick
+        if (gamepad.right_bumper) {
+            setMode(Modes.PLACING_BRICK_ON_FLOOR);
+        }
+
 /*
 
         if (gamepad.right_trigger > 0.2) {
@@ -185,14 +196,23 @@ public class Bot extends Component {
 
             case HOLDING_BRICK:
                 if (busy) {
-                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_LOOSE);
-                    setIntakeWristPositionPreset(IntakeWristPositions.UP);
-                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
-                    setIntakeLightPositionPreset(IntakeLightPositions.OFF);
-                    setAsynchDelay(100);
-                    if (!waitingAsynch()) {
-                        setExtendoPositionPreset(ExtendoPositions.RETRACTED);
-                        busy = false;
+                    if (phase == 1) {
+                        setIntakeWristPositionPreset(IntakeWristPositions.DOWN);
+                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_LOOSE);
+                        synchDelay(200);
+                        if (!waitingAsynch()) {
+                            phase = 2;
+                        }
+                    } else if (phase == 2) {
+                        setIntakeWristPositionPreset(IntakeWristPositions.UP);
+                        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                        setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+                        setAsynchDelay(100);
+                        if (!waitingAsynch()) {
+                            setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                            busy = false;
+                            phase = -1;
+                        }
                     }
                 }
                 break;
@@ -206,6 +226,20 @@ public class Bot extends Component {
                         setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
                         setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                         setIntakeLightPositionPreset(IntakeLightPositions.HIGH);
+                        busy = false;
+                    }
+                }
+                break;
+
+            case PLACING_BRICK_ON_FLOOR:
+                if (busy) {
+                    setExtendoPositionPreset(ExtendoPositions.EXTENDED);
+                    setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
+                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                    setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+                    setAsynchDelay(250);
+                    if (!waitingAsynch()) {
+                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
                         busy = false;
                     }
                 }
