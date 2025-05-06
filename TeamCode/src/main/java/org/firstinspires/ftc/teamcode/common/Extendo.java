@@ -15,14 +15,15 @@ public class Extendo extends Component {
 
     private final double totalSlowExtensionTimeMS = 2500.0;
     private final double slowMoveIncrementInches = 0.1;
-    private final double slowMoveDelayMS = (totalSlowExtensionTimeMS*slowMoveIncrementInches)/(ExtendoData.maxLengthInches - ExtendoData.minLengthInches);
+    private final ExtendoData extendoData = new ExtendoData();
+    private final double slowMoveDelayMS = (totalSlowExtensionTimeMS*slowMoveIncrementInches)/(extendoData.maxLengthInches - extendoData.minLengthInches);
 
     public Extendo(HardwareMap hardwareMap, Telemetry telemetry, String extendoName) {
         super(telemetry);
         double angleAtMinLength, angleAtMaxLength;
-        angleAtMinLength = lengthToAngle(ExtendoData.minLengthInches);
-        angleAtMaxLength = lengthToAngle(ExtendoData.maxLengthInches);
-        servo = new ServoAngular(hardwareMap, telemetry, extendoName, angleAtMaxLength, ExtendoData.maxLengthTicks, angleAtMinLength, ExtendoData.minLengthTicks);
+        angleAtMinLength = lengthToAngle(extendoData.minLengthInches);
+        angleAtMaxLength = lengthToAngle(extendoData.maxLengthInches);
+        servo = new ServoAngular(hardwareMap, telemetry, extendoName, angleAtMaxLength, extendoData.maxLengthTicks, angleAtMinLength, extendoData.minLengthTicks);
 
         timer = new ElapsedTime();
         timer.reset();
@@ -71,11 +72,11 @@ public class Extendo extends Component {
 //    private boolean stopAtLimit(double targetLengthInches) {
 //        boolean atLimit = false;
 //
-//        if (targetLengthInches <= ExtendoData.minLengthInches) {
-//            goToLength(ExtendoData.minLengthInches);
+//        if (targetLengthInches <= extendoData.minLengthInches) {
+//            goToLength(extendoData.minLengthInches);
 //            atLimit = true;
-//        } else if (targetLengthInches >= ExtendoData.maxLengthInches) {
-//            goToLength(ExtendoData.maxLengthInches);
+//        } else if (targetLengthInches >= extendoData.maxLengthInches) {
+//            goToLength(extendoData.maxLengthInches);
 //            atLimit = true;
 //        }
 //        return (atLimit);
@@ -84,19 +85,19 @@ public class Extendo extends Component {
     // my formula
     // d = l1cos(x)+sqrt(l2^2 - l1^2 + l2^2 * cos(x)^2)
     private double angleToLength(double angle) {
-        double l1squared = Math.pow(ExtendoData.nearLinkageLengthInches, 2);
-        double l2squared = Math.pow(ExtendoData.farLinkageLengthInches, 2);
+        double l1squared = Math.pow(extendoData.nearLinkageLengthInches, 2);
+        double l2squared = Math.pow(extendoData.farLinkageLengthInches, 2);
         double cosx = Math.cos(Math.toRadians(angle));
 
-        return ((ExtendoData.nearLinkageLengthInches * cosx) + Math.sqrt(l2squared - l1squared + l1squared * Math.pow(cosx, 2)));
+        return ((extendoData.nearLinkageLengthInches * cosx) + Math.sqrt(l2squared - l1squared + l1squared * Math.pow(cosx, 2)));
     }
 
     // my formula
     // angle = arccos((d^2 + l1^2 - l2^2)/(2dl1))
     private double lengthToAngle(double length) {
-        double temp = ((length * length) + (ExtendoData.nearLinkageLengthInches * ExtendoData.nearLinkageLengthInches) -
-                (ExtendoData.farLinkageLengthInches * ExtendoData.farLinkageLengthInches));
-        temp = temp / (2.0 * length * ExtendoData.nearLinkageLengthInches);
+        double temp = ((length * length) + (extendoData.nearLinkageLengthInches * extendoData.nearLinkageLengthInches) -
+                (extendoData.farLinkageLengthInches * extendoData.farLinkageLengthInches));
+        temp = temp / (2.0 * length * extendoData.nearLinkageLengthInches);
 
         return (Math.toDegrees(Math.acos(temp)));
     }

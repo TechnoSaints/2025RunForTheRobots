@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions;
 
 public enum LiftPositions {
-    MAX(2000),
+    MAX(2150),
     MIN(0),
     SPECIMEN_WALL(500),
     HIGH_BASKET(500),

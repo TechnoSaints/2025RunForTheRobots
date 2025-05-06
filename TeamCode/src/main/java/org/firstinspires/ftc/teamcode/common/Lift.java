@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.GoBilda435DcMotorData;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.LiftData;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.MotorData;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.LiftPositions;
 
 public class Lift extends Component {
@@ -22,14 +23,18 @@ public class Lift extends Component {
     private int direction = 1;
     private final double lockPower;
 
+    private final GoBilda435DcMotorData motorData = new GoBilda435DcMotorData();
+
+    private final LiftData liftData = new LiftData();
+
     public Lift(HardwareMap hardwareMap, Telemetry telemetry, String motorName, boolean reverseMotor) {
         super(telemetry);
-        maxVelocity = GoBilda435DcMotorData.maxTicksPerSec;
-        maxMovePower = LiftData.maxMovePower;
-        stopPower = LiftData.stopPower;
-        lockPower = LiftData.lockPower;
+        maxVelocity = motorData.maxTicksPerSec;
+        maxMovePower = liftData.maxMovePower;
+        stopPower = liftData.stopPower;
+        lockPower = liftData.lockPower;
         maxPosition = LiftPositions.MAX.getValue();
-        tolerance = LiftData.tolerance;
+        tolerance = liftData.tolerance;
         minPosition = LiftPositions.MIN.getValue();
         motor = hardwareMap.get(DcMotorEx.class, motorName);
 
@@ -50,6 +55,11 @@ public class Lift extends Component {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             targetVelocity = direction * targetPower * maxMovePower * maxVelocity;
             motor.setVelocity(targetVelocity);
+
+/*            telemetry.addData("direction: ", direction);
+            telemetry.addData("targetPower: ", targetPower);
+            telemetry.addData("maxMovePower: ", maxMovePower);
+            telemetry.addData("maxVelocity: ", maxVelocity);*/
             telemetry.addData("Stopped at Top: ", "false");
         } else {
             telemetry.addData("Stopped at Top: ", "true");
@@ -62,6 +72,11 @@ public class Lift extends Component {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             targetVelocity = direction * -targetPower * maxMovePower * maxVelocity;
             motor.setVelocity(targetVelocity);
+
+/*            telemetry.addData("direction: ", direction);
+            telemetry.addData("targetPower: ", targetPower);
+            telemetry.addData("maxMovePower: ", maxMovePower);
+            telemetry.addData("maxVelocity: ", maxVelocity);*/
             telemetry.addData("Stopped at Bottom: ", " false");
         } else {
             telemetry.addData("Stopped at Bottom: ", " true");

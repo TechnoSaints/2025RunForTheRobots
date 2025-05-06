@@ -14,8 +14,10 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 public class BotWithPedro extends Bot {
     private final Follower follower;
-    private final double maxSlowPower = DrivetrainData.maxSlowTeleopPower;
-    private final double maxFastPower = DrivetrainData.maxFastTeleopPower;
+
+    private final DrivetrainData drivetrainData = new DrivetrainData();
+    private final double maxSlowPower = drivetrainData.maxSlowTeleopPower;
+    private final double maxFastPower = drivetrainData.maxFastTeleopPower;
 
     private boolean teleop = true;
 
