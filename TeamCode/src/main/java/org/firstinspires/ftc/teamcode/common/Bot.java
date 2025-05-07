@@ -32,6 +32,7 @@ public class Bot extends Component {
         CRUISING,
         LOOKING_FOR_BRICK,
         HOLDING_BRICK,
+        HANDING_OFF,
         INTAKING_BRICK_FROM_FLOOR,
         INTAKING_SPECIMEN_FROM_WALL,
         PLACING_BRICK_ON_FLOOR,
@@ -141,10 +142,6 @@ public class Bot extends Component {
             if (!(currentMode == Modes.HOLDING_BRICK)) {
                 setMode(Modes.HOLDING_BRICK);
             }
-        } else if (gamepad.a) {
-            if (!(currentMode == Modes.LOOKING_FOR_BRICK)) {
-                setMode(Modes.LOOKING_FOR_BRICK);
-            }
         }
         if (gamepad.right_trigger > 0.2) {
             lift.up(gamepad.right_trigger);
@@ -154,8 +151,16 @@ public class Bot extends Component {
             lift.stop();
         }
         //Controls while looking for brick
-        if (gamepad.right_bumper) {
-            setMode(Modes.PLACING_BRICK_ON_FLOOR);
+        if (gamepad.a) {
+            setMode(Modes.LOOKING_FOR_BRICK);
+        } else if (gamepad.b) {
+            setMode(Modes.INTAKING_SPECIMEN_FROM_WALL);
+        } else if (gamepad.y) {
+            setMode(Modes.SCORING_SPECIMEN);
+        } else if (gamepad.right_bumper) {
+            setMode(Modes.SCORING_SAMPLE);
+        } else if (gamepad.left_bumper) {
+            setMode(Modes.HANDING_OFF);
         }
 
 /*
@@ -217,6 +222,24 @@ public class Bot extends Component {
                 }
                 break;
 
+            case HANDING_OFF:
+                if (busy) {
+                    if (phase == 1) {
+                        setLiftPositionPreset(LiftPositions.HANDOFF);
+                        setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
+                        setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
+                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
+                        synchDelay(200);
+                        if (!waitingAsynch() && !(lift.isBusy())) {
+                            phase = 2;
+                        }
+                    } else if (phase == 2) {
+                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+                    }
+                }
+                break;
+
             case LOOKING_FOR_BRICK:
                 if (busy) {
                     setExtendoPositionPreset(ExtendoPositions.EXTENDED);
@@ -237,10 +260,51 @@ public class Bot extends Component {
                     setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                     setIntakeLightPositionPreset(IntakeLightPositions.OFF);
-                    setAsynchDelay(250);
+                    setAsynchDelay(350);
                     if (!waitingAsynch()) {
                         setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
                         busy = false;
+                    }
+                }
+                break;
+
+            case INTAKING_SPECIMEN_FROM_WALL:
+                if (busy) {
+                    setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL);
+                    setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_WALL);
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
+                    setLiftPositionPreset(LiftPositions.SPECIMEN_WALL);
+                }
+                break;
+
+            case SCORING_SPECIMEN:
+                if (busy) {
+                    if (phase == 1) {
+                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+                        synchDelay(200);
+                        if (!waitingAsynch()) {
+                            phase = 2;
+                        }
+                    } else if (phase == 2) {
+                        setLiftPositionPreset(LiftPositions.SPECIMEN_HANG);
+                        setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG);
+                        setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_HANG);
+                    }
+                }
+                break;
+
+            case SCORING_SAMPLE:
+                if (busy) {
+                    if (phase == 1) {
+                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+                        synchDelay(200);
+                        if (!waitingAsynch()) {
+                            phase = 2;
+                        }
+                    } else if (phase == 2) {
+                        setLiftPositionPreset(LiftPositions.HIGH_BASKET);
+                        setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BASKET);
+                        setHandlerWristPositionPreset(HandlerWristPositions.HIGH_BASKET);
                     }
                 }
                 break;

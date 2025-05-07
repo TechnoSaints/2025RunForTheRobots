@@ -31,6 +31,7 @@ public class LiftSingleTest extends LinearOpMode {
                 lift.stop();
             }
             lift.log();
+
         }
     }
 }

@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions;
 
 public enum IntakeWristPositions {
-    UP(0.64),
-    MIDDLE(0.35),
-    LOOK(0.29),
-    DOWN(.07);
+    UP(0.67),
+    MIDDLE(0.38),
+    LOOK(0.32),
+    DOWN(.10);
     private double value;
 
     IntakeWristPositions(double value) {
