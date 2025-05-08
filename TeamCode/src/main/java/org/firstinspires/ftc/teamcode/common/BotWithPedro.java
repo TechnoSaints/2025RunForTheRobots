@@ -14,11 +14,9 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 public class BotWithPedro extends Bot {
     private final Follower follower;
-
     private final DrivetrainData drivetrainData = new DrivetrainData();
     private final double maxSlowPower = drivetrainData.maxSlowTeleopPower;
     private final double maxFastPower = drivetrainData.maxFastTeleopPower;
-
     private boolean teleop = true;
 
     public BotWithPedro(OpMode opMode, Telemetry telemetry) {
@@ -28,19 +26,21 @@ public class BotWithPedro extends Bot {
         follower.startTeleopDrive();
         teleop = true;
     }
-
     public void followPath(PathChain path, boolean holdEnd) {
         follower.followPath(path, holdEnd);
     }
 
     public Follower getFollower() {
-
         return (follower);
     }
 
+    public boolean isBusy()
+    {
+        return (super.isBusy() || followerIsBusy());
+    }
     public boolean followerIsBusy() {
 
-        return (super.isBusy() || follower.isBusy());
+        return (follower.isBusy());
     }
 
     /* Update Pedro to move the robot based on:
@@ -50,8 +50,6 @@ public class BotWithPedro extends Bot {
     - Robot-Centric Mode: true
     */
     public void processGamepadInput(Gamepad gamepad) {
-        super.processGamepadInput(gamepad);
-
         if (gamepad.dpad_up) {
             moveTeleop(maxSlowPower, 0, 0);
         } else if (gamepad.dpad_down) {
@@ -69,7 +67,6 @@ public class BotWithPedro extends Bot {
                 moveTeleop(-gamepad.left_stick_y * maxFastPower, -gamepad.left_stick_x * maxFastPower, -gamepad.right_stick_x * maxFastPower);
             }
         }
-
     }
 
     private void moveTeleop(double forward, double lateral, double heading) {
@@ -83,8 +80,7 @@ public class BotWithPedro extends Bot {
         follower.setTeleOpMovementVectors(forward, lateral, heading, true);
     }
 
-    public void update() {
-        super.update();
+    protected void update() {
         follower.update();
     }
 }

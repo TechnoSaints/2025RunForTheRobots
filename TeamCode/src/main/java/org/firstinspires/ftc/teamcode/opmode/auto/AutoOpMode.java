@@ -6,6 +6,7 @@ import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.common.Bot21528;
 import org.firstinspires.ftc.teamcode.common.BotWithPedro;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
@@ -15,7 +16,7 @@ public abstract class AutoOpMode extends OpMode {
     protected ElapsedTime pauseTimer, sleepTimer;
     protected boolean paused = false;
     protected double pauseDuration = 0;
-    protected BotWithPedro bot;
+    protected Bot21528 bot;
     protected int pathState;
 
     /**
@@ -36,7 +37,7 @@ public abstract class AutoOpMode extends OpMode {
         pauseTimer.reset();
         sleepTimer.reset();
 
-        bot = new BotWithPedro(this, telemetry);
+        bot = new Bot21528(this, telemetry);
     }
 
     /**
