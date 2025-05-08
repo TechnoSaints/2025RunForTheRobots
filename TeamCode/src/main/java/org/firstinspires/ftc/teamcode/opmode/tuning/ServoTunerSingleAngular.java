@@ -50,7 +50,7 @@ public class ServoTunerSingleAngular extends LinearOpMode {
             telemetry.addLine("Left Bumper to Decrease");
             telemetry.update();
             // Set the servo to the new position and pause;
-            servo.setPositionDegrees(positionDegrees);
+            servo.setPositionDegrees(positionDegrees,0);
             sleep(CYCLE_MS);
         }
     }

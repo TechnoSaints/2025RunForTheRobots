@@ -21,9 +21,7 @@ public class Bot extends Component {
     private final ServoSimple handlerArm, handlerWrist, handlerGrabber;
     private final Extendo extendo;
     private final Lift lift;
-    private ElapsedTime delayTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     private Modes currentMode = Modes.WAITING_AT_START;
-    private boolean busy, waiting = false;
     private int phase;
     private double delay = 0;
 
@@ -55,86 +53,126 @@ public class Bot extends Component {
         handlerGrabber = new ServoSimple(opMode.hardwareMap, telemetry, "handlerGrabber");
         lift = new Lift(opMode.hardwareMap, telemetry, "lift", false);
         setMode(Modes.WAITING_AT_START);
-        initAsynchTimer();
     }
 
-    private void initAsynchTimer() {
-        delay = 0;
-        delayTimer.reset();
-    }
-
-    private void setAsynchDelay(double delayTime) {
-        if (!waiting) {
-            delay = delayTime;
-            waiting = true;
+    /*
+        private void initAsynchTimer() {
+            delay = 0;
             delayTimer.reset();
         }
-    }
 
-    private boolean waitingAsynch() {
-        telemetry.addData("delay: ", delay);
-        telemetry.addData("timer in MS: ", delayTimer.milliseconds());
-        telemetry.update();
-        if (delayTimer.milliseconds() < delay) {
-            return (true);
-        } else {
-            waiting = false;
-            return (waiting);
+        private void setAsynchDelay(double delayTime) {
+            if (!waiting) {
+                delay = delayTime;
+                waiting = true;
+                delayTimer.reset();
+            }
         }
-    }
 
-    private void synchDelay(double delayTime) {
-        assert (delayTime < 250);
-        delayTimer.reset();
-        delay = delayTime;
-        while (delayTimer.milliseconds() < delay) {
+        private boolean waitingAsynch() {
+            telemetry.addData("delay: ", delay);
+            telemetry.addData("timer in MS: ", delayTimer.milliseconds());
+            telemetry.update();
+            if (delayTimer.milliseconds() < delay) {
+                return (true);
+            } else {
+                waiting = false;
+                return (waiting);
+            }
         }
-    }
 
+
+        private void synchDelay(double delayTime) {
+            assert (delayTime < 250);
+            delayTimer.reset();
+            delay = delayTime;
+            while (delayTimer.milliseconds() < delay) {
+            }
+        }
+    */
     private void setMode(Modes newMode) {
         currentMode = newMode;
         phase = 1;
-        busy = true;
     }
 
     public void setExtendoPositionPreset(ExtendoPositions position) {
-        extendo.setPositionPreset(position);
+        extendo.setPositionPreset(position, 200);
+    }
+
+    public boolean extendoIsBusy() {
+        return extendo.isBusy();
     }
 
     public void setIntakeWristPositionPreset(IntakeWristPositions position) {
-        intakeWrist.setPositionTicks(position.getValue());
+        intakeWrist.setPositionTicks(position.getValue(), 100);
+    }
+
+    public boolean intakeWristIsBusy() {
+        return intakeWrist.isBusy();
     }
 
     public void setIntakeSwivelPositionPreset(IntakeSwivelPositions position) {
-        intakeSwivel.setPositionTicks(position.getValue());
+        intakeSwivel.setPositionTicks(position.getValue(), 100);
+    }
+
+    public boolean intakeSwivelIsBusy() {
+        return intakeSwivel.isBusy();
     }
 
     public void setIntakeGrabberPositionPreset(IntakeGrabberPositions position) {
-        intakeGrabber.setPositionTicks(position.getValue());
+        intakeGrabber.setPositionTicks(position.getValue(), 200);
+    }
+
+    public boolean intakeGrabberIsBusy() {
+        return intakeGrabber.isBusy();
     }
 
     public void setIntakeLightPositionPreset(IntakeLightPositions position) {
-        intakeLight.setPositionTicks(position.getValue());
+        intakeLight.setPositionTicks(position.getValue(), 0);
     }
 
     public void setLiftPositionPreset(LiftPositions position) {
         lift.setPositionPreset(position);
     }
 
+    public boolean liftIsBusy() {
+        return lift.isBusy();
+    }
+
     public void setHandlerArmPositionPreset(HandlerArmPositions position) {
-        handlerArm.setPositionTicks(position.getValue());
+        handlerArm.setPositionTicks(position.getValue(), 200);
+    }
+
+    public boolean handlerArmIsBusy() {
+        return handlerArm.isBusy();
     }
 
     public void setHandlerWristPositionPreset(HandlerWristPositions position) {
-        handlerWrist.setPositionTicks(position.getValue());
+        handlerWrist.setPositionTicks(position.getValue(), 100);
+    }
+
+    public boolean handlerWristIsBusy() {
+        return handlerWrist.isBusy();
     }
 
     public void setHandlerGrabberPositionPreset(HandlerGrabberPositions position) {
-        handlerGrabber.setPositionTicks(position.getValue());
+        handlerGrabber.setPositionTicks(position.getValue(), 200);
+    }
+
+    public boolean handlerGrabberIsBusy() {
+        return handlerGrabber.isBusy();
     }
 
     public boolean isBusy() {
-        return (lift.isBusy() || (busy));
+        return (handlerIsBusy() || intakeIsBusy());
+    }
+
+    public boolean handlerIsBusy() {
+        return (liftIsBusy() || handlerArmIsBusy() || handlerWristIsBusy() || handlerGrabberIsBusy());
+    }
+
+    public boolean intakeIsBusy() {
+        return (extendoIsBusy() || intakeWristIsBusy() || intakeSwivelIsBusy() || intakeGrabberIsBusy());
     }
 
     public void processGamepadInput(Gamepad gamepad) {
@@ -162,9 +200,7 @@ public class Bot extends Component {
         } else if (gamepad.left_bumper) {
             setMode(Modes.HANDING_OFF);
         }
-
 /*
-
         if (gamepad.right_trigger > 0.2) {
             lift.up(gamepad.right_trigger);
         } else if (gamepad.left_trigger > 0.2) {
@@ -172,9 +208,6 @@ public class Bot extends Component {
         } else {
             lift.stop();
         }
-*/
-
-/*
         if (gamepad.touchpad) {
             lift.lock();
         }
@@ -189,122 +222,115 @@ public class Bot extends Component {
         switch (currentMode) {
 
             case WAITING_AT_START:
-                if (busy) {
+                if (phase == 1) {
                     setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
                     setIntakeWristPositionPreset(IntakeWristPositions.UP);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                     setIntakeLightPositionPreset(IntakeLightPositions.OFF);
                     setExtendoPositionPreset(ExtendoPositions.RETRACTED);
-                    busy = false;
+                    phase = -1;
                 }
                 break;
 
             case HOLDING_BRICK:
-                if (busy) {
-                    if (phase == 1) {
-                        setIntakeWristPositionPreset(IntakeWristPositions.DOWN);
-                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_LOOSE);
-                        synchDelay(200);
-                        if (!waitingAsynch()) {
-                            phase = 2;
-                        }
-                    } else if (phase == 2) {
+                if (phase == 1) {
+                    setIntakeWristPositionPreset(IntakeWristPositions.DOWN);
+                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_LOOSE);
+                    phase = 2;
+                } else if (phase == 2) {
+                    if (!(intakeWristIsBusy() || intakeGrabberIsBusy())) {
                         setIntakeWristPositionPreset(IntakeWristPositions.UP);
                         setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                         setIntakeLightPositionPreset(IntakeLightPositions.OFF);
-                        setAsynchDelay(100);
-                        if (!waitingAsynch()) {
-                            setExtendoPositionPreset(ExtendoPositions.RETRACTED);
-                            busy = false;
-                            phase = -1;
-                        }
+                        phase = 3;
+                    }
+                } else if (phase == 3) {
+                    if (!(intakeWristIsBusy() || intakeSwivelIsBusy())) {
+                        setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                        phase = -1;
                     }
                 }
                 break;
 
             case HANDING_OFF:
-                if (busy) {
-                    if (phase == 1) {
-                        setLiftPositionPreset(LiftPositions.HANDOFF);
-                        setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
-                        setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
-                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
-                        synchDelay(200);
-                        if (!waitingAsynch() && !(lift.isBusy())) {
-                            phase = 2;
-                        }
-                    } else if (phase == 2) {
+                if (phase == 1) {
+                    setLiftPositionPreset(LiftPositions.HANDOFF);
+                    setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
+                    setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
+                    phase = 2;
+                } else if (phase == 2) {
+                    if (!(handlerIsBusy())) {
                         setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
                         setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+                        phase = -1;
                     }
                 }
                 break;
 
             case LOOKING_FOR_BRICK:
-                if (busy) {
+                if (phase == 1) {
                     setExtendoPositionPreset(ExtendoPositions.EXTENDED);
-                    setAsynchDelay(250);
-                    if (!waitingAsynch()) {
+                    phase = 2;
+                } else if (phase == 2) {
+                    if (!(extendoIsBusy())) {
                         setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
                         setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
                         setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                         setIntakeLightPositionPreset(IntakeLightPositions.HIGH);
-                        busy = false;
+                        phase = -1;
                     }
                 }
                 break;
 
             case PLACING_BRICK_ON_FLOOR:
-                if (busy) {
+                if (phase == 1) {
                     setExtendoPositionPreset(ExtendoPositions.EXTENDED);
                     setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                     setIntakeLightPositionPreset(IntakeLightPositions.OFF);
-                    setAsynchDelay(350);
-                    if (!waitingAsynch()) {
+                } else if (phase == 2) {
+                    if (!(intakeIsBusy())) {
                         setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
-                        busy = false;
+                        phase = -1;
                     }
                 }
                 break;
 
             case INTAKING_SPECIMEN_FROM_WALL:
-                if (busy) {
+                if (phase == 1) {
                     setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL);
                     setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_WALL);
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
                     setLiftPositionPreset(LiftPositions.SPECIMEN_WALL);
+                    phase = -1;
                 }
                 break;
 
             case SCORING_SPECIMEN:
-                if (busy) {
-                    if (phase == 1) {
-                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
-                        synchDelay(200);
-                        if (!waitingAsynch()) {
-                            phase = 2;
-                        }
-                    } else if (phase == 2) {
+                if (phase == 1) {
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+                    phase = 2;
+                } else if (phase == 2) {
+                    if (!(handlerGrabberIsBusy())) {
                         setLiftPositionPreset(LiftPositions.SPECIMEN_HANG);
                         setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG);
                         setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_HANG);
+                        phase = -1;
                     }
                 }
                 break;
 
             case SCORING_SAMPLE:
-                if (busy) {
-                    if (phase == 1) {
-                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
-                        synchDelay(200);
-                        if (!waitingAsynch()) {
-                            phase = 2;
-                        }
-                    } else if (phase == 2) {
+                if (phase == 1) {
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+                    phase = 2;
+                } else if (phase == 2) {
+                    if (!handlerGrabberIsBusy()) {
                         setLiftPositionPreset(LiftPositions.HIGH_BASKET);
                         setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BASKET);
                         setHandlerWristPositionPreset(HandlerWristPositions.HIGH_BASKET);
+                        phase = -1;
                     }
                 }
                 break;

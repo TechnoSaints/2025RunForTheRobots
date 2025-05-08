@@ -61,7 +61,7 @@ public class ServoSlowStop extends ServoSimple {
                     controlDelayMS += controlDelayIncrementMS;
                 }
                 controlPosition += controlPositionIncrement;
-                setPositionTicks(controlPosition);
+                setPositionTicks(controlPosition,0);
                 timer.reset();
             }
         }

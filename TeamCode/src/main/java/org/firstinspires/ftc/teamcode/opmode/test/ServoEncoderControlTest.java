@@ -25,9 +25,9 @@ public class ServoEncoderControlTest extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
-                servo.setPositionTicks(ExtendoPositions.RETRACTED.getValue());
+                servo.setPositionTicks(ExtendoPositions.RETRACTED.getValue(),0);
             } else if (gamepad1.left_bumper) {
-                servo.setPositionTicks(ExtendoPositions.EXTENDED.getValue());
+                servo.setPositionTicks(ExtendoPositions.EXTENDED.getValue(),0);
             }
             servo.update();
         }

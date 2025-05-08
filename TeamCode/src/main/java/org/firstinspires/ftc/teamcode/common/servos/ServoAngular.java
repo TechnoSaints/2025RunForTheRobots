@@ -24,22 +24,23 @@ public class ServoAngular extends ServoSimple {
         rangeTicks = this.ticksAtMaxPosDegrees - this.ticksAtMinPosDegrees;
         ticksPerDegree = rangeTicks / rangeDegrees;
 
-        setPositionDegrees(minPosDegrees);
+        setPositionDegrees(minPosDegrees,0);
         currentPosDegrees = minPosDegrees;
     }
 
-    public void setPositionDegrees(double posDegrees) {
+    public void setPositionDegrees(double posDegrees, double delay) {
 //        telemetry.addData("posDegrees: ",posDegrees);
 //        telemetry.addData("degreesToTicks(): ", degreesToTicks(posDegrees));
 //        telemetry.update();
         if (!stopAtLimit(posDegrees)) {
-            setPositionTicks(degreesToTicks(posDegrees));
+            setPositionTicks(degreesToTicks(posDegrees),0);
             currentPosDegrees = posDegrees;
         }
+        setTimer(delay);
     }
 
     public void rotateDegrees(double angleDegrees) {
-        setPositionDegrees(currentPosDegrees + angleDegrees);
+        setPositionDegrees(currentPosDegrees + angleDegrees,0);
     }
 
     public double getPositionDegrees() {
@@ -59,12 +60,12 @@ public class ServoAngular extends ServoSimple {
 //        telemetry.addData("currentPosTicks before: ", getPositionTicks());
 //        telemetry.addData("atLimit before ", atLimit);
         if (posDegrees <= minPosDegrees) {
-            setPositionTicks(ticksAtMinPosDegrees);
+            setPositionTicks(ticksAtMinPosDegrees,0);
             currentPosDegrees = minPosDegrees;
 
             atLimit = true;
         } else if (posDegrees >= maxPosDegrees) {
-            setPositionTicks(ticksAtMaxPosDegrees);
+            setPositionTicks(ticksAtMaxPosDegrees,0);
             currentPosDegrees = maxPosDegrees;
             atLimit = true;
         }

@@ -15,8 +15,10 @@ public class ServoSimple extends Component {
         servo = hardwareMap.get(Servo.class, servoName);
     }
 
-    public void setPositionTicks(double position) {
+    public void setPositionTicks(double position, double delay)
+    {
         servo.setPosition(position);
+        setTimer(delay);
     }
 
     protected double getPositionTicks() {

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
 @Autonomous(name = "5 Specimen Auto", group = "Specimen")
-public class auto5spec extends AutoOpMode {
+public class Auto5Spec extends AutoOpMode {
 
     @Override
     public void start() {

@@ -28,12 +28,13 @@ public class Extendo extends Component {
         timer = new ElapsedTime();
         timer.reset();
 
-        setPositionPreset(ExtendoPositions.RETRACTED);
+        setPositionPreset(ExtendoPositions.RETRACTED,0);
     }
 
-    public void setPositionPreset(ExtendoPositions position)
+    public void setPositionPreset(ExtendoPositions position, double delay)
     {
         goToLength(position.getValue());
+        setTimer(delay);
     }
 
     private void goToLength(double targetPosInches) {
@@ -41,7 +42,7 @@ public class Extendo extends Component {
 //        telemetry.addData("targetPosInches: ", targetPosInches);
 //        telemetry.addData("targetPosAngle: ", lengthToAngle(targetPosInches));
 
-        servo.setPositionDegrees(lengthToAngle(targetPosInches));
+        servo.setPositionDegrees(lengthToAngle(targetPosInches), 0);
 //        telemetry.addData("lengthToAngle(): ",lengthToAngle(targetPosInches));
         //currentLength = targetPosInches;
         currentLength = angleToLength(servo.getPositionDegrees());

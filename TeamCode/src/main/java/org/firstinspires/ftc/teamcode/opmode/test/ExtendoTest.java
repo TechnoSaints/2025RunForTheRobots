@@ -27,9 +27,9 @@ public class ExtendoTest extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
-                extendo.setPositionPreset(ExtendoPositions.EXTENDED);
+                extendo.setPositionPreset(ExtendoPositions.EXTENDED,0);
             } else if (gamepad1.left_bumper) {
-                extendo.setPositionPreset(ExtendoPositions.RETRACTED);
+                extendo.setPositionPreset(ExtendoPositions.RETRACTED,0);
             }
 
             if (gamepad1.right_trigger > 0.2) {
