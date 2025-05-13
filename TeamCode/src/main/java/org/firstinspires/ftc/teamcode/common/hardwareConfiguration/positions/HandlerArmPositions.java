@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions;
 
 public enum HandlerArmPositions {
-    SPECIMEN_WALL(.07),
-    HIGH_BASKET(.30),
+    SPECIMEN_WALL(.00),
+    HIGH_BUCKET(.30),
     SPECIMEN_HANG(.78),
     HANDOFF(.86);
     private double value;

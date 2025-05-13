@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions;
 
 public enum HandlerWristPositions {
-    SPECIMEN_WALL(0.33),
-    HIGH_BASKET(.4),
-    HANDOFF(.31),
-    SPECIMEN_HANG(0.4);
+    SPECIMEN_WALL(0.42),
+    HIGH_BUCKET(.61),
+    HANDOFF(.42),
+    SPECIMEN_HANG(0.56);
     private double value;
     HandlerWristPositions(double value) {
         this.value = value;
