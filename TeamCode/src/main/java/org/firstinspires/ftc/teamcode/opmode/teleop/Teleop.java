@@ -7,11 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.common.Bot21528;
-import org.firstinspires.ftc.teamcode.common.BotWithPedro;
 
 @Config
-@TeleOp(name = "Teleop with Pedro", group = "Linear OpMode")
-public class TeleopPedro extends LinearOpMode {
+@TeleOp(name = "Teleop withOUT Pedro", group = "Linear OpMode")
+public class Teleop extends LinearOpMode {
     private Bot21528 bot;
 
     @Override

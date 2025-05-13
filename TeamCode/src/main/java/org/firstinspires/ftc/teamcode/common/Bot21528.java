@@ -156,9 +156,9 @@ public class Bot21528 extends BotWithPedro {
                     setPhase(2);
                 } else if (isPhase(2)) {
                     if (!handlerGrabberIsBusy()) {
-                        setLiftPositionPreset(LiftPositions.HIGH_BASKET);
-                        setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BASKET);
-                        setHandlerWristPositionPreset(HandlerWristPositions.HIGH_BASKET);
+                        setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                        setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET);
+                        setHandlerWristPositionPreset(HandlerWristPositions.HIGH_BUCKET);
                         setPhase(-1);
                     }
                 }
