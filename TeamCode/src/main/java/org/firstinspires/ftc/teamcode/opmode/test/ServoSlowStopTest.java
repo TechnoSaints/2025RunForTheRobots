@@ -6,7 +6,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.common.Bot21528WithoutPedro;
+import org.firstinspires.ftc.teamcode.common.TeleopBot;
 import org.firstinspires.ftc.teamcode.common.servos.ServoSlowStop;
 
 @Config
@@ -19,7 +19,7 @@ public class ServoSlowStopTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        Bot21528WithoutPedro bot = new Bot21528WithoutPedro(this, telemetry);
+        TeleopBot bot = new TeleopBot(this, telemetry);
 //        BotDrivetrain bot = new BotDrivetrain(this, telemetry);
         waitForStart();
 

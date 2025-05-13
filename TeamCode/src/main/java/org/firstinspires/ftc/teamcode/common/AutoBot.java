@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Int
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeWristPositions;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.LiftPositions;
 
-public class Bot21528WithoutPedro extends BotWithoutPedro {
-    public Bot21528WithoutPedro(OpMode opMode, Telemetry telemetry) {
+public class AutoBot extends BotWithPedro {
+    public AutoBot(OpMode opMode, Telemetry telemetry) {
         super(opMode, telemetry);
         setMode(Modes.WAITING_AT_START);
     }

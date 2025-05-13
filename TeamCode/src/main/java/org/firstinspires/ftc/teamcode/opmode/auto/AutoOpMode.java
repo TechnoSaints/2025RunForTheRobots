@@ -5,8 +5,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.common.Bot21528WithPedro;
-import org.firstinspires.ftc.teamcode.common.Bot21528WithoutPedro;
+import org.firstinspires.ftc.teamcode.common.AutoBot;
 
 public abstract class AutoOpMode extends OpMode {
 
@@ -14,7 +13,7 @@ public abstract class AutoOpMode extends OpMode {
     protected boolean paused = false;
     protected double pauseDuration = 0;
 
-    protected Bot21528WithPedro bot;
+    protected AutoBot bot;
     protected int pathState;
 
     /**
@@ -35,7 +34,7 @@ public abstract class AutoOpMode extends OpMode {
         pauseTimer.reset();
         sleepTimer.reset();
 
-        bot = new Bot21528WithPedro(this, telemetry);
+        bot = new AutoBot(this, telemetry);
     }
 
     /**
