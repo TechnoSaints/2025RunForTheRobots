@@ -150,5 +150,121 @@ public abstract class Bot extends Component {
 
     public abstract void processGamepadInput(Gamepad gamepad);
 
-    protected abstract void update();
+    public void update() {
+        switch (getMode()) {
+            case WAITING_AT_START:
+                if (isPhase(1)) {
+                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
+                    setIntakeWristPositionPreset(IntakeWristPositions.UP);
+                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                    setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+                    setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                    setPhase(-1);
+                }
+                break;
+
+            case HOLDING_BRICK:
+                if (isPhase(1)) {
+                    setIntakeWristPositionPreset(IntakeWristPositions.DOWN);
+                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_LOOSE);
+                    setPhase(2);
+                } else if (isPhase(2)) {
+                    if (!(intakeWristIsBusy() || intakeGrabberIsBusy())) {
+                        setIntakeWristPositionPreset(IntakeWristPositions.UP);
+                        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                        setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+                        setPhase(3);
+                    }
+                } else if (isPhase(3)) {
+                    if (!(intakeWristIsBusy() || intakeSwivelIsBusy())) {
+                        setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                        setPhase(-1);
+                    }
+                }
+                break;
+
+            case HANDING_OFF:
+                if (isPhase(1)) {
+                    setLiftPositionPreset(LiftPositions.HANDOFF);
+                    setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
+                    setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
+                    setPhase(2);
+                } else if (isPhase(2)) {
+                    if (!(handlerIsBusy())) {
+                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+                        setPhase(-1);
+                    }
+                }
+                break;
+
+            case LOOKING_FOR_BRICK:
+                if (isPhase(1)) {
+                    setExtendoPositionPreset(ExtendoPositions.EXTENDED);
+                    setPhase(2);
+                } else if (isPhase(2)) {
+                    if (!(extendoIsBusy())) {
+                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+                        setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
+                        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                        setIntakeLightPositionPreset(IntakeLightPositions.HIGH);
+                        setPhase(-1);
+                    }
+                }
+                break;
+
+            case PLACING_BRICK_ON_FLOOR:
+                if (isPhase(1)) {
+                    setExtendoPositionPreset(ExtendoPositions.EXTENDED);
+                    setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
+                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                    setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+                } else if (isPhase(2)) {
+                    if (!(intakeIsBusy())) {
+                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+                        setPhase(-1);
+                    }
+                }
+                break;
+
+            case INTAKING_SPECIMEN_FROM_WALL:
+                if (isPhase(1)) {
+                    setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL);
+                    setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_WALL);
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
+                    setLiftPositionPreset(LiftPositions.SPECIMEN_WALL);
+                    setPhase(-1);
+                }
+                break;
+
+            case SCORING_SPECIMEN:
+                if (isPhase(1)) {
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+                    setPhase(2);
+                } else if (isPhase(2)) {
+                    if (!(handlerGrabberIsBusy())) {
+                        setLiftPositionPreset(LiftPositions.SPECIMEN_HANG);
+                        setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG);
+                        setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_HANG);
+                        setPhase(-1);
+                    }
+                }
+                break;
+
+            case SCORING_SAMPLE:
+                if (isPhase(1)) {
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+                    setPhase(2);
+                } else if (isPhase(2)) {
+                    if (!handlerGrabberIsBusy()) {
+                        setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                        setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET);
+                        setHandlerWristPositionPreset(HandlerWristPositions.HIGH_BUCKET);
+                        setPhase(-1);
+                    }
+                }
+                break;
+        }
+    }
 }
