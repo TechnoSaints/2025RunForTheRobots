@@ -2,21 +2,19 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.common.Bot21528;
-import org.firstinspires.ftc.teamcode.common.BotWithPedro;
-import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
-import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
+import org.firstinspires.ftc.teamcode.common.Bot21528WithPedro;
+import org.firstinspires.ftc.teamcode.common.Bot21528WithoutPedro;
 
 public abstract class AutoOpMode extends OpMode {
 
     protected ElapsedTime pauseTimer, sleepTimer;
     protected boolean paused = false;
     protected double pauseDuration = 0;
-    protected Bot21528 bot;
+
+    protected Bot21528WithPedro bot;
     protected int pathState;
 
     /**
@@ -37,7 +35,7 @@ public abstract class AutoOpMode extends OpMode {
         pauseTimer.reset();
         sleepTimer.reset();
 
-        bot = new Bot21528(this, telemetry);
+        bot = new Bot21528WithPedro(this, telemetry);
     }
 
     /**
