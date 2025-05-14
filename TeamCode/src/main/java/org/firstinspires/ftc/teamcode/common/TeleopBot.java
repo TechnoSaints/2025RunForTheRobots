@@ -12,7 +12,6 @@ public class TeleopBot extends Bot {
     private double driveAxial = 0.0;
     private double driveStrafe = 0.0;
     private double driveYaw = 0.0;
-    private final double motorDirection = 1;
 
     public TeleopBot(OpMode opMode, Telemetry telemetry) {
         super(opMode, telemetry);
@@ -28,8 +27,8 @@ public class TeleopBot extends Bot {
         } else if (gamepad.dpad_right) {
             drivetrain.creepDirection(0.0, 1.0, 0.0);
         } else {
-            driveAxial = -gamepad.left_stick_y * motorDirection;
-            driveStrafe = gamepad.left_stick_x * motorDirection;
+            driveAxial = -gamepad.left_stick_y;
+            driveStrafe = gamepad.left_stick_x;
             driveYaw = gamepad.right_stick_x;
             if ((Math.abs(driveAxial) < 0.2) && (Math.abs(driveStrafe) < 0.2) && (Math.abs(driveYaw) < 0.2)) {
                 drivetrain.stop();

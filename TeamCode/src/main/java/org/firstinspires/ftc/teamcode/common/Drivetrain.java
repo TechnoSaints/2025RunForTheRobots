@@ -23,7 +23,6 @@ public class Drivetrain extends Component {
     private final double maxFastPower;
     private final double maxMediumPower;
     private final double maxSlowPower;
-    private double currentPower;
 
     public Drivetrain(HardwareMap hardwareMap, Telemetry telemetry, DrivetrainData drivetrainData, MotorData motorData) {
         super(telemetry);
@@ -66,10 +65,10 @@ public class Drivetrain extends Component {
             rightBackPower /= max;
         }
 
-        leftFrontDrive.setPower(leftFrontPower * currentPower * maxFastPower);
-        rightFrontDrive.setPower(rightFrontPower * currentPower * maxFastPower);
-        leftBackDrive.setPower(leftBackPower * currentPower * maxFastPower);
-        rightBackDrive.setPower(rightBackPower * currentPower * maxFastPower);
+        leftFrontDrive.setPower(leftFrontPower * maxFastPower);
+        rightFrontDrive.setPower(rightFrontPower * maxFastPower);
+        leftBackDrive.setPower(leftBackPower * maxFastPower);
+        rightBackDrive.setPower(rightBackPower * maxFastPower);
 //        log();
     }
 

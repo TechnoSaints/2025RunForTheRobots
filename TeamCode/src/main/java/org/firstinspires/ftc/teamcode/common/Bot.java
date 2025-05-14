@@ -20,7 +20,7 @@ public abstract class Bot extends Component {
     private final ServoSimple handlerArm, handlerWrist, handlerGrabber;
     private final Extendo extendo;
     private final Lift lift;
-    private Modes currentMode = Modes.WAITING_AT_START;
+    private Modes currentMode;
     private int currentPhase;
 
     public Bot(OpMode opMode, Telemetry telemetry) {
@@ -37,23 +37,23 @@ public abstract class Bot extends Component {
         setMode(Modes.WAITING_AT_START);
     }
 
-    protected void setPhase(int phase) {
+    private void setPhase(int phase) {
         currentPhase = phase;
     }
 
-    protected boolean isPhase(int phase) {
+    private boolean isPhase(int phase) {
         return (currentPhase == phase);
     }
 
-    protected void setMode(Modes newMode) {
+    private void setMode(Modes newMode) {
         currentMode = newMode;
         setPhase(1);
     }
 
-    protected Modes getMode()
+    private Modes getMode()
     {return(currentMode);}
 
-    protected boolean isMode(Modes mode) {
+    private boolean isMode(Modes mode) {
         return (this.currentMode == mode);
     }
     public void setExtendoPositionPreset(ExtendoPositions position) {
@@ -136,15 +136,15 @@ public abstract class Bot extends Component {
         return handlerGrabber.isBusy();
     }
 
-    public boolean isBusy() {
+    private boolean isBusy() {
         return (handlerIsBusy() || intakeIsBusy());
     }
 
-    public boolean handlerIsBusy() {
+    private boolean handlerIsBusy() {
         return (liftIsBusy() || handlerArmIsBusy() || handlerWristIsBusy() || handlerGrabberIsBusy());
     }
 
-    public boolean intakeIsBusy() {
+    private boolean intakeIsBusy() {
         return (extendoIsBusy() || intakeWristIsBusy() || intakeSwivelIsBusy() || intakeGrabberIsBusy());
     }
 
