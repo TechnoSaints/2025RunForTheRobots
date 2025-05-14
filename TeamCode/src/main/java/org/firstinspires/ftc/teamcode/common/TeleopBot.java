@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.common;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -17,6 +18,7 @@ public class TeleopBot extends Bot {
         super(opMode, telemetry);
         drivetrain = new Drivetrain(opMode.hardwareMap, telemetry, new DrivetrainData(), new GoBilda435DcMotorData());
     }
+
     public void processGamepadInput(Gamepad gamepad) {
         if (gamepad.dpad_up) {
             drivetrain.creepDirection(1.0, 0.0, 0.0);
@@ -34,6 +36,31 @@ public class TeleopBot extends Bot {
                 drivetrain.stop();
             } else
                 drivetrain.moveDirection(driveAxial, driveStrafe, driveYaw);
+        }
+
+        if (gamepad.x) {
+            if (!(isMode(Modes.HOLDING_BRICK))) {
+                setMode(Modes.HOLDING_BRICK);
+            }
+        }
+        if (gamepad.right_trigger > 0.2) {
+            liftUp(gamepad.right_trigger);
+        } else if (gamepad.left_trigger > 0.2) {
+            liftDown(gamepad.left_trigger);
+        } else {
+            liftStop();
+        }
+        //Controls while looking for brick
+        if (gamepad.a) {
+            setMode(Modes.LOOKING_FOR_BRICK);
+        } else if (gamepad.b) {
+            setMode(Modes.INTAKING_SPECIMEN_FROM_WALL);
+        } else if (gamepad.y) {
+            setMode(Modes.SCORING_SPECIMEN);
+        } else if (gamepad.right_bumper) {
+            setMode(Modes.SCORING_SAMPLE);
+        } else if (gamepad.left_bumper) {
+            setMode(Modes.HANDING_OFF);
         }
     }
 }
