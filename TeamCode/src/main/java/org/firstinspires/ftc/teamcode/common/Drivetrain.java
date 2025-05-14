@@ -30,10 +30,10 @@ public class Drivetrain extends Component {
         maxMediumPower = drivetrainData.maxMediumTeleopPower;
         maxSlowPower = drivetrainData.maxSlowTeleopPower;
 
-        leftFrontDrive = hardwareMap.get(DcMotorEx.class, "leftFrontDrive");
-        leftBackDrive = hardwareMap.get(DcMotorEx.class, "leftBackDrive");
-        rightFrontDrive = hardwareMap.get(DcMotorEx.class, "rightFrontDrive");
-        rightBackDrive = hardwareMap.get(DcMotorEx.class, "rightBackDrive");
+        leftFrontDrive = hardwareMap.get(DcMotorEx.class, drivetrainData.leftFrontMotorName);
+        leftBackDrive = hardwareMap.get(DcMotorEx.class,drivetrainData.leftRearMotorName);
+        rightFrontDrive = hardwareMap.get(DcMotorEx.class, drivetrainData.rightFrontMotorName);
+        rightBackDrive = hardwareMap.get(DcMotorEx.class, drivetrainData.rightRearMotorName);
 
         leftFrontDrive.setDirection(drivetrainData.leftFrontMotorDirection);
         leftBackDrive.setDirection(drivetrainData.leftRearMotorDirection);
