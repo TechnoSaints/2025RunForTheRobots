@@ -45,15 +45,15 @@ public abstract class Bot extends Component {
         return (currentPhase == phase);
     }
 
-    private void setMode(Modes newMode) {
+    public void setMode(Modes newMode) {
         currentMode = newMode;
         setPhase(1);
     }
 
-    private Modes getMode()
+    public Modes getMode()
     {return(currentMode);}
 
-    private boolean isMode(Modes mode) {
+    public boolean isMode(Modes mode) {
         return (this.currentMode == mode);
     }
     public void setExtendoPositionPreset(ExtendoPositions position) {
@@ -134,10 +134,6 @@ public abstract class Bot extends Component {
 
     public boolean handlerGrabberIsBusy() {
         return handlerGrabber.isBusy();
-    }
-
-    private boolean isBusy() {
-        return (handlerIsBusy() || intakeIsBusy());
     }
 
     private boolean handlerIsBusy() {
