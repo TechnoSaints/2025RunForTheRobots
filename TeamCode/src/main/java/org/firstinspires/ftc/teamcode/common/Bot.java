@@ -144,7 +144,8 @@ public abstract class Bot extends Component {
         return (extendoIsBusy() || intakeWristIsBusy() || intakeSwivelIsBusy() || intakeGrabberIsBusy());
     }
 
-    public abstract void processGamepadInput(Gamepad gamepad);
+    public void processGamepadInput(Gamepad gamepad)
+    {};
 
     public void update() {
         switch (getMode()) {
