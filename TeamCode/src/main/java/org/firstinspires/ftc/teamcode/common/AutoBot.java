@@ -14,17 +14,10 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 public class AutoBot extends Bot {
     private final Follower follower;
-    private final DrivetrainData drivetrainData = new DrivetrainData();
-    private final double maxSlowPower = drivetrainData.maxSlowTeleopPower;
-    private final double maxFastPower = drivetrainData.maxFastTeleopPower;
-    private boolean teleop = true;
-
     public AutoBot(OpMode opMode, Telemetry telemetry) {
         super(opMode, telemetry);
         follower = new Follower(opMode.hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(FieldLocations.startPose);
-        follower.startTeleopDrive();
-        teleop = true;
     }
     public void followPath(PathChain path, boolean holdEnd) {
         follower.followPath(path, holdEnd);
@@ -40,43 +33,6 @@ public class AutoBot extends Bot {
     }
     public boolean followerIsBusy() {
         return (follower.isBusy());
-    }
-
-    /* Update Pedro to move the robot based on:
-    - Forward/Backward Movement: -gamepad1.left_stick_y
-    - Left/Right Movement: -gamepad1.left_stick_x
-    - Turn Left/Right Movement: -gamepad1.right_stick_x
-    - Robot-Centric Mode: true
-    */
-    public void processGamepadInput(Gamepad gamepad) {
-        if (gamepad.dpad_up) {
-            moveTeleop(maxSlowPower, 0, 0);
-        } else if (gamepad.dpad_down) {
-            moveTeleop(-maxSlowPower, 0, 0);
-        } else if (gamepad.dpad_left) {
-            moveTeleop(0, maxSlowPower, 0);
-        } else if (gamepad.dpad_right) {
-            moveTeleop(0, -maxSlowPower, 0);
-        } else {
-            if ((Math.abs(-gamepad.left_stick_y) < 0.2) && (Math.abs(-gamepad.left_stick_x) < 0.2) && (Math.abs(-gamepad.right_stick_x) < 0.2)) {
-//                moveTeleop(0,0,0);
-                follower.holdPoint(follower.getPose());
-                teleop = false;
-            } else {
-                moveTeleop(-gamepad.left_stick_y * maxFastPower, -gamepad.left_stick_x * maxFastPower, -gamepad.right_stick_x * maxFastPower);
-            }
-        }
-    }
-
-    private void moveTeleop(double forward, double lateral, double heading) {
-//        if (!follower.isBusy() && !teleop)
-
-        if (!teleop) {
-            follower.startTeleopDrive();
-            teleop = true;
-        }
-
-        follower.setTeleOpMovementVectors(forward, lateral, heading, true);
     }
 
     public void update() {
