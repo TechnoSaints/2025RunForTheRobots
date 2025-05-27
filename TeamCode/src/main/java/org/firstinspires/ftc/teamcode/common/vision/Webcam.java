@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Webcam extends VisionSensor {
-    private final ColorBlobLocatorProcessor colorLocator;
+    private final ColorBlobLocatorProcessor colorLocatorBlue, colorLocatorYellow, colorLocatorRed;
     private final VisionPortal portal;
     private List<ColorBlobLocatorProcessor.Blob> blobs;
     private RotatedRect box;
@@ -29,7 +29,6 @@ public class Webcam extends VisionSensor {
     private int pixelsLeftOfCenter;
     double heightPixelsPerInch = 25;
     double widthPixelsPerInch = 25;
-    private RotatedRect box;
 
     ColorBlobLocatorProcessor.BlobFilter areaFilter, densityFilter, ratioFilter;
 
@@ -44,8 +43,8 @@ public class Webcam extends VisionSensor {
         leftMinInches = -5;
         leftMaxInches = 5;
 
-        colorLocator = new ColorBlobLocatorProcessor.Builder()
-                .setTargetColorRange(ColorRange.YELLOW)         // use a predefined color match
+        colorLocatorBlue = new ColorBlobLocatorProcessor.Builder()
+                .setTargetColorRange(ColorRange.BLUE)         // use a predefined color match
                 .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
                 .setRoi(ImageRegion.asUnityCenterCoordinates(-1.0, 1.0, 1.0, -1.0))
                 .setDrawContours(true)                        // Show contours on the Stream Preview
@@ -58,9 +57,9 @@ public class Webcam extends VisionSensor {
         densityFilter = new ColorBlobLocatorProcessor.BlobFilter(ColorBlobLocatorProcessor.BlobCriteria.BY_DENSITY, 0.5, 1.0);
         ratioFilter = new ColorBlobLocatorProcessor.BlobFilter(ColorBlobLocatorProcessor.BlobCriteria.BY_ASPECT_RATIO, 1.0, 10.0);
 
-        colorLocator.addFilter(areaFilter);
-        colorLocator.addFilter(densityFilter);
-        colorLocator.addFilter(ratioFilter);
+        colorLocatorBlue.addFilter(areaFilter);
+        colorLocatorBlue.addFilter(densityFilter);
+        colorLocatorBlue.addFilter(ratioFilter);
 
 //        areaSort = new ColorBlobLocatorProcessor.BlobSort(ColorBlobLocatorProcessor.BlobCriteria.BY_CONTOUR_AREA, SortOrder.ASCENDING);
 //        densitySort = new ColorBlobLocatorProcessor.BlobSort(ColorBlobLocatorProcessor.BlobCriteria.BY_DENSITY, SortOrder.ASCENDING);
@@ -70,26 +69,74 @@ public class Webcam extends VisionSensor {
 //        colorLocator.setSort(densitySort);
 //        colorLocator.setSort(ratioSort);
 
+        colorLocatorYellow = new ColorBlobLocatorProcessor.Builder()
+                .setTargetColorRange(ColorRange.YELLOW)         // use a predefined color match
+                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
+                .setRoi(ImageRegion.asUnityCenterCoordinates(-1.0, 1.0, 1.0, -1.0))
+                .setDrawContours(true)                        // Show contours on the Stream Preview
+                .setBlurSize(5)                               // Smooth the transitions between different colors in image
+                .setErodeSize(3)
+                .setDilateSize(3)
+                .build();
+
+        colorLocatorYellow.addFilter(areaFilter);
+        colorLocatorYellow.addFilter(densityFilter);
+        colorLocatorYellow.addFilter(ratioFilter);
+
+
+        colorLocatorRed = new ColorBlobLocatorProcessor.Builder()
+                .setTargetColorRange(ColorRange.RED)         // use a predefined color match
+                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
+                .setRoi(ImageRegion.asUnityCenterCoordinates(-1.0, 1.0, 1.0, -1.0))
+                .setDrawContours(true)                        // Show contours on the Stream Preview
+                .setBlurSize(5)                               // Smooth the transitions between different colors in image
+                .setErodeSize(3)
+                .setDilateSize(3)
+                .build();
+
+        colorLocatorRed.addFilter(areaFilter);
+        colorLocatorRed.addFilter(densityFilter);
+        colorLocatorRed.addFilter(ratioFilter);
+
         portal = new VisionPortal.Builder()
-                .addProcessor(colorLocator)
+                .addProcessor(colorLocatorBlue)
+                .addProcessor(colorLocatorYellow)
+                .addProcessor(colorLocatorRed)
                 .setCameraResolution(new Size(resolutionWidth, resolutionHeight))
                 .setCamera(hardwareMap.get(WebcamName.class, "armcam"))
                 .build();
-        start();
+
+        inactivateAll();
     }
 
+    public void activateBlue()
+    {
+        inactivateAll();
+        portal.setProcessorEnabled(colorLocatorBlue, true);
+    }
+    public void activateYellow()
+    {
+        inactivateAll();
+        portal.setProcessorEnabled(colorLocatorYellow, true);
+    }
+    public void activateRed()
+    {
+        inactivateAll();
+        portal.setProcessorEnabled(colorLocatorYellow, true);
+    }
+
+    public void inactivateAll()
+    {
+        portal.setProcessorEnabled(colorLocatorBlue, false);
+        portal.setProcessorEnabled(colorLocatorYellow, false);
+        portal.setProcessorEnabled(colorLocatorRed, false);
+    }
     public RotatedRect getBestBox() {
         updateFilteredResult(100);
         return box;
     }
 
-    public void start() {
-    }
-
-    public void stop() {
-    }
-
-    public boolean updateFilteredResult(double maxSenseTimeMS) {
+    protected boolean updateFilteredResult(double maxSenseTimeMS) {
         timer.reset();
         updateResult();
         while (((!resultIsValid()))
@@ -115,19 +162,18 @@ public class Webcam extends VisionSensor {
         return (resultIsValid());
     }
 
-    private void updateResult() {
+    protected void updateResult() {
         blobs = colorLocator.getBlobs();
     }
-
-    private boolean resultIsValid() {
+    protected boolean resultIsValid() {
         return (!blobs.isEmpty());
     }
 
-    private double distanceFromCenter(RotatedRect box) {
-        return (Math.abs(box.center.x - widthCenter) + Math.abs(box.center.y - heightCenter));
+    protected int distanceFromCenter(RotatedRect box) {
+        return (Math.abs((int)(box.center.x) - widthCenter) + Math.abs((int)(box.center.y) - heightCenter));
     }
 
-    class BlobComparator implements java.util.Comparator<ColorBlobLocatorProcessor.Blob> {
+   private class BlobComparator implements java.util.Comparator<ColorBlobLocatorProcessor.Blob> {
         @Override
         public int compare(ColorBlobLocatorProcessor.Blob a, ColorBlobLocatorProcessor.Blob b) {
             return (distanceFromCenter(a.getBoxFit()) - distanceFromCenter(b.getBoxFit()));

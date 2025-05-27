@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.Component;
+import org.opencv.core.RotatedRect;
 
 abstract public class VisionSensor extends Component {
     protected double targetHeightInches, verticalHeightInches;          // Distance from the ground for calculation
@@ -14,7 +15,7 @@ abstract public class VisionSensor extends Component {
     protected double forwardMaxInches;
     protected double leftMaxInches;
     protected double leftMinInches;
-    protected final ElapsedTime timer = new ElapsedTime();
+    protected final ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     protected double grabberLeftOffsetInches;
     protected double grabberForwardOffsetInches;
 
@@ -24,7 +25,7 @@ abstract public class VisionSensor extends Component {
         timer.reset();
     }
 
-    abstract public boolean updateFilteredResult(double maxSenseTimeMS);
+    abstract protected boolean updateFilteredResult(double maxSenseTimeMS);
 
     protected boolean isInRange(double value, double lower, double upper) {
         return ((value > lower) && (value < upper));
@@ -42,13 +43,9 @@ abstract public class VisionSensor extends Component {
         return leftRotationToTargetDegrees;
     }
 
-    abstract public void updateResult();
+    abstract protected void updateResult();
 
     abstract protected boolean resultIsValid();
-
-    abstract public void start();
-
-    abstract public void stop();
 
     public Pose getOffsetPose(Pose currentPose) {
         Pose newPose = new Pose();
