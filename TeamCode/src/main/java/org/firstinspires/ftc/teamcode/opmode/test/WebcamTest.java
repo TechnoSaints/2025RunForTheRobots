@@ -21,7 +21,7 @@ import java.util.List;
 
 public class WebcamTest extends LinearOpMode {
 
-    private Webcam camera = new Webcam(hardwareMap, telemetry, ColorRange.BLUE);
+    private Webcam camera = new Webcam(hardwareMap, telemetry);
 
     RotatedRect box;
 

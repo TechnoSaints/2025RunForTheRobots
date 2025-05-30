@@ -163,7 +163,7 @@ public class Webcam extends VisionSensor {
     }
 
     protected void updateResult() {
-        blobs = colorLocator.getBlobs();
+//        blobs = colorLocator.getBlobs();
     }
     protected boolean resultIsValid() {
         return (!blobs.isEmpty());

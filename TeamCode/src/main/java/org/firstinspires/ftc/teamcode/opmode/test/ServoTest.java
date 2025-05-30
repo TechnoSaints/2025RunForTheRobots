@@ -9,28 +9,31 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeSwivelPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeWristPositions;
 
 @Config
-@TeleOp(name = "TEST ServoTest", group = "Test")
-@Disabled
+@TeleOp(name = "ServoTest", group = "Test")
 public class ServoTest extends LinearOpMode {
 
-    private Servo servo;
+    private Servo servo1, servo2;
 
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        servo = hardwareMap.get(Servo.class,"extendoLeft");
+        servo1 = hardwareMap.get(Servo.class,"intakeSwivel");
+        servo2 = hardwareMap.get(Servo.class,"intakeWrist");
 
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
-                servo.setPosition(ExtendoPositions.EXTENDED.getValue());
+                servo1.setPosition(IntakeSwivelPositions.DEGREES0.getValue());
+                servo2.setPosition(IntakeWristPositions.UP.getValue());
             } else if (gamepad1.left_bumper) {
-                servo.setPosition(ExtendoPositions.EXTENDED.getValue());
-            }
+                servo1.setPosition(IntakeSwivelPositions.DEGREES180.getValue());
+                servo2.setPosition(IntakeWristPositions.DOWN.getValue());            }
         }
     }
 }
