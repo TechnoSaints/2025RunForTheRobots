@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.common;
-enum Modes {
+public enum Modes {
     WAITING_AT_START,
     CRUISING,
     LOOKING_FOR_BRICK,

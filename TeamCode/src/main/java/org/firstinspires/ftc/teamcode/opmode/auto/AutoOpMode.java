@@ -2,18 +2,17 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.pedropathing.localization.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.AutoBot;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerGrabberPositions;
 
 public abstract class AutoOpMode extends OpMode {
-    protected ElapsedTime pauseTimer, sleepTimer;
-    protected boolean paused = false;
-    protected double pauseDuration = 0;
-
     protected AutoBot bot;
     protected int pathState;
+    protected Pose startPose;
 
     /**
      * This method is called once at the init of the OpMode.
@@ -22,6 +21,7 @@ public abstract class AutoOpMode extends OpMode {
     public void init() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         bot = new AutoBot(this, telemetry);
+        bot.setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
     }
 
     /**
@@ -46,7 +46,6 @@ public abstract class AutoOpMode extends OpMode {
 
     protected void setPathState(int pState) {
         pathState = pState;
-        pauseTimer.reset();
     }
 }
 
