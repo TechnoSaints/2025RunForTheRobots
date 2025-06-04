@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.common;
 public enum Modes {
-    WAITING_AT_START,
+    AUTO_START,
+    TELEOP_START,
     CRUISING,
     LOOKING_FOR_BRICK,
     HOLDING_BRICK,
@@ -12,6 +13,7 @@ public enum Modes {
     SCORING_SPECIMEN,
     PARKING_AT_SUB,
     PARKING_IN_HP_AREA,
-    CLIMBING
+    CLIMBING,
+    NO_CHANGE;
 }
 

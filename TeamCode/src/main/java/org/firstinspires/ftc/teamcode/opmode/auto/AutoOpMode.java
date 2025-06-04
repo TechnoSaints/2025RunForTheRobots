@@ -32,6 +32,11 @@ public abstract class AutoOpMode extends OpMode {
         bot.update();
     }
 
+    @Override
+    public void start()
+    {
+        setPathState(0);
+    }
     /**
      * This is the main loop of the OpMode, it will run repeatedly after clicking "Play".
      **/
@@ -44,7 +49,8 @@ public abstract class AutoOpMode extends OpMode {
 
     protected abstract void autonomousPathUpdate();
 
-    protected void setPathState(int pState) {
+    protected void setPathState(int pState)
+    {
         pathState = pState;
     }
 }

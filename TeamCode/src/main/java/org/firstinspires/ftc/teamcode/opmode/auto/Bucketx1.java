@@ -28,7 +28,7 @@ public class Bucketx1 extends BucketAutoOpMode {
 
             // hang the specimen for a score, then transition to park position
             case 2:
-                if (!bot.handlerGrabberIsBusy()) {
+                if (!bot.isBusy()) {
                     bot.setMode(Modes.PARKING_AT_SUB);
                     bot.followPath(Paths.bucketToSampleParkSetup, true);
                     setPathState(3);

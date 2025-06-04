@@ -20,7 +20,7 @@ public abstract class Bot extends Component {
     private final ServoSimple handlerArm, handlerWrist, handlerGrabber;
     private final Extendo extendo;
     private final Lift lift;
-    private Modes currentMode;
+    private Modes currentMode = Modes.TELEOP_START;
     private int currentPhase;
 
     public Bot(OpMode opMode, Telemetry telemetry) {
@@ -34,7 +34,7 @@ public abstract class Bot extends Component {
         handlerWrist = new ServoSimple(opMode.hardwareMap, telemetry, "handlerWrist");
         handlerGrabber = new ServoSimple(opMode.hardwareMap, telemetry, "handlerGrabber");
         lift = new Lift(opMode.hardwareMap, telemetry, "lift", false);
-        setMode(Modes.WAITING_AT_START);
+        setMode(Modes.NO_CHANGE);
     }
 
     private void setPhase(int phase) {
@@ -50,17 +50,19 @@ public abstract class Bot extends Component {
         setPhase(1);
     }
 
-    public Modes getMode()
-    {return(currentMode);}
+    public Modes getMode() {
+        return (currentMode);
+    }
 
     public boolean isMode(Modes mode) {
         return (this.currentMode == mode);
     }
+
     public void setExtendoPositionPreset(ExtendoPositions position) {
         extendo.setPositionPreset(position, 200);
     }
 
-    public boolean extendoIsBusy() {
+    private boolean extendoIsBusy() {
         return extendo.isBusy();
     }
 
@@ -68,7 +70,7 @@ public abstract class Bot extends Component {
         intakeWrist.setPositionTicks(position.getValue(), 100);
     }
 
-    public boolean intakeWristIsBusy() {
+    private boolean intakeWristIsBusy() {
         return intakeWrist.isBusy();
     }
 
@@ -76,7 +78,7 @@ public abstract class Bot extends Component {
         intakeSwivel.setPositionTicks(position.getValue(), 100);
     }
 
-    public boolean intakeSwivelIsBusy() {
+    private boolean intakeSwivelIsBusy() {
         return intakeSwivel.isBusy();
     }
 
@@ -84,7 +86,7 @@ public abstract class Bot extends Component {
         intakeGrabber.setPositionTicks(position.getValue(), 200);
     }
 
-    public boolean intakeGrabberIsBusy() {
+    private boolean intakeGrabberIsBusy() {
         return intakeGrabber.isBusy();
     }
 
@@ -108,7 +110,7 @@ public abstract class Bot extends Component {
         lift.stop();
     }
 
-    public boolean liftIsBusy() {
+    private boolean liftIsBusy() {
         return lift.isBusy();
     }
 
@@ -116,7 +118,7 @@ public abstract class Bot extends Component {
         handlerArm.setPositionTicks(position.getValue(), 200);
     }
 
-    public boolean handlerArmIsBusy() {
+    private boolean handlerArmIsBusy() {
         return handlerArm.isBusy();
     }
 
@@ -124,7 +126,7 @@ public abstract class Bot extends Component {
         handlerWrist.setPositionTicks(position.getValue(), 100);
     }
 
-    public boolean handlerWristIsBusy() {
+    private boolean handlerWristIsBusy() {
         return handlerWrist.isBusy();
     }
 
@@ -132,26 +134,38 @@ public abstract class Bot extends Component {
         handlerGrabber.setPositionTicks(position.getValue(), 200);
     }
 
-    public boolean handlerGrabberIsBusy() {
+    private boolean handlerGrabberIsBusy() {
         return handlerGrabber.isBusy();
     }
 
-    private boolean handlerIsBusy() {
+    public boolean handlerIsBusy() {
         return (liftIsBusy() || handlerArmIsBusy() || handlerWristIsBusy() || handlerGrabberIsBusy());
     }
 
-    private boolean intakeIsBusy() {
+    public boolean intakeIsBusy() {
         return (extendoIsBusy() || intakeWristIsBusy() || intakeSwivelIsBusy() || intakeGrabberIsBusy());
     }
 
-    public void processGamepadInput(Gamepad gamepad)
-    {};
-
+    public boolean isBusy() {
+        return (handlerIsBusy() || intakeIsBusy());
+    }
     public void update() {
         switch (getMode()) {
-            case WAITING_AT_START:
+            case AUTO_START:
                 if (isPhase(1)) {
                     setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
+                    setIntakeWristPositionPreset(IntakeWristPositions.UP);
+                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                    setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+                    setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                    setPhase(-1);
+                }
+                break;
+
+            case TELEOP_START:
+                if (isPhase(1)) {
+                    setLiftPositionPreset(LiftPositions.MIN);
+                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
                     setIntakeWristPositionPreset(IntakeWristPositions.UP);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                     setIntakeLightPositionPreset(IntakeLightPositions.OFF);
@@ -261,6 +275,9 @@ public abstract class Bot extends Component {
                         setPhase(-1);
                     }
                 }
+                break;
+
+            case NO_CHANGE:
                 break;
         }
     }
