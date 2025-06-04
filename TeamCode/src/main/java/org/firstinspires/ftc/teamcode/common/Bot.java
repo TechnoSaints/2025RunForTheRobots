@@ -34,7 +34,6 @@ public abstract class Bot extends Component {
         handlerWrist = new ServoSimple(opMode.hardwareMap, telemetry, "handlerWrist");
         handlerGrabber = new ServoSimple(opMode.hardwareMap, telemetry, "handlerGrabber");
         lift = new Lift(opMode.hardwareMap, telemetry, "lift", false);
-        setMode(Modes.NO_CHANGE);
     }
 
     private void setPhase(int phase) {
@@ -275,9 +274,6 @@ public abstract class Bot extends Component {
                         setPhase(-1);
                     }
                 }
-                break;
-
-            case NO_CHANGE:
                 break;
         }
     }

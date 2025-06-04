@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.AutoBot;
+import org.firstinspires.ftc.teamcode.common.Modes;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerGrabberPositions;
 
 public abstract class AutoOpMode extends OpMode {
@@ -21,7 +22,7 @@ public abstract class AutoOpMode extends OpMode {
     public void init() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         bot = new AutoBot(this, telemetry);
-        bot.setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+        bot.setMode(Modes.AUTO_START);
     }
 
     /**

@@ -56,10 +56,6 @@ public class Lift extends Component {
             targetVelocity = direction * targetPower * maxMovePower * maxVelocity;
             motor.setVelocity(targetVelocity);
 
-/*            telemetry.addData("direction: ", direction);
-            telemetry.addData("targetPower: ", targetPower);
-            telemetry.addData("maxMovePower: ", maxMovePower);
-            telemetry.addData("maxVelocity: ", maxVelocity);*/
             telemetry.addData("Stopped at Top: ", "false");
         } else {
             telemetry.addData("Stopped at Top: ", "true");
@@ -73,14 +69,17 @@ public class Lift extends Component {
             targetVelocity = direction * -targetPower * maxMovePower * maxVelocity;
             motor.setVelocity(targetVelocity);
 
-/*            telemetry.addData("direction: ", direction);
-            telemetry.addData("targetPower: ", targetPower);
-            telemetry.addData("maxMovePower: ", maxMovePower);
-            telemetry.addData("maxVelocity: ", maxVelocity);*/
             telemetry.addData("Stopped at Bottom: ", " false");
         } else {
             telemetry.addData("Stopped at Bottom: ", " true");
         }
+        log();
+    }
+
+    private void stopAtPosition(int targetPosition) {
+        motor.setTargetPosition(targetPosition);
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        motor.setPower(stopPower);
         log();
     }
 
@@ -89,7 +88,7 @@ public class Lift extends Component {
     }
 
     private void setPositionTicks(int ticks) {
-        motor.setTargetPosition(ticks);
+        stopAtPosition(ticks);
     }
 
     private boolean stoppedAtTop() {
@@ -112,28 +111,11 @@ public class Lift extends Component {
         return stop;
     }
 
-    private void stopAtPosition(int targetPosition) {
-        motor.setTargetPosition(targetPosition);
-        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        motor.setPower(stopPower);
-        log();
-    }
-
     public void resetEncoder() {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-
-/*
-    public void moveDownToSwitch() {
-        down(0.2);
-        while (!liftSwitch.isPressed()) {
-        }
-        stop();
-        log();
-    }
-*/
 
     public void lock() {
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -150,6 +132,7 @@ public class Lift extends Component {
     }
 
     public void log() {
+        telemetry.addData("isBusy(): ", isBusy());
         telemetry.addData("Position:  ", motor.getCurrentPosition());
         telemetry.update();
     }
