@@ -18,7 +18,7 @@ public class TeleopNoOdo extends LinearOpMode {
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         bot = new TeleopBot(this, telemetry);
-        bot.setMode(Modes.TELEOP_START);
+        bot.setMode(Modes.START);
 
         waitForStart();
         while (opModeIsActive() && !isStopRequested()) {

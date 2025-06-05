@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
-@Autonomous(name = "1 Spec+Park Auto", group = "Specimen")
+@Autonomous(name = "Specimen x 1 + Park", group = "Specimen")
 public class Specimenx1 extends SpecimenAutoOpMode {
 
     @Override

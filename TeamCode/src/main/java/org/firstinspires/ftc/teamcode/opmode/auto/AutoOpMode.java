@@ -22,7 +22,6 @@ public abstract class AutoOpMode extends OpMode {
     public void init() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         bot = new AutoBot(this, telemetry);
-        bot.setMode(Modes.AUTO_START);
     }
 
     /**
@@ -47,12 +46,11 @@ public abstract class AutoOpMode extends OpMode {
         bot.update();
         autonomousPathUpdate();
     }
-
-    protected abstract void autonomousPathUpdate();
-
     protected void setPathState(int pState)
     {
         pathState = pState;
     }
+
+    protected abstract void autonomousPathUpdate();
 }
 

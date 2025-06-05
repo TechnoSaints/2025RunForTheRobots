@@ -13,7 +13,7 @@ public class Bucketx1 extends BucketAutoOpMode {
         switch (pathState) {
             // transition to specimen hang position
             case 0:
-                bot.setMode(Modes.SCORING_SAMPLE);
+                bot.setMode(Modes.HIGH_BASKET_SCORING);
                 bot.followPath(Paths.startToBucket, true);
                 setPathState(1);
                 break;

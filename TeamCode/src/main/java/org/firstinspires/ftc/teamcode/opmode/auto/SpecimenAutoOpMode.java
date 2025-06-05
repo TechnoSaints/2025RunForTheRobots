@@ -13,6 +13,7 @@ public abstract class SpecimenAutoOpMode extends AutoOpMode {
         super.init();
     }
 
+    // Happens once after play button is pressed
     @Override
     public void start() {
         Paths.buildSpecimenPaths(bot.getFollower());

@@ -13,6 +13,7 @@ public abstract class BucketAutoOpMode extends AutoOpMode {
         super.init();
     }
 
+    // Happens once after play button is pressed
     @Override
     public void start() {
         Paths.buildSamplePaths(bot.getFollower());
