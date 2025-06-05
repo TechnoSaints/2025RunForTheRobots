@@ -9,6 +9,7 @@ public abstract class Component {
     protected Telemetry telemetry;
 
     private ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+
     private double delay = 0;
 
     public Component(Telemetry telemetry)
