@@ -10,7 +10,7 @@ import com.pedropathing.pathgen.Point;
 public class Paths {
 
     // samples paths
-    public static PathChain startToBucket, bucketToSampleSpike1, sampleSpike1ToBucket, bucketToSampleSpike2, sampleSpike2ToBucket, bucketToSampleSpike3Setup,
+    public static PathChain startToBucket, bucketToSampleSpike1, sampleSpike1ToBucket, bucketToSampleSpike2, sampleSpike2ToBucket, bucketToSampleSpike3, bucketToSampleSpike3Setup,
             sampleSpike3SetupToSampleSpike3, sampleSpike3ToBucket, sampleSpike3Setup2ToBucket, bucketToSampleParkSetup, sampleParkSetupToSamplePark, sampleParkSetupToSampleLook;
 
     // hybrid paths
@@ -46,6 +46,11 @@ public class Paths {
         sampleSpike2ToBucket = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(FieldLocations.sampleSpike2Pose), new Point(FieldLocations.bucketPose)))
                 .setLinearHeadingInterpolation(FieldLocations.sampleSpike2Pose.getHeading(), FieldLocations.bucketPose.getHeading())
+                .build();
+
+        bucketToSampleSpike3 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.bucketPose), new Point(FieldLocations.sampleSpike3Pose)))
+                .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.sampleSpike3Pose.getHeading())
                 .build();
 
         bucketToSampleSpike3Setup = follower.pathBuilder()

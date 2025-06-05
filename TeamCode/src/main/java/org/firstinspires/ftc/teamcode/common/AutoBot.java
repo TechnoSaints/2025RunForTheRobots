@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.common;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
+import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathChain;
+import com.pedropathing.pathgen.Point;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -18,6 +20,7 @@ public class AutoBot extends Bot {
         super(opMode, telemetry);
         follower = new Follower(opMode.hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(FieldLocations.startPose);
+        setMode(Modes.AUTO_START);
     }
     public void followPath(PathChain path, boolean holdEnd) {
         follower.followPath(path, holdEnd);
@@ -33,6 +36,18 @@ public class AutoBot extends Bot {
     }
     public boolean followerIsBusy() {
         return (follower.isBusy());
+    }
+
+    public void moveManualInches(double axial, double strafe, double heading)
+    {
+        Pose targetPose = new Pose(getFollower().getPose().getX() - strafe, getFollower().getPose().getY() + axial, getFollower().getPose().getHeading() + Math.toRadians(heading));
+
+        PathChain targetPath = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(getFollower().getPose()), new Point(targetPose)))
+                .setLinearHeadingInterpolation(getFollower().getPose().getHeading(), targetPose.getHeading())
+                .build();
+
+        followPath(targetPath, true);
     }
 
     public void update() {

@@ -11,13 +11,14 @@ public abstract class SpecimenAutoOpMode extends AutoOpMode {
     public void init() {
         FieldLocations.startPose = FieldLocations.specimenStartPose;
         super.init();
+        Paths.buildSpecimenPaths(bot.getFollower());
+        Paths.buildHybridPaths(bot.getFollower());
     }
 
     // Happens once after play button is pressed
     @Override
     public void start() {
-        Paths.buildSpecimenPaths(bot.getFollower());
-        Paths.buildHybridPaths(bot.getFollower());
+
     }
 }
 

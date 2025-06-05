@@ -17,6 +17,7 @@ public class TeleopBot extends Bot {
     public TeleopBot(OpMode opMode, Telemetry telemetry) {
         super(opMode, telemetry);
         drivetrain = new Drivetrain(opMode.hardwareMap, telemetry, new DrivetrainData(), new GoBilda435DcMotorData());
+        setMode(Modes.TELEOP_START);
     }
 
     public void processGamepadInput(Gamepad gamepad) {

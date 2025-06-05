@@ -11,13 +11,14 @@ public abstract class BucketAutoOpMode extends AutoOpMode {
     public void init() {
         FieldLocations.startPose = FieldLocations.sampleStartPose;
         super.init();
+        Paths.buildSamplePaths(bot.getFollower());
+        Paths.buildHybridPaths(bot.getFollower());
     }
 
     // Happens once after play button is pressed
     @Override
     public void start() {
-        Paths.buildSamplePaths(bot.getFollower());
-        Paths.buildHybridPaths(bot.getFollower());
+
     }
 }
 
