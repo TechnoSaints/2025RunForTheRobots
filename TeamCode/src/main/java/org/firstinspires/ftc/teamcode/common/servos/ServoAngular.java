@@ -79,9 +79,4 @@ public class ServoAngular extends ServoSimple {
     private double degreesToTicks(double posDegrees) {
         return (ticksAtMinPosDegrees + ((posDegrees - minPosDegrees) * ticksPerDegree));
     }
-
-    public void update()
-    {
-
-    }
 }

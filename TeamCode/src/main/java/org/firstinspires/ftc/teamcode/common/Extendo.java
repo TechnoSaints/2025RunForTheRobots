@@ -7,10 +7,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.ExtendoData;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
 import org.firstinspires.ftc.teamcode.common.servos.ServoAngular;
-import org.firstinspires.ftc.teamcode.common.servos.ServoAngularSpeedLimited;
 
 public class Extendo extends Component {
-    private ServoAngularSpeedLimited servo;
+    private ServoAngular servo;
     private double currentLength;
     private ElapsedTime timer;
 
@@ -24,7 +23,7 @@ public class Extendo extends Component {
         double angleAtMinLength, angleAtMaxLength;
         angleAtMinLength = lengthToAngle(extendoData.minLengthInches);
         angleAtMaxLength = lengthToAngle(extendoData.maxLengthInches);
-        servo = new ServoAngularSpeedLimited(hardwareMap, telemetry, extendoName, angleAtMaxLength, extendoData.maxLengthTicks, angleAtMinLength, extendoData.minLengthTicks);
+        servo = new ServoAngular(hardwareMap, telemetry, extendoName, angleAtMaxLength, extendoData.maxLengthTicks, angleAtMinLength, extendoData.minLengthTicks);
 
         timer = new ElapsedTime();
         timer.reset();
@@ -43,7 +42,7 @@ public class Extendo extends Component {
 //        telemetry.addData("targetPosInches: ", targetPosInches);
 //        telemetry.addData("targetPosAngle: ", lengthToAngle(targetPosInches));
 
-        servo.goToPositionDegrees(lengthToAngle(targetPosInches), 50);
+        servo.setPositionDegrees(lengthToAngle(targetPosInches), 0);
 //        telemetry.addData("lengthToAngle(): ",lengthToAngle(targetPosInches));
         //currentLength = targetPosInches;
         currentLength = angleToLength(servo.getPositionDegrees());
@@ -115,7 +114,6 @@ public class Extendo extends Component {
     }
 
     public void update() {
-        servo.update();
     }
 
     public void log() {
