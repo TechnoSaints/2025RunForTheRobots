@@ -327,9 +327,7 @@ public abstract class Bot extends Component {
 
             // Assumes brick is already gripped tightly
             case HIGH_BASKET_SCORING:
-                if (
-
-                        isPhase(1)) {
+                if (isPhase(1)) {
                     if (!handlerGrabberIsBusy()) {
                         setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
                         setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET);

@@ -29,7 +29,7 @@ public class Bucketx4 extends BucketAutoOpMode {
 
             // Drop brick into high bucket
             case 2:
-                if (!bot.isBusy()) {
+                if (!bot.handlerIsBusy()) {
                     bot.setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
                     setPathState(3);
                 }

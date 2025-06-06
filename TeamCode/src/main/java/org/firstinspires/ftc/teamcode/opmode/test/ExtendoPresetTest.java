@@ -32,6 +32,8 @@ public class ExtendoPresetTest extends LinearOpMode {
             } else if (gamepad1.left_bumper) {
                 extendo.setPositionPreset(ExtendoPositions.RETRACTED);
             }
+            telemetry.addData("isbusy: ", extendo.isBusy());
+            telemetry.update();
             extendo.update();
         }
     }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.common.servos;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -24,8 +25,18 @@ public class ServoAngular extends ServoSimple {
         rangeTicks = this.ticksAtMaxPosDegrees - this.ticksAtMinPosDegrees;
         ticksPerDegree = rangeTicks / rangeDegrees;
 
-        setPositionDegrees(minPosDegrees,0);
-        currentPosDegrees = minPosDegrees;
+//        telemetry.addData("maxPosDegrees: ", maxPosDegrees);
+//        telemetry.addData("maxPosTicks: ", ticksAtMaxPosDegrees);
+//        telemetry.addData("minPosDegrees: ", minPosDegrees);
+//        telemetry.addData("minPosTicks: ", ticksAtMinPosDegrees);
+//        telemetry.update();
+//        ElapsedTime controlTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+//        controlTimer.reset();
+//        while (controlTimer.milliseconds() < 10000)
+//        {}
+//        setPositionTicks(ticksAtMaxPosDegrees,0);
+          setPositionDegrees(maxPosDegrees,0);
+ //       currentPosDegrees = minPosDegrees;
     }
 
     public void setPositionDegrees(double posDegrees, double delay) {
@@ -39,9 +50,9 @@ public class ServoAngular extends ServoSimple {
         setTimer(delay);
     }
 
-    public void rotateDegrees(double angleDegrees) {
-        setPositionDegrees(currentPosDegrees + angleDegrees,0);
-    }
+//    public void rotateDegrees(double angleDegrees) {
+//        setPositionDegrees(currentPosDegrees + angleDegrees,0);
+//    }
 
     public double getPositionDegrees() {
         return (currentPosDegrees);
@@ -62,7 +73,6 @@ public class ServoAngular extends ServoSimple {
         if (posDegrees <= minPosDegrees) {
             setPositionTicks(ticksAtMinPosDegrees,0);
             currentPosDegrees = minPosDegrees;
-
             atLimit = true;
         } else if (posDegrees >= maxPosDegrees) {
             setPositionTicks(ticksAtMaxPosDegrees,0);

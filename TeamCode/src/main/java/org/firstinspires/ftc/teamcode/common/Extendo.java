@@ -13,14 +13,12 @@ public class Extendo extends Component {
     private ElapsedTime controlTimer;
 
     private final double totalSlowExtensionTimeMS = 2500.0;
-    private final double totalMediumExtensionTimeMS = 1000.0;
+    private final double totalMediumExtensionTimeMS = 350.0;
     private final double moveIncrementInches = 0.1;
     private final ExtendoData extendoData = new ExtendoData();
     private final double slowMoveDelayMS = (totalSlowExtensionTimeMS * moveIncrementInches) / (extendoData.maxLengthInches - extendoData.minLengthInches);
     private final double mediumMoveDelayMS = (totalMediumExtensionTimeMS * moveIncrementInches) / (extendoData.maxLengthInches - extendoData.minLengthInches);
-
-    private final double lengthToleranceInches = moveIncrementInches / 5.5;
-
+    private final double lengthToleranceInches = moveIncrementInches/2.5;
     private double targetLengthInches, currentLengthInches, currentMoveDelayMS;
     private int direction = 1;
 
@@ -29,25 +27,34 @@ public class Extendo extends Component {
         double angleAtMinLength, angleAtMaxLength;
         angleAtMinLength = lengthToAngle(extendoData.minLengthInches);
         angleAtMaxLength = lengthToAngle(extendoData.maxLengthInches);
-        servo = new ServoAngular(hardwareMap, telemetry, extendoName, angleAtMaxLength, extendoData.maxLengthTicks, angleAtMinLength, extendoData.minLengthTicks);
 
+//        telemetry.addData("minLength: ", extendoData.minLengthInches);
+//        telemetry.addData("angleAtMinLength: ", angleAtMinLength);
+//        telemetry.addData("maxLength: ", extendoData.maxLengthInches);
+//        telemetry.addData("angleAtMaxLength: ", angleAtMaxLength);
+//        telemetry.update();
         controlTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         controlTimer.reset();
+//        while (controlTimer.milliseconds() < 10000)
+//        {}
+        servo = new ServoAngular(hardwareMap, telemetry, extendoName, angleAtMaxLength, extendoData.maxLengthTicks, angleAtMinLength, extendoData.minLengthTicks);
+
         currentLengthInches = angleToLength(servo.getPositionDegrees());
         targetLengthInches = currentLengthInches;
         setPositionPreset(ExtendoPositions.RETRACTED);
     }
 
     public void setPositionPreset(ExtendoPositions position) {
-        if (position.getValue() >= currentLengthInches) {
+        setMedium();
+        direction = -1;
+        if (position.getValue() > currentLengthInches) {
             direction = 1;
-        } else {
-            direction = -1;
         }
         goToLength(position.getValue());
     }
 
     public void extendSlowly(int direction) {
+        setSlow();
         if (controlTimer.milliseconds() > currentMoveDelayMS) {
             this.direction = direction;
             goToLength(currentLengthInches + (direction * moveIncrementInches));
@@ -106,7 +113,16 @@ public class Extendo extends Component {
     public void update() {
         if (isBusy()) {
             if (controlTimer.milliseconds() >= currentMoveDelayMS) {
-                currentLengthInches = currentLengthInches + direction * moveIncrementInches;
+//                currentLengthInches = currentLengthInches + direction * moveIncrementInches;
+//
+//                telemetry.addData("targetLength: ", targetLengthInches);
+//                telemetry.addData("currentLength: ", currentLengthInches);
+//
+//                telemetry.addData("lenIn: ", currentLengthInches);
+//                telemetry.addData("angle: ", lengthToAngle(currentLengthInches));
+//                telemetry.update();
+//                while (controlTimer.milliseconds() < 100000)
+//                {}
                 servo.setPositionDegrees(lengthToAngle(currentLengthInches), 0);
                 controlTimer.reset();
             }
