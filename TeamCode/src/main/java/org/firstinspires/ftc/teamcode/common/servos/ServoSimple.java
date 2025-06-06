@@ -12,6 +12,8 @@ public class ServoSimple extends Component {
 
     public ServoSimple(HardwareMap hardwareMap, Telemetry telemetry, String servoName) {
         super(telemetry);
+//        telemetry.addData("servoName: ", servoName);
+//        telemetry.update();
         servo = hardwareMap.get(Servo.class, servoName);
     }
 

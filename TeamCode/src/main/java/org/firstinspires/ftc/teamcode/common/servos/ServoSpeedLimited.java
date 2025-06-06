@@ -42,6 +42,7 @@ public class ServoSpeedLimited extends ServoSimple {
         if (isBusy()) {
             if (controlTimer.milliseconds() >= incrementDelayMS) {
                 currentPosition = currentPosition + workingTickIncrement;
+
                 setPositionTicks(currentPosition, 0);
                 controlTimer.reset();
             }
