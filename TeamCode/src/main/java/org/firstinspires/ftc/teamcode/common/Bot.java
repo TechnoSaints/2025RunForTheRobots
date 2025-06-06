@@ -68,7 +68,7 @@ public abstract class Bot extends Component {
     }
 
     public void setExtendoPositionPreset(ExtendoPositions position) {
-        extendo.setPositionPreset(position, 200);
+        extendo.setPositionPreset(position);
     }
 
     private boolean extendoIsBusy() {
