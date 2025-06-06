@@ -23,7 +23,7 @@ public abstract class Component {
         timer.reset();
     }
 
-    protected boolean isBusy()
+    public boolean isBusy()
     {
         return (timer.milliseconds() < duration);
     }

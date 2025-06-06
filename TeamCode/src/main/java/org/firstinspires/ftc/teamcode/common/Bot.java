@@ -67,7 +67,7 @@ public abstract class Bot extends Component {
         return (this.currentMode == mode);
     }
 
-    public void setExtendoPositionPreset(ExtendoPositions position) {
+    public void setExtendoPositionPreset(ExtendoPositions position){
         extendo.setPositionPreset(position);
     }
 
@@ -160,6 +160,7 @@ public abstract class Bot extends Component {
     }
 
     public void update() {
+        extendo.update();
         switch (getMode()) {
             case AUTO_START:
                 if (isPhase(1)) {
@@ -167,10 +168,11 @@ public abstract class Bot extends Component {
 //                    setIntakeWristPositionPreset(IntakeWristPositions.UP);
 //                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
 //                    setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+                    // extendo.setMedium();
 //                    setExtendoPositionPreset(ExtendoPositions.RETRACTED);
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
-//                    setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
-//                    setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
+                    setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
+                    setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
 //                    setLiftPositionPreset(LiftPositions.MIN);
                     setPhase(-1);
                 }
@@ -193,6 +195,7 @@ public abstract class Bot extends Component {
 
             case HOVERING_OVER_BRICK:
                 if (isPhase(1)) {
+                    extendo.setMedium();
                     setExtendoPositionPreset(ExtendoPositions.AUTO_INTAKING);
                     setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
                     setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
@@ -203,6 +206,7 @@ public abstract class Bot extends Component {
 
             case LOOKING_FOR_BRICK:
                 if (isPhase(1)) {
+                    extendo.setMedium();
                     setExtendoPositionPreset(ExtendoPositions.EXTENDED);
                     setPhase(2);
                 } else if (isPhase(2)) {
@@ -232,6 +236,13 @@ public abstract class Bot extends Component {
                 break;
 
             case HOLDING_BRICK_FOR_TRANSFER:
+//                telemetry.addData("handler: ", handlerIsBusy());
+//                telemetry.addData("lift: ", liftIsBusy());
+//                telemetry.addData("wrist: ", handlerWristIsBusy());
+//                telemetry.addData("grabber: ", handlerGrabberIsBusy());
+//
+//                telemetry.addData("intake: ", intakeIsBusy());
+//                telemetry.update();
                 if (isPhase(1)) {
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
                     setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF_SETUP);
@@ -244,6 +255,7 @@ public abstract class Bot extends Component {
                         setIntakeWristPositionPreset(IntakeWristPositions.UP);
                         setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                         setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+                        extendo.setFast();
                         setExtendoPositionPreset(ExtendoPositions.RETRACTED);
                         setPhase(-1);
                     }
@@ -274,9 +286,8 @@ public abstract class Bot extends Component {
                 break;
 
             case EJECTING_BRICK_ON_FLOOR:
-                if (
-
-                        isPhase(1)) {
+                if (isPhase(1)) {
+                    extendo.setFast();
                     setExtendoPositionPreset(ExtendoPositions.EXTENDED);
                     setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);

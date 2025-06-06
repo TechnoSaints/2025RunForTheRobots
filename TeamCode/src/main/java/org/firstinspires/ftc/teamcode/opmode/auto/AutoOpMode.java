@@ -45,6 +45,11 @@ public abstract class AutoOpMode extends OpMode {
         // These loop the movements of the robot
         bot.update();
         autonomousPathUpdate();
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
     protected void setPathState(int pState)
     {

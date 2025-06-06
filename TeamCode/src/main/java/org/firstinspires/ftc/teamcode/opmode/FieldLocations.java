@@ -12,10 +12,10 @@ public class FieldLocations {
     public final static Pose bucketPose = new Pose(-17, 5.75, Math.toRadians(45));
 
     // position to grab the brick at the innermost spike mark
-    public final static Pose sampleSpike1Pose = new Pose(-8.75, 22, Math.toRadians(90));
+    public final static Pose sampleSpike1Pose = new Pose(-8.75, 21, Math.toRadians(90));
 
     // position to grab the brick at the middle spike mark
-    public final static Pose sampleSpike2Pose = new Pose(-18.75, 22, Math.toRadians(90));
+    public final static Pose sampleSpike2Pose = new Pose(-18.75, 21, Math.toRadians(90));
 
     public final static Pose sampleSpike3SetupPose = new Pose(-10, 30, Math.toRadians(180));
 

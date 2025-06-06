@@ -13,14 +13,16 @@ public class Extendo extends Component {
     private ElapsedTime controlTimer;
 
     private final double totalSlowExtensionTimeMS = 2500.0;
-    private final double totalMediumExtensionTimeMS = 350.0;
-    private final double moveIncrementInches = 0.1;
+    private final double totalMediumExtensionTimeMS = 550.0;
+    private final double moveIncrementInches = 0.2;
     private final ExtendoData extendoData = new ExtendoData();
     private final double slowMoveDelayMS = (totalSlowExtensionTimeMS * moveIncrementInches) / (extendoData.maxLengthInches - extendoData.minLengthInches);
     private final double mediumMoveDelayMS = (totalMediumExtensionTimeMS * moveIncrementInches) / (extendoData.maxLengthInches - extendoData.minLengthInches);
-    private final double lengthToleranceInches = moveIncrementInches/2.5;
+    private final double lengthToleranceInches = moveIncrementInches / 2.0;
     private double targetLengthInches, currentLengthInches, currentMoveDelayMS;
     private int direction = 1;
+
+    private boolean fast = false;
 
     public Extendo(HardwareMap hardwareMap, Telemetry telemetry, String extendoName) {
         super(telemetry);
@@ -45,7 +47,6 @@ public class Extendo extends Component {
     }
 
     public void setPositionPreset(ExtendoPositions position) {
-        setMedium();
         direction = -1;
         if (position.getValue() > currentLengthInches) {
             direction = 1;
@@ -61,15 +62,25 @@ public class Extendo extends Component {
         }
     }
 
-    private void setSlow() {
+    public void setSlow() {
+        fast = false;
         currentMoveDelayMS = slowMoveDelayMS;
     }
 
-    private void setMedium() {
+    public void setMedium() {
+        fast = false;
         currentMoveDelayMS = mediumMoveDelayMS;
     }
 
+    public void setFast() {
+        fast = true;
+    }
+
     private void goToLength(double targetLengthInches) {
+        if (fast) {
+            servo.setPositionDegrees(lengthToAngle(targetLengthInches), 0);
+            currentLengthInches = targetLengthInches;
+        }
         this.targetLengthInches = targetLengthInches;
         controlTimer.reset();
     }
@@ -111,16 +122,20 @@ public class Extendo extends Component {
     }
 
     public void update() {
-        if (isBusy()) {
-            if (controlTimer.milliseconds() >= currentMoveDelayMS) {
-//                currentLengthInches = currentLengthInches + direction * moveIncrementInches;
-//
-//                telemetry.addData("targetLength: ", targetLengthInches);
-//                telemetry.addData("currentLength: ", currentLengthInches);
-//
+//        telemetry.addData("busy: ", isBusy());
+//        telemetry.addData("attarget: ", atTarget());
+//        telemetry.addData("targetLength: ", targetLengthInches);
+//        telemetry.addData("currentLength: ", currentLengthInches);
+//        telemetry.addData("tolerance: ", lengthToleranceInches);
+//        telemetry.update();
+
+        if (controlTimer.milliseconds() >= currentMoveDelayMS) {
+            if (isBusy()) {
+                currentLengthInches = currentLengthInches + direction * moveIncrementInches;
+
 //                telemetry.addData("lenIn: ", currentLengthInches);
 //                telemetry.addData("angle: ", lengthToAngle(currentLengthInches));
-//                telemetry.update();
+
 //                while (controlTimer.milliseconds() < 100000)
 //                {}
                 servo.setPositionDegrees(lengthToAngle(currentLengthInches), 0);

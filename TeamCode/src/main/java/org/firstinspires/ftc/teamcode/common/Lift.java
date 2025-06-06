@@ -60,7 +60,7 @@ public class Lift extends Component {
         } else {
             telemetry.addData("Stopped at Top: ", "true");
         }
-        log();
+//        log();
     }
 
     public void down(double targetPower) {
@@ -73,14 +73,14 @@ public class Lift extends Component {
         } else {
             telemetry.addData("Stopped at Bottom: ", " true");
         }
-        log();
+//        log();
     }
 
     private void stopAtPosition(int targetPosition) {
         motor.setTargetPosition(targetPosition);
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setPower(stopPower);
-        log();
+ //       log();
     }
 
     public void setPositionPreset(LiftPositions position) {
