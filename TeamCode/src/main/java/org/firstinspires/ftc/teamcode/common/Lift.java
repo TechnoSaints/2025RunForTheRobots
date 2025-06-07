@@ -73,14 +73,6 @@ public class Lift extends Component {
         } else {
             telemetry.addData("Stopped at Bottom: ", " true");
         }
-//        log();
-    }
-
-    private void stopAtPosition(int targetPosition) {
-        motor.setTargetPosition(targetPosition);
-        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        motor.setPower(stopPower);
- //       log();
     }
 
     public void setPositionPreset(LiftPositions position) {
@@ -89,6 +81,12 @@ public class Lift extends Component {
 
     private void setPositionTicks(int ticks) {
         stopAtPosition(ticks);
+    }
+
+    private void stopAtPosition(int targetPosition) {
+        motor.setTargetPosition(targetPosition);
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        motor.setPower(stopPower);
     }
 
     private boolean stoppedAtTop() {
@@ -111,7 +109,7 @@ public class Lift extends Component {
         return stop;
     }
 
-    public void resetEncoder() {
+    private void resetEncoder() {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

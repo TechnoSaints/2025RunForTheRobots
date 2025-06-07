@@ -64,4 +64,9 @@ public class TeleopBot extends Bot {
             setMode(Modes.HANDING_OFF_BRICK);
         }
     }
+
+    public void update()
+    {
+        super.update();
+    }
 }

@@ -115,61 +115,67 @@ public class Bucketx4 extends BucketAutoOpMode {
             // Go to floor grabbing config and spike3 setup pose
             case 11:
                 if (!bot.isBusy()) {
-//                    bot.setMode(Modes.INTAKING_BRICK);
-                    bot.followPath(Paths.bucketToSampleSpike3Setup, true);
+                    bot.setMode(Modes.HOVERING_OVER_BRICK);
+                    bot.followPath(Paths.bucketToSampleSpike3, true);
                     setPathState(12);
+                }
+                // Go to floor grabbing config and spike3 setup pose
+            case 12:
+                if (!bot.isBusy()) {
+                    bot.setMode(Modes.INTAKING_BRICK);
+                    setPathState(13);
                 }
                 break;
 
             // Go to spike3 pose
-            case 12:
-                if (!bot.isBusy()) {
-                    bot.followPath(Paths.sampleSpike3SetupToSampleSpike3, true);
-                    setPathState(-1);
-                }
-                break;
-
-            // Grab brick from spike3
             case 13:
                 if (!bot.isBusy()) {
-                    bot.setMode(Modes.HIGH_BASKET_SCORING);
+                    bot.followPath(Paths.sampleSpike3SetupToSampleSpike3, true);
                     setPathState(14);
                 }
                 break;
 
-            // Go to high bucket scoring pose
+            // Grab brick from spike3
             case 14:
                 if (!bot.isBusy()) {
-                    bot.followPath(Paths.sampleSpike3ToBucket, true);
+                    bot.setMode(Modes.HIGH_BASKET_SCORING);
                     setPathState(15);
                 }
                 break;
 
-            // Drop brick into bucket
+            // Go to high bucket scoring pose
             case 15:
                 if (!bot.isBusy()) {
-                    bot.setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
+                    bot.followPath(Paths.sampleSpike3ToBucket, true);
                     setPathState(16);
                 }
                 break;
 
-            // Move back 12 inches
+            // Drop brick into bucket
             case 16:
                 if (!bot.isBusy()) {
-                    bot.moveManualInches(-12, 0, 0);
+                    bot.setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
                     setPathState(17);
                 }
                 break;
 
-            // Go to teleop start config
+            // Move back 12 inches
             case 17:
                 if (!bot.isBusy()) {
-                    bot.setMode(Modes.TELEOP_START);
+                    bot.moveManualInches(-12, 0, 0);
                     setPathState(18);
                 }
                 break;
 
+            // Go to teleop start config
             case 18:
+                if (!bot.isBusy()) {
+                    bot.setMode(Modes.TELEOP_START);
+                    setPathState(19);
+                }
+                break;
+
+            case 19:
                 if (!bot.isBusy()) {
                     setPathState(-1);
                 }

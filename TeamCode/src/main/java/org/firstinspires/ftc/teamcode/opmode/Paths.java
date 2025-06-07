@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
+import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
@@ -49,19 +50,19 @@ public class Paths {
                 .build();
 
         bucketToSampleSpike3 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(FieldLocations.bucketPose), new Point(FieldLocations.sampleSpike3Pose)))
+                .addPath(new BezierCurve(new Point(FieldLocations.bucketPose), new Point(FieldLocations.sampleSpike3SetupPose),new Point(FieldLocations.sampleSpike3Pose)))
                 .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.sampleSpike3Pose.getHeading())
                 .build();
 
-        bucketToSampleSpike3Setup = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(FieldLocations.bucketPose), new Point(FieldLocations.sampleSpike3SetupPose)))
-                .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.sampleSpike3SetupPose.getHeading())
-                .build();
-
-        sampleSpike3SetupToSampleSpike3 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(FieldLocations.sampleSpike3SetupPose), new Point(FieldLocations.sampleSpike3Pose)))
-                .setLinearHeadingInterpolation(FieldLocations.sampleSpike3SetupPose.getHeading(), FieldLocations.sampleSpike3Pose.getHeading())
-                .build();
+//        bucketToSampleSpike3Setup = follower.pathBuilder()
+//                .addPath(new BezierLine(new Point(FieldLocations.bucketPose), new Point(FieldLocations.sampleSpike3SetupPose)))
+//                .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.sampleSpike3SetupPose.getHeading())
+//                .build();
+//
+//        sampleSpike3SetupToSampleSpike3 = follower.pathBuilder()
+//                .addPath(new BezierLine(new Point(FieldLocations.sampleSpike3SetupPose), new Point(FieldLocations.sampleSpike3Pose)))
+//                .setLinearHeadingInterpolation(FieldLocations.sampleSpike3SetupPose.getHeading(), FieldLocations.sampleSpike3Pose.getHeading())
+//                .build();
 
         sampleSpike3ToBucket = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(FieldLocations.sampleSpike3Pose), new Point(FieldLocations.bucketPose)))
