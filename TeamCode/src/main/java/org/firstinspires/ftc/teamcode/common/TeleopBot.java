@@ -17,7 +17,7 @@ public class TeleopBot extends Bot {
     public TeleopBot(OpMode opMode, Telemetry telemetry) {
         super(opMode, telemetry);
         drivetrain = new Drivetrain(opMode.hardwareMap, telemetry, new DrivetrainData(), new GoBilda435DcMotorData());
-        setMode(Modes.TELEOP_START);
+        setMode(Modes.TELEOP_START_POS);
     }
 
     public void processGamepadInput(Gamepad gamepad) {
@@ -40,8 +40,8 @@ public class TeleopBot extends Bot {
         }
 
         if (gamepad.x) {
-            if (!(isMode(Modes.PREPARING_TO_TRANSFER))) {
-                setMode(Modes.PREPARING_TO_TRANSFER);
+            if (!(isMode(Modes.HANDLER_HANDOFF_PREP_POS))) {
+                setMode(Modes.HANDLER_HANDOFF_PREP_POS);
             }
         }
         if (gamepad.right_trigger > 0.2) {
@@ -53,15 +53,15 @@ public class TeleopBot extends Bot {
         }
         //Controls while looking for brick
         if (gamepad.a) {
-            setMode(Modes.LOOKING_FOR_BRICK);
+            setMode(Modes.INTAKE_HOVER_POS);
         } else if (gamepad.b) {
-            setMode(Modes.GRABBING_SPECIMEN_FROM_WALL);
+            setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
         } else if (gamepad.y) {
-            setMode(Modes.HIGH_SPECIMEN_SCORING);
+            setMode(Modes.HANDLER_HIGH_SPECIMEN_POS);
         } else if (gamepad.right_bumper) {
-            setMode(Modes.HIGH_BUCKET_SCORING);
+            setMode(Modes.HANDLER_HIGH_BUCKET_POS);
         } else if (gamepad.left_bumper) {
-            setMode(Modes.HANDING_OFF_BRICK);
+            setMode(Modes.HAND_OFF_BRICK);
         }
     }
 

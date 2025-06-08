@@ -20,7 +20,7 @@ public class AutoBot extends Bot {
         super(opMode, telemetry);
         follower = new Follower(opMode.hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(FieldLocations.startPose);
-        setMode(Modes.AUTO_START);
+        setMode(Modes.AUTO_START_POS);
     }
     public void followPath(PathChain path, boolean holdEnd) {
         follower.followPath(path, holdEnd);

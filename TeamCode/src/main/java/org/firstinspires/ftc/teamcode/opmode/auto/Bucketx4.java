@@ -25,7 +25,7 @@ public class Bucketx4 extends BucketAutoOpMode {
 
             case 1:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.HIGH_BUCKET_SCORING);
+                    bot.setMode(Modes.HANDLER_HIGH_BUCKET_POS);
                     setPathState(2);
                 }
                 break;
@@ -38,18 +38,19 @@ public class Bucketx4 extends BucketAutoOpMode {
                 }
                 break;
 
-            // Move handler arm and go to spike 1
+            // Go to spike 1
             case 3:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
                     bot.followPath(Paths.bucketToSampleSpike1, true);
-                    bot.setMode(Modes.HOVERING_OVER_BRICK);
+                    bot.setMode(Modes.INTAKE_HOVER_POS);
                     setPathState(4);
                 }
                 break;
 
             case 4:
                 if (!bot.intakeIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.PREPARING_TO_TRANSFER);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
+                    bot.setMode(Modes.HANDLER_HANDOFF_PREP_POS);
                     setPathState(5);
                 }
                 break;
@@ -57,7 +58,7 @@ public class Bucketx4 extends BucketAutoOpMode {
             // Grab brick from spike1
             case 5:
                 if (!bot.followerIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.INTAKING_BRICK);
+                    bot.setMode(Modes.INTAKE_BRICK);
                     setPathState(6);
                 }
                 break;
@@ -71,7 +72,7 @@ public class Bucketx4 extends BucketAutoOpMode {
 
             case 7:
                 if (!bot.intakeIsBusy() && !bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.HANDING_OFF_BRICK);
+                    bot.setMode(Modes.HAND_OFF_BRICK);
                     bot.followPath(Paths.sampleSpike1ToBucket, true);
                     setPathState(8);
                 }
@@ -86,7 +87,7 @@ public class Bucketx4 extends BucketAutoOpMode {
 
             case 9:
                 if (!bot.liftIsBusy()) {
-                    bot.setMode(Modes.HIGH_BUCKET_SCORING);
+                    bot.setMode(Modes.HANDLER_HIGH_BUCKET_POS);
                     setPathState(10);
                 }
                 break;
@@ -101,23 +102,30 @@ public class Bucketx4 extends BucketAutoOpMode {
             // Move handler arm and go to spike 2
             case 11:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.HOVERING_OVER_BRICK);
                     bot.followPath(Paths.bucketToSampleSpike2, true);
+                    bot.setMode(Modes.INTAKE_HOVER_POS);
                     setPathState(12);
                 }
                 break;
 
-            // Grab brick from spike2
             case 12:
-                if (!bot.followerIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.INTAKING_BRICK);
+                if (!bot.intakeIsBusy() && !bot.onHold()) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
+                    bot.setMode(Modes.HANDLER_HANDOFF_PREP_POS);
                     setPathState(13);
                 }
                 break;
 
+            // Grab brick from spike2
             case 13:
+                if (!bot.followerIsBusy() && !bot.onHold()) {
+                    bot.setMode(Modes.INTAKE_BRICK);
+                    setPathState(14);
+                }
+                break;
+
+            case 14:
                 if (!bot.intakeIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.PREPARING_TO_TRANSFER);
                     bot.setExtendoPositionPreset(ExtendoPositions.RETRACTED);
                     setPathState(15);
                 }
@@ -125,7 +133,7 @@ public class Bucketx4 extends BucketAutoOpMode {
 
             case 15:
                 if (!bot.isBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.HANDING_OFF_BRICK);
+                    bot.setMode(Modes.HAND_OFF_BRICK);
                     setPathState(16);
                 }
                 break;
@@ -140,7 +148,7 @@ public class Bucketx4 extends BucketAutoOpMode {
 
             case 17:
                 if (!bot.liftIsBusy()) {
-                    bot.setMode(Modes.HIGH_BUCKET_SCORING);
+                    bot.setMode(Modes.HANDLER_HIGH_BUCKET_POS);
                     setPathState(18);
                 }
                 break;
@@ -152,87 +160,92 @@ public class Bucketx4 extends BucketAutoOpMode {
                 }
                 break;
 
-            // Move handler arm and go to spike 3 setup
+            // Go to spike 3 setup
             case 19:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.HOVERING_OVER_BRICK);
                     bot.followPath(Paths.bucketToSampleSpike3Setup, false);
+                    bot.setMode(Modes.INTAKE_HOVER_POS);
                     setPathState(20);
                 }
                 break;
 
-            // Rotate swivel, lower grabber, then strafe to spike 3
             case 20:
+                if (!bot.intakeIsBusy() && !bot.onHold()) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
+                    bot.setMode(Modes.HANDLER_HANDOFF_PREP_POS);
+                    setPathState(21);
+                }
+                // Rotate swivel, lower grabber, then strafe to spike 3
+            case 21:
                 if (!bot.followerIsBusy() && !bot.intakeIsBusy() && !bot.onHold()) {
                     bot.setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES90);
                     bot.setIntakeWristPositionPreset(IntakeWristPositions.DOWN);
                     bot.followPath(Paths.sampleSpike3SetupToSampleSpike3, true);
-                    setPathState(21);
-                }
-                break;
-
-            // Grab brick from spike3
-            case 21:
-                if (!bot.followerIsBusy()) {
-                    bot.setMode(Modes.INTAKING_BRICK);
                     setPathState(22);
                 }
                 break;
 
+            // Grab brick from spike3
             case 22:
-                if (!bot.intakeIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.PREPARING_TO_TRANSFER);
-                    bot.setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                if (!bot.followerIsBusy()) {
+                    bot.setMode(Modes.INTAKE_BRICK);
                     setPathState(23);
                 }
                 break;
 
             case 23:
-                if (!bot.isBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.HANDING_OFF_BRICK);
+                if (!bot.intakeIsBusy() && !bot.onHold()) {
+                    bot.setExtendoPositionPreset(ExtendoPositions.RETRACTED);
                     setPathState(24);
                 }
                 break;
 
             case 24:
-                if (!bot.handlerIsBusy() && !bot.intakeIsBusy() && !bot.onHold()) {
-                    bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
-                    bot.followPath(Paths.sampleSpike3ToBucket, true);
+                if (!bot.isBusy() && !bot.onHold()) {
+                    bot.setMode(Modes.HAND_OFF_BRICK);
                     setPathState(25);
                 }
                 break;
 
             case 25:
-                if (!bot.liftIsBusy()) {
-                    bot.setMode(Modes.HIGH_BUCKET_SCORING);
+                if (!bot.handlerIsBusy() && !bot.intakeIsBusy() && !bot.onHold()) {
+                    bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                    bot.followPath(Paths.sampleSpike3ToBucket, true);
                     setPathState(26);
                 }
                 break;
 
             case 26:
-                if (!bot.handlerIsBusy() && !bot.followerIsBusy() && !bot.onHold()) {
-                    bot.setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
+                if (!bot.liftIsBusy()) {
+                    bot.setMode(Modes.HANDLER_HIGH_BUCKET_POS);
                     setPathState(27);
                 }
                 break;
 
             case 27:
-                if (!bot.handlerIsBusy()) {
-                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SUB_PARKING);
-                    bot.followPath(Paths.bucketToSamplePark, true);
+                if (!bot.handlerIsBusy() && !bot.followerIsBusy() && !bot.onHold()) {
+                    bot.setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
                     setPathState(28);
                 }
                 break;
 
             case 28:
                 if (!bot.handlerIsBusy()) {
-                    bot.setMode(Modes.PARKING_AT_SUB);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SUB_PARKING);
+                    bot.followPath(Paths.bucketToSamplePark, true);
                     setPathState(29);
                 }
                 break;
 
-            // deactivate and rest up for teleop
             case 29:
+                if (!bot.handlerIsBusy()) {
+                    bot.setMode(Modes.PARKING_AT_SUB_POS);
+                    setPathState(30);
+                }
+                break;
+
+            // deactivate and rest up for teleop
+            case 30:
                 if (!bot.isBusy()) {
                     setPathState(-1);
                     requestOpModeStop();

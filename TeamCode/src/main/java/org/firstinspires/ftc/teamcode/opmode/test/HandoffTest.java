@@ -26,19 +26,19 @@ public class HandoffTest extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         bot = new TeleopBot(this, telemetry);
 
-        bot.setMode(Modes.HOVERING_OVER_BRICK);
+        bot.setMode(Modes.INTAKE_HOVER_POS);
         while (!opModeIsActive()) {
             bot.update();
         }
         waitForStart();
-        bot.setMode(Modes.INTAKING_BRICK);
+        bot.setMode(Modes.INTAKE_BRICK);
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
-                bot.setMode(Modes.PREPARING_TO_TRANSFER);
+                bot.setMode(Modes.HANDLER_HANDOFF_PREP_POS);
             } else if (gamepad1.y) {
                 bot.setExtendoPositionPreset(ExtendoPositions.RETRACTED);
             } else if (gamepad1.left_bumper) {
-                bot.setMode(Modes.HANDING_OFF_BRICK);
+                bot.setMode(Modes.HAND_OFF_BRICK);
             }
             bot.update();
         }
