@@ -24,7 +24,7 @@ public class FieldLocations {
 
     public final static Pose sampleParkSetupPose = new Pose(0, 54, Math.toRadians(0));
     // park position
-    public final static Pose sampleParkPose = new Pose(18, 54, Math.toRadians(0));
+    public final static Pose sampleParkPose = new Pose(17, 54, Math.toRadians(0));
     public final static Pose sampleLookPose = new Pose(7, 52.5, Math.toRadians(0));
 
     public final static Pose humanPlayerSamplePickupPose = new Pose(64.5, 3, Math.toRadians(-14.9));

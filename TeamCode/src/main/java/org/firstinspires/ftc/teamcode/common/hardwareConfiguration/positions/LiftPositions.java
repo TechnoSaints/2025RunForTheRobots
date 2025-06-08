@@ -5,7 +5,6 @@ public enum LiftPositions {
     HIGH_BUCKET(2050),
     SPECIMEN_HANG(850),
     SPECIMEN_WALL(50),
-    SUB_PARKING(350),
     HANDOFF_SETUP(350),
     HANDOFF(125),
     MIN(0);

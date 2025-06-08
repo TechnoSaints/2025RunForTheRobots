@@ -124,6 +124,9 @@ public abstract class Bot extends Component {
         handlerArm.setPositionTicks(position.getValue(), 450);
     }
 
+    public void setHandlerArmPositionPresetNoDelay(HandlerArmPositions position) {
+        handlerArm.setPositionTicks(position.getValue(), 0);
+    }
     private boolean handlerArmIsBusy() {
         return handlerArm.isBusy();
     }
@@ -288,10 +291,10 @@ public abstract class Bot extends Component {
                 } else if (isPhase(2)) {
                     if (!liftIsBusy()) {
                         setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
-                        setPhase(3);
-                    }
-                } else if (isPhase(3)) {
-                    if (!handlerGrabberIsBusy()) {
+//                        setPhase(3);
+//                    }
+//                } else if (isPhase(3)) {
+//                    if (!handlerGrabberIsBusy()) {
                         setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
                         onHold = false;
                         setPhase(-1);
@@ -361,7 +364,7 @@ public abstract class Bot extends Component {
             case PARKING_AT_SUB_POS:
                 if (isPhase(1)) {
                     onHold = true;
-                    setLiftPositionPreset(LiftPositions.SUB_PARKING);
+                    setLiftPositionPreset(LiftPositions.MIN);
                     setHandlerArmPositionPreset(HandlerArmPositions.SUB_PARKING);
                     setHandlerWristPositionPreset(HandlerWristPositions.SUB_PARKING);
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_LOOSE);

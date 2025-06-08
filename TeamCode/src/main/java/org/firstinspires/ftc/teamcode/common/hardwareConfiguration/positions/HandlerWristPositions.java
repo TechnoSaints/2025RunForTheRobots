@@ -4,8 +4,8 @@ public enum HandlerWristPositions {
     SPECIMEN_WALL(0.45),
     HIGH_BUCKET(.61),
     HANDOFF_SETUP(.42),
-    SUB_PARKING(0.44),
-    HANDOFF(.46),
+    SUB_PARKING(0.48),
+    HANDOFF(.47),
     SPECIMEN_HANG(0.44);
     private double value;
     HandlerWristPositions(double value) {
