@@ -13,7 +13,7 @@ public class Bucketx1 extends BucketAutoOpMode {
         switch (pathState) {
             // transition to specimen hang position
             case 0:
-                bot.setMode(Modes.HIGH_BASKET_SCORING);
+                bot.setMode(Modes.HIGH_BUCKET_SCORING);
                 bot.followPath(Paths.startToBucket, true);
                 setPathState(1);
                 break;
@@ -26,11 +26,10 @@ public class Bucketx1 extends BucketAutoOpMode {
                 }
                 break;
 
-            // hang the specimen for a score, then transition to park position
-            case 2:
+                 case 2:
                 if (!bot.isBusy()) {
                     bot.setMode(Modes.PARKING_AT_SUB);
-                    bot.followPath(Paths.bucketToSampleParkSetup, true);
+                    bot.followPath(Paths.bucketToSamplePark, true);
                     setPathState(3);
                 }
                 break;
@@ -38,7 +37,6 @@ public class Bucketx1 extends BucketAutoOpMode {
             // move to human player park pose
             case 3:
                 if (!bot.isBusy()) {
-                    bot.followPath(Paths.sampleParkSetupToSamplePark, true);
                     setPathState(4);
                 }
                 break;

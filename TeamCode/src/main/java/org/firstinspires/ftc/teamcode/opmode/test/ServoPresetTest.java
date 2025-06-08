@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerArmPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerGrabberPositions;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeSwivelPositions;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeWristPositions;
 
@@ -23,15 +24,15 @@ public class ServoPresetTest extends LinearOpMode {
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        servo = hardwareMap.get(Servo.class, "handlerArm");
+        servo = hardwareMap.get(Servo.class, "intakeSwivel");
 
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
-                servo.setPosition(HandlerArmPositions.HIGH_BUCKET.getValue());
+                servo.setPosition(IntakeSwivelPositions.DEGREES0.getValue());
             } else if (gamepad1.left_bumper) {
-                servo.setPosition(HandlerArmPositions.HANDOFF.getValue());
+                servo.setPosition(IntakeSwivelPositions.DEGREES90.getValue());
             }
         }
     }

@@ -40,8 +40,8 @@ public class TeleopBot extends Bot {
         }
 
         if (gamepad.x) {
-            if (!(isMode(Modes.HOLDING_BRICK_FOR_TRANSFER))) {
-                setMode(Modes.HOLDING_BRICK_FOR_TRANSFER);
+            if (!(isMode(Modes.PREPARING_TO_TRANSFER))) {
+                setMode(Modes.PREPARING_TO_TRANSFER);
             }
         }
         if (gamepad.right_trigger > 0.2) {
@@ -59,7 +59,7 @@ public class TeleopBot extends Bot {
         } else if (gamepad.y) {
             setMode(Modes.HIGH_SPECIMEN_SCORING);
         } else if (gamepad.right_bumper) {
-            setMode(Modes.HIGH_BASKET_SCORING);
+            setMode(Modes.HIGH_BUCKET_SCORING);
         } else if (gamepad.left_bumper) {
             setMode(Modes.HANDING_OFF_BRICK);
         }

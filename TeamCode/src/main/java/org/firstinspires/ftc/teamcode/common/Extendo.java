@@ -37,6 +37,7 @@ public class Extendo extends Component {
 
         currentLengthInches = angleToLength(servo.getPositionDegrees());
         targetLengthInches = currentLengthInches;
+        setFast();
         setPositionPreset(ExtendoPositions.RETRACTED);
     }
 

@@ -1,14 +1,8 @@
 package org.firstinspires.ftc.teamcode.common;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.SensorTouch;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerArmPositions;
@@ -29,6 +23,7 @@ public abstract class Bot extends Component {
     private final Lift lift;
     private Modes currentMode;
     private int currentPhase;
+    private boolean onHold = false;
 
     public Bot(OpMode opMode, Telemetry telemetry) {
         super(telemetry);
@@ -36,12 +31,14 @@ public abstract class Bot extends Component {
         intakeWrist = new ServoSimple(opMode.hardwareMap, telemetry, "intakeWrist");
         intakeSwivel = new ServoSimple(opMode.hardwareMap, telemetry, "intakeSwivel");
         intakeGrabber = new ServoSimple(opMode.hardwareMap, telemetry, "intakeGrabber");
-        intakeLight = new ServoSimple(opMode.hardwareMap, telemetry, "intakeLight");
+
         handlerArm = new ServoSimple(opMode.hardwareMap, telemetry, "handlerArm");
         handlerWrist = new ServoSimple(opMode.hardwareMap, telemetry, "handlerWrist");
         handlerGrabber = new ServoSimple(opMode.hardwareMap, telemetry, "handlerGrabber");
         handlerSwitch = opMode.hardwareMap.get(RevTouchSensor.class, "handlerSwitch");
         lift = new Lift(opMode.hardwareMap, telemetry, "lift", false);
+        intakeLight = new ServoSimple(opMode.hardwareMap, telemetry, "intakeLight");
+        intakeLight.setPositionTicks(IntakeLightPositions.OFF.getValue(), 0);
     }
 
     // Phases are used to divide mode actions into sequential section, with entry criteria
@@ -56,6 +53,7 @@ public abstract class Bot extends Component {
     // Modes used to manage all mechanisms except drivetrain
     public void setMode(Modes newMode) {
         currentMode = newMode;
+        onHold = true;
         setPhase(1);
     }
 
@@ -84,7 +82,7 @@ public abstract class Bot extends Component {
     }
 
     public void setIntakeSwivelPositionPreset(IntakeSwivelPositions position) {
-        intakeSwivel.setPositionTicks(position.getValue(), 250);
+        intakeSwivel.setPositionTicks(position.getValue(), 150);
     }
 
     private boolean intakeSwivelIsBusy() {
@@ -92,7 +90,7 @@ public abstract class Bot extends Component {
     }
 
     public void setIntakeGrabberPositionPreset(IntakeGrabberPositions position) {
-        intakeGrabber.setPositionTicks(position.getValue(), 250);
+        intakeGrabber.setPositionTicks(position.getValue(), 150);
     }
 
     private boolean intakeGrabberIsBusy() {
@@ -119,7 +117,7 @@ public abstract class Bot extends Component {
         lift.stop();
     }
 
-    private boolean liftIsBusy() {
+    public boolean liftIsBusy() {
         return lift.isBusy();
     }
 
@@ -159,6 +157,10 @@ public abstract class Bot extends Component {
         return (handlerIsBusy() || intakeIsBusy());
     }
 
+    public boolean onHold() {
+        return (onHold);
+    }
+
     private void disableHandlerServos() {
         handlerGrabber.disable();
         handlerWrist.disable();
@@ -187,21 +189,20 @@ public abstract class Bot extends Component {
 
     public void update() {
         extendo.update();
+        lift.log();
         switch (getMode()) {
             case AUTO_START:
                 if (isPhase(1)) {
-                    enableHandlerServos();
-                    enableIntakeServos();
                     setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
                     setIntakeWristPositionPreset(IntakeWristPositions.UP);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                     setIntakeLightPositionPreset(IntakeLightPositions.OFF);
-                    extendo.setMedium();
                     setExtendoPositionPreset(ExtendoPositions.RETRACTED);
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
                     setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
-                    setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
+                    setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF_SETUP);
                     setLiftPositionPreset(LiftPositions.MIN);
+                    onHold = false;
                     setPhase(-1);
                 }
                 break;
@@ -217,27 +218,31 @@ public abstract class Bot extends Component {
 //                    setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
 //                    setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
                     setLiftPositionPreset(LiftPositions.MIN);
+                    onHold = false;
                     setPhase(-1);
                 }
                 break;
 
             case HOVERING_OVER_BRICK:
                 if (isPhase(1)) {
-                    disableHandlerServos();
-                    enableIntakeServos();
                     extendo.setMedium();
+                    setExtendoPositionPreset(ExtendoPositions.AUTO_INTAKING);
+                    extendo.setFast();
                     setExtendoPositionPreset(ExtendoPositions.AUTO_INTAKING);
                     setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
                     setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                    onHold = false;
                     setPhase(-1);
                 }
                 break;
 
             case LOOKING_FOR_BRICK:
                 if (isPhase(1)) {
+                    ;
                     extendo.setMedium();
                     setExtendoPositionPreset(ExtendoPositions.EXTENDED);
+                    extendo.setFast();
                     setPhase(2);
                 } else if (isPhase(2)) {
                     if (!(extendoIsBusy())) {
@@ -245,6 +250,7 @@ public abstract class Bot extends Component {
                         setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
                         setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                         setIntakeLightPositionPreset(IntakeLightPositions.HIGH);
+                        onHold = false;
                         setPhase(-1);
                     }
                 }
@@ -253,63 +259,55 @@ public abstract class Bot extends Component {
             case INTAKING_BRICK:
                 if (isPhase(1)) {
                     setIntakeWristPositionPreset(IntakeWristPositions.DOWN);
-                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_LOOSE);
                     setPhase(2);
                 } else if (isPhase(2)) {
-                    if (!(intakeWristIsBusy() || intakeGrabberIsBusy())) {
-                        setIntakeWristPositionPreset(IntakeWristPositions.UP);
-                        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
-                        setIntakeLightPositionPreset(IntakeLightPositions.OFF);
-                        setPhase(-1);
-                    }
-                }
-                break;
-
-            case HOLDING_BRICK_FOR_TRANSFER:
-//                telemetry.addData("handler: ", handlerIsBusy());
-//                telemetry.addData("lift: ", liftIsBusy());
-//                telemetry.addData("wrist: ", handlerWristIsBusy());
-//                telemetry.addData("grabber: ", handlerGrabberIsBusy());
-//
-//                telemetry.addData("intake: ", intakeIsBusy());
-//                telemetry.update();
-                if (isPhase(1)) {
-                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
-                    setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF_SETUP);
-                    setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF_SETUP);
-                    setLiftPositionPreset(LiftPositions.HANDOFF_SETUP);
-                    setPhase(2);
-                } else if (isPhase(2)) {
-                    if (!handlerIsBusy() && !intakeIsBusy()) {
+                    if (!intakeWristIsBusy()) {
                         setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_LOOSE);
-                        setIntakeWristPositionPreset(IntakeWristPositions.UP);
+                        setPhase(3);
+                    }
+                } else if (isPhase(3)) {
+                    if (!intakeGrabberIsBusy()) {
                         setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                        setIntakeWristPositionPreset(IntakeWristPositions.UP);
                         setIntakeLightPositionPreset(IntakeLightPositions.OFF);
-                        extendo.setFast();
-                        setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                        onHold = false;
                         setPhase(-1);
                     }
                 }
                 break;
 
-            // Assumes already HOLDING_BRICK_FOR_TRANSFER
+            case PREPARING_TO_TRANSFER:
+                if (isPhase(1)) {
+                    setLiftPositionPreset(LiftPositions.HANDOFF_SETUP);
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
+                    setPhase(2);
+                } else if (isPhase(2)) {
+                    if (!liftIsBusy()) {
+                        setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
+                        setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
+                        onHold = false;
+                        setPhase(-1);
+                    }
+                }
+                break;
+
+            // Assumes already PREPARING_TO_TRANSFER
             // Transfers brick from intake to handler
             case HANDING_OFF_BRICK:
                 if (isPhase(1)) {
                     if (!handlerIsBusy() && !intakeIsBusy()) {
-                        setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
-                        setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
                         setLiftPositionPreset(LiftPositions.HANDOFF);
                         setPhase(2);
                     }
                 } else if (isPhase(2)) {
-                    if (!handlerIsBusy()) {
+                    if (!liftIsBusy()) {
                         setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
                         setPhase(3);
                     }
                 } else if (isPhase(3)) {
                     if (!handlerGrabberIsBusy()) {
                         setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+                        onHold = false;
                         setPhase(-1);
                     }
                 }
@@ -317,7 +315,6 @@ public abstract class Bot extends Component {
 
             case EJECTING_BRICK_ON_FLOOR:
                 if (isPhase(1)) {
-                    extendo.setFast();
                     setExtendoPositionPreset(ExtendoPositions.EXTENDED);
                     setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
@@ -328,6 +325,7 @@ public abstract class Bot extends Component {
                         isPhase(2)) {
                     if (!intakeIsBusy()) {
                         setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+                        onHold = false;
                         setPhase(-1);
                     }
                 }
@@ -345,6 +343,7 @@ public abstract class Bot extends Component {
                         isPhase(2)) {
                     if (!handlerIsBusy() && handlerSwitch.isPressed()) {
                         setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+                        onHold = false;
                         setPhase(-1);
                     }
                 }
@@ -352,27 +351,38 @@ public abstract class Bot extends Component {
 
             // Assumes grasping specimen
             case HIGH_SPECIMEN_SCORING:
-                if (
-
-                        isPhase(1)) {
+                if (isPhase(1)) {
                     if (!handlerGrabberIsBusy()) {
                         setLiftPositionPreset(LiftPositions.SPECIMEN_HANG);
                         setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG);
                         setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_HANG);
+                        onHold = false;
                         setPhase(-1);
                     }
                 }
                 break;
 
             // Assumes brick is already gripped tightly
-            case HIGH_BASKET_SCORING:
+            case HIGH_BUCKET_SCORING:
                 if (isPhase(1)) {
                     if (!handlerGrabberIsBusy()) {
                         setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
                         setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET);
                         setHandlerWristPositionPreset(HandlerWristPositions.HIGH_BUCKET);
+                        onHold = false;
                         setPhase(-1);
                     }
+                }
+                break;
+
+            case PARKING_AT_SUB:
+                if (isPhase(1)) {
+                    setLiftPositionPreset(LiftPositions.SUB_PARKING);
+                    setHandlerArmPositionPreset(HandlerArmPositions.SUB_PARKING);
+                    setHandlerWristPositionPreset(HandlerWristPositions.SUB_PARKING);
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_LOOSE);
+                    onHold = false;
+                    setPhase(-1);
                 }
                 break;
         }

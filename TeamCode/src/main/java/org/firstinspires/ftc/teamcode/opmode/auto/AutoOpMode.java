@@ -14,6 +14,8 @@ public abstract class AutoOpMode extends OpMode {
     protected AutoBot bot;
     protected int pathState;
     protected Pose startPose;
+    protected ElapsedTime controlTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+
 
     /**
      * This method is called once at the init of the OpMode.
