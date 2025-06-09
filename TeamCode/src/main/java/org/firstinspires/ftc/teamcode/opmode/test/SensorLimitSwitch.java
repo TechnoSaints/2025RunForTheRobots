@@ -46,13 +46,14 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @TeleOp(name = "SensorLimitSwitch", group = "Sensor")
-@Disabled
+
 public class SensorLimitSwitch extends LinearOpMode {
-    private TouchSensor limitSwitch;
+    private TouchSensor limitSwitchL, limitSwitchR;
 
     @Override
     public void runOpMode() {
-        limitSwitch = hardwareMap.get(TouchSensor.class, "liftSwitch  ");
+        limitSwitchL = hardwareMap.get(TouchSensor.class, "bumperSwitchL");
+        limitSwitchR = hardwareMap.get(TouchSensor.class, "bumperSwitchR");
 
         telemetry.addData("Limit Switch Example", "Press start to continue...");
         telemetry.update();
@@ -66,10 +67,18 @@ public class SensorLimitSwitch extends LinearOpMode {
 
             // button is pressed if value returned is LOW or false.
             // send the info back to driver station using telemetry function.
-            if (limitSwitch.isPressed() == true) {
-                telemetry.addData("Button", "PRESSED");
+            if (limitSwitchL.isPressed() == true) {
+                telemetry.addData("Button L", "PRESSED");
             } else {
-                telemetry.addData("Button", "NOT PRESSED");
+                telemetry.addData("Button L", "NOT PRESSED");
+            }
+
+            // button is pressed if value returned is LOW or false.
+            // send the info back to driver station using telemetry function.
+            if (limitSwitchR.isPressed() == true) {
+                telemetry.addData("Button R", "PRESSED");
+            } else {
+                telemetry.addData("Button R", "NOT PRESSED");
             }
 
             telemetry.update();

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Int
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.LiftPositions;
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
-@Autonomous(name = "Bucket x 4", group = "Bucket")
+@Autonomous(name = "Bucket x 4 + Park", group = "Bucket")
 public class Bucketx4 extends BucketAutoOpMode {
 
     protected void autonomousPathUpdate() {

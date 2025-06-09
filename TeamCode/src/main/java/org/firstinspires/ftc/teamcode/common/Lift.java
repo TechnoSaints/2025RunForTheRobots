@@ -48,6 +48,7 @@ public class Lift extends Component {
 
     public void stop() {
         stopAtPosition(motor.getCurrentPosition());
+ //       log();
     }
 
     public void up(double targetPower) {
@@ -73,6 +74,7 @@ public class Lift extends Component {
         } else {
             telemetry.addData("Stopped at Bottom: ", " true");
         }
+//        log();
     }
 
     public void setPositionPreset(LiftPositions position) {
