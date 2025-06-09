@@ -6,7 +6,7 @@ public enum HandlerWristPositions {
     HANDOFF_SETUP(.42),
     SUB_PARKING(0.48),
     HANDOFF(.47),
-    SPECIMEN_HANG(0.44);
+    SPECIMEN_HANG(0.42);
     private double value;
     HandlerWristPositions(double value) {
         this.value = value;

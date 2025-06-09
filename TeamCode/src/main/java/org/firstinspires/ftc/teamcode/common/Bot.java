@@ -330,7 +330,8 @@ public abstract class Bot extends Component {
             case HANDLER_HIGH_SPECIMEN_POS:
                 if (isPhase(1)) {
                     onHold = true;
-                    setLiftPositionPreset(LiftPositions.SPECIMEN_HANG);
+                    setLiftPositionPreset(LiftPositions.SPECIMEN_HANG_SETUP);
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_LOOSE);
                     setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG);
                     setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_HANG);
                     onHold = false;
@@ -341,7 +342,7 @@ public abstract class Bot extends Component {
             case HANG_SPECIMEN:
                 if (isPhase(1)) {
                     onHold = true;
-            // Slap specimen onto bar
+                    lift.setPositionPreset(LiftPositions.SPECIMEN_HANG);
                     onHold = false;
                     setPhase(-1);
                 }

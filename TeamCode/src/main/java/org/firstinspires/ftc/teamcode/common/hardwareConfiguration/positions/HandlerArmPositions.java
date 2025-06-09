@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions;
 public enum HandlerArmPositions {
     SPECIMEN_WALL(.05),
     HIGH_BUCKET(.30),
-    SPECIMEN_HANG(.51),
+    SPECIMEN_HANG(.53),
     SUB_PARKING(.61),
     AUTO_START(.86),
     HANDOFF(.91);
