@@ -14,8 +14,8 @@ public class BasicMove extends BucketAutoOpMode {
         switch (pathState) {
             case 0:
 //                bot.followPath(Paths.startToBucket, true);
-//                bot.moveManualInches(-12,12,0);
-                bot.followPath(Paths.bucketToSampleSpike3, true);
+                bot.moveManualInches(-12,12,0);
+//                bot.followPath(Paths.bucketToSampleSpike3, true);
                 setPathState(1);
                 break;
 

@@ -41,63 +41,10 @@ public class Specimenx2 extends SpecimenAutoOpMode {
             case 10:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
                     bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
-                    bot.followPath(Paths.subShortSideToSpecimenSpike1Sweep, false);
-                    setPathState(11);
-                }
-                break;
-
-            case 11:
-                if (!bot.followerIsBusy()) {
-                    bot.setExtendoPositionPreset(ExtendoPositions.EXTENDED);
-                    bot.setMode(Modes.INTAKE_HOVER_POS);
-                    setPathState(14);
-                }
-                break;
-
-//            case 12:
-//                if (!bot.intakeIsBusy() && !bot.onHold()) {
-//                    bot.followPath(Paths.specimenSpike1SweepToHumanPlayerDrop, false);
-//                    setPathState(13);
-//                }
-//                break;
-
-//            case 13:
-//                if (!bot.followerIsBusy() && !bot.onHold()) {
-//                    bot.setMode(Modes.INTAKE_HOVER_POS);
-//                    setPathState(14);
-//                }
-//                break;
-
-            case 14:
-                if (!bot.followerIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.INTAKE_BRICK);
+                    bot.followPath(Paths.pushSequence, false);
                     setPathState(99);
                 }
                 break;
-
-
-
-//            case 4:
-//                if (!bot.handlerIsBusy() && !bot.onHold()) {
-//                    bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
-//                    bot.followPath(Paths.subShortSideToSpecimenGrabSetup, false);
-//                    setPathState(5);
-//                }
-//                break;
-//
-//            case 5:
-//                if (!bot.followerIsBusy()) {
-//                    bot.followPath(Paths.specimenGrabSetupToSpecimenGrab, true);
-//                    setPathState(6);
-//                }
-//                break;
-//
-//            case 6:
-//                if (!bot.followerIsBusy()) {
-//                    bot.setMode(Modes.GRAB_SPECIMEN);
-//                    setPathState(7);
-//                }
-//                break;
 
             case 99:
                 if (!bot.followerIsBusy() && !bot.isBusy() && !bot.onHold()) {

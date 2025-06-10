@@ -24,30 +24,25 @@ public class FieldLocations {
     public final static Pose sampleParkSetupPose = new Pose(0, 54, Math.toRadians(0));
     // park position
     public final static Pose sampleParkPose = new Pose(16, 54, Math.toRadians(0));
-    public final static Pose sampleLookPose = new Pose(7, 52.5, Math.toRadians(0));
-
-    public final static Pose humanPlayerSamplePickupPose = new Pose(64.5, 3, Math.toRadians(-14.9));
-
-    public final static Pose humanPlayerBypassPose1 = new Pose(12, 25, Math.toRadians(0));
-
-    public final static Pose humanPlayerBypassPose2 = new Pose(52, 25, Math.toRadians(0));
 
     public final static Pose humanPlayerParkPose = new Pose(64.5, 3, Math.toRadians(-14.9));
 
-    public final static Pose subShortSidePose = new Pose(36, 36, Math.toRadians(90));
     public final static Pose subShortSideSetupPose = new Pose(36, 31, Math.toRadians(90));
 
-    public final static Pose specimenSpike1SweepSetupPose = new Pose(50, 12, Math.toRadians(35));
-    public final static Pose specimenSpike1SweepPose = new Pose(65, 20, Math.toRadians(75));
+    public final static Pose subShortSidePose = new Pose(36, 36, Math.toRadians(90));
 
-    public final static Pose specimenSpike2SweepPose = new Pose(75, 27, Math.toRadians(35));
-    public final static Pose specimenSpike3SweepPose = new Pose(85, 27, Math.toRadians(35));
-    public final static Pose humanPlayerDropPose = new Pose(75, 15, Math.toRadians(-30));
+    public final static Pose specimenSpike1SetupPose = new Pose(50, 12, Math.toRadians(90));
+
+    public final static Pose specimenSpike1Pose = new Pose(65, 20, Math.toRadians(90));
+
+    public final static Pose specimenSpike2Pose = new Pose(75, 27, Math.toRadians(90));
+
+    public final static Pose specimenSpike3Pose = new Pose(85, 27, Math.toRadians(90));
+
+    public final static Pose humanPlayerDropPose = new Pose(75, 15, Math.toRadians(90));
 
     public final static Pose specimenGrabSetupPose = new Pose(74, 14, Math.toRadians(90));
 
     public final static Pose specimenGrabPose = new Pose(74, 2, Math.toRadians(90));
-
-    public final static Pose specimenSideSubPose = new Pose(36, 26, Math.toRadians(90));
 
 }
