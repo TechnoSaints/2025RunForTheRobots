@@ -4,6 +4,7 @@ import org.firstinspires.ftc.teamcode.opmode.Paths;
 
 public abstract class SpecimenAutoOpMode extends AutoOpMode {
 
+    protected double gapBetweenHangingSpecimensIN = 2.5;
     /**
      * This method is called once at the init of the OpMode.
      **/
@@ -17,7 +18,6 @@ public abstract class SpecimenAutoOpMode extends AutoOpMode {
     // Happens once after play button is pressed
     @Override
     public void start() {
-
     }
 }
 

@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.opmode.tuning;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,10 +11,9 @@ import org.firstinspires.ftc.teamcode.common.Modes;
 import org.firstinspires.ftc.teamcode.common.TeleopBot;
 
 @Config
-@TeleOp(name = "BrickSweepTuner", group = "Tuning")
-@Disabled
+@TeleOp(name = "SpecimenSlapTuner", group = "Tuning")
 
-public class BrickSweepTuner extends LinearOpMode {
+public class SpecimenSlapTuner extends LinearOpMode {
 
     private TeleopBot bot;
     private ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
@@ -30,13 +28,19 @@ public class BrickSweepTuner extends LinearOpMode {
             bot.update();
         }
         waitForStart();
-//        bot.setMode(Modes.INTAKE_BRICK);
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
                 bot.setMode(Modes.HANDLER_HIGH_SPECIMEN_POS);
             } else if (gamepad1.left_bumper) {
                 bot.setMode(Modes.HANG_SPECIMEN);
             }
+//            if (gamepad1.right_trigger > 0.2) {
+//                bot.liftUp(gamepad1.right_trigger);
+//            } else if (gamepad1.left_trigger > 0.2) {
+//                bot.liftDown(gamepad1.left_trigger);
+//            } else {
+//                bot.liftStop();
+//            }
             bot.update();
         }
     }

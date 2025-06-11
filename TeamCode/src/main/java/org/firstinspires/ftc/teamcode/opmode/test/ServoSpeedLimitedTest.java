@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.common.servos.ServoSpeedLimited;
 
 @Config
 @TeleOp(name = "ServoSpeedLimitedTest", group = "Test")
+@Disabled
 
 public class ServoSpeedLimitedTest extends LinearOpMode {
 
