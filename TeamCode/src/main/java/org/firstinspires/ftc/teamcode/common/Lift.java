@@ -37,6 +37,7 @@ public class Lift extends Component {
         tolerance = liftData.tolerance;
         minPosition = LiftPositions.MIN.getValue();
         motor = hardwareMap.get(DcMotorEx.class, motorName);
+        motor.setTargetPositionTolerance(tolerance);
 
         if (reverseMotor) {
             direction = -1;

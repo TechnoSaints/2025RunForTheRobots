@@ -8,7 +8,7 @@ public enum HandlerWristPositions {
     HANDOFF(.47),
     UP_SPECIMEN(0.35),
     SPECIMEN_SLAP(0.40),
-    SPECIMEN_HANG(0.59);
+    SPECIMEN_HANG(0.58);
     private double value;
     HandlerWristPositions(double value) {
         this.value = value;

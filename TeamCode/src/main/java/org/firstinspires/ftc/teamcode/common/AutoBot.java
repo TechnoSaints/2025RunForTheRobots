@@ -16,12 +16,14 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 public class AutoBot extends Bot {
     private final Follower follower;
+
     public AutoBot(OpMode opMode, Telemetry telemetry) {
         super(opMode, telemetry);
         follower = new Follower(opMode.hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(FieldLocations.startPose);
         setMode(Modes.AUTO_START_POS);
     }
+
     public void followPath(PathChain path, boolean holdEnd) {
         follower.followPath(path, holdEnd);
     }
@@ -30,16 +32,15 @@ public class AutoBot extends Bot {
         return (follower);
     }
 
-    public boolean isBusy()
-    {
+    public boolean isBusy() {
         return (super.isBusy() || followerIsBusy());
     }
+
     public boolean followerIsBusy() {
         return (follower.isBusy());
     }
 
-    public void moveManualInches(double axial, double strafe, double heading)
-    {
+    public void moveManualInches(double axial, double strafe, double heading) {
         Pose targetPose = new Pose(getFollower().getPose().getX() - strafe, getFollower().getPose().getY() + axial, getFollower().getPose().getHeading() + Math.toRadians(heading));
 
         PathChain targetPath = follower.pathBuilder()
@@ -50,8 +51,17 @@ public class AutoBot extends Bot {
         followPath(targetPath, true);
     }
 
+    protected void logIsBusy() {
+        telemetry.addData("lift: ", liftIsBusy());
+        telemetry.addData("wrist: ", handlerWristIsBusy());
+        telemetry.addData("arm: ", handlerArmIsBusy());
+        telemetry.addData("grabber: ", handlerGrabberIsBusy());
+        telemetry.update();
+    }
+
     public void update() {
         super.update();
         follower.update();
+        logIsBusy();
     }
 }

@@ -70,7 +70,7 @@ public abstract class Bot extends Component {
         extendo.setPositionPreset(position);
     }
 
-    private boolean extendoIsBusy() {
+    protected boolean extendoIsBusy() {
         return extendo.isBusy();
     }
 
@@ -78,7 +78,7 @@ public abstract class Bot extends Component {
         intakeWrist.setPositionTicks(position.getValue(), 250);
     }
 
-    private boolean intakeWristIsBusy() {
+    protected boolean intakeWristIsBusy() {
         return intakeWrist.isBusy();
     }
 
@@ -86,7 +86,7 @@ public abstract class Bot extends Component {
         intakeSwivel.setPositionTicks(position.getValue(), 150);
     }
 
-    private boolean intakeSwivelIsBusy() {
+    protected boolean intakeSwivelIsBusy() {
         return intakeSwivel.isBusy();
     }
 
@@ -94,7 +94,7 @@ public abstract class Bot extends Component {
         intakeGrabber.setPositionTicks(position.getValue(), 150);
     }
 
-    private boolean intakeGrabberIsBusy() {
+    protected boolean intakeGrabberIsBusy() {
         return intakeGrabber.isBusy();
     }
 
@@ -123,14 +123,14 @@ public abstract class Bot extends Component {
     }
 
     public void setHandlerArmPositionPreset(HandlerArmPositions position) {
-        handlerArm.setPositionTicks(position.getValue(), 450);
+        handlerArm.setPositionTicks(position.getValue(), 350);
     }
 
     public void setHandlerArmPositionPreset(HandlerArmPositions position, int delay) {
         handlerArm.setPositionTicks(position.getValue(), delay);
     }
 
-    private boolean handlerArmIsBusy() {
+    protected boolean handlerArmIsBusy() {
         return handlerArm.isBusy();
     }
 
@@ -138,7 +138,7 @@ public abstract class Bot extends Component {
         handlerWrist.setPositionTicks(position.getValue(), 250);
     }
 
-    private boolean handlerWristIsBusy() {
+    protected boolean handlerWristIsBusy() {
         return handlerWrist.isBusy();
     }
 
@@ -146,7 +146,11 @@ public abstract class Bot extends Component {
         handlerGrabber.setPositionTicks(position.getValue(), 250);
     }
 
-    private boolean handlerGrabberIsBusy() {
+    public void setHandlerGrabberPositionPreset(HandlerGrabberPositions position, int delay) {
+        handlerGrabber.setPositionTicks(position.getValue(), delay);
+    }
+
+    protected boolean handlerGrabberIsBusy() {
         return handlerGrabber.isBusy();
     }
 
@@ -166,39 +170,16 @@ public abstract class Bot extends Component {
         return (onHold);
     }
 
-    private void disableHandlerServos() {
-        handlerGrabber.disable();
-        handlerWrist.disable();
-        handlerArm.disable();
-    }
-
-    private void enableHandlerServos() {
-        handlerGrabber.enable();
-        handlerWrist.enable();
-        handlerArm.enable();
-    }
-
-    private void disableIntakeServos() {
-        intakeGrabber.disable();
-        intakeSwivel.disable();
-        intakeWrist.disable();
-        intakeLight.disable();
-    }
-
-    private void enableIntakeServos() {
-        intakeGrabber.enable();
-        intakeSwivel.enable();
-        intakeWrist.enable();
-        intakeLight.enable();
-    }
-
     public boolean bumperBumped() {
         return (bumperSwitchL.isPressed() || bumperSwitchR.isPressed());
     }
 
+    protected void logIsBusyStatuses()
+    {
+    }
     public void update() {
         extendo.update();
-        lift.log();
+//        lift.log();
         switch (getMode()) {
             case AUTO_START_POS:
                 if (isPhase(1)) {
@@ -217,11 +198,18 @@ public abstract class Bot extends Component {
                 }
                 break;
 
-            case TELEOP_START_POS:
+            case AUTO_END_POS:
                 if (isPhase(1)) {
                     onHold = true;
+//                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+//                    setIntakeWristPositionPreset(IntakeWristPositions.UP);
+//                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+//                    setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+//                    setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+//                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+//                    setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
+                    setHandlerArmPositionPreset(HandlerArmPositions.TOP);
                     setLiftPositionPreset(LiftPositions.MIN);
-                    setIntakeLightPositionPreset(IntakeLightPositions.OFF);
                     onHold = false;
                     setPhase(-1);
                 }
@@ -277,7 +265,7 @@ public abstract class Bot extends Component {
             case HANDLER_GRAB_SPECIMEN_POS:
                 if (isPhase(1)) {
                     onHold = true;
-                    setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL);
+//                    setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL);
                     setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_WALL);
                     setLiftPositionPreset(LiftPositions.SPECIMEN_WALL);
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
@@ -285,7 +273,6 @@ public abstract class Bot extends Component {
                     setPhase(-1);
                 }
                 break;
-
 
             // Assumes already HANDLER_HANDOFF_PREP_POS and extendo retracted
             // Transfers brick from intake to handler
@@ -340,7 +327,7 @@ public abstract class Bot extends Component {
             case GRAB_SPECIMEN:
                 if (isPhase(1)) {
                     onHold = true;
-                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_LOOSE);
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_LOOSE, 50);
                     setPhase(2);
                 } else if (isPhase(2)) {
                     if (!handlerGrabberIsBusy()) {
@@ -357,7 +344,7 @@ public abstract class Bot extends Component {
                     onHold = true;
                     setLiftPositionPreset(LiftPositions.SPECIMEN_HANG_SETUP);
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_LOOSE);
-                    setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG);
+//                    setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG);
                     setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_HANG);
                     onHold = false;
                     setPhase(-1);
@@ -371,12 +358,12 @@ public abstract class Bot extends Component {
                     setPhase(2);
                 } else if (isPhase(2)) {
                     if (!liftIsBusy()) {
-                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
-                        setPhase(3);
-                    }
-                } else if (isPhase(3)) {
-                    if (!handlerGrabberIsBusy()) {
-                        setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL);
+                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN, 50);
+//                        setPhase(3);
+//                    }
+//                } else if (isPhase(3)) {
+//                    if (!handlerGrabberIsBusy()) {
+//                        setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL);
                         onHold = false;
                         setPhase(-1);
                     }
@@ -389,7 +376,7 @@ public abstract class Bot extends Component {
                     onHold = true;
                     if (!handlerGrabberIsBusy()) {
                         setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
-                        setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET);
+//                        setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET);
                         setHandlerWristPositionPreset(HandlerWristPositions.HIGH_BUCKET);
                         onHold = false;
                         setPhase(-1);
@@ -401,7 +388,7 @@ public abstract class Bot extends Component {
                 if (isPhase(1)) {
                     onHold = true;
                     setLiftPositionPreset(LiftPositions.MIN);
-                    setHandlerArmPositionPreset(HandlerArmPositions.SUB_PARKING);
+//                    setHandlerArmPositionPreset(HandlerArmPositions.SUB_PARKING);
                     setHandlerWristPositionPreset(HandlerWristPositions.SUB_PARKING);
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_LOOSE);
                     onHold = false;

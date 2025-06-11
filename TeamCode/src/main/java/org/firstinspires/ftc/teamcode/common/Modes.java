@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.common;
 // Used to manage all mechanisms except drivetrain
 public enum Modes {
     AUTO_START_POS,
+    AUTO_END_POS,
     TELEOP_START_POS,
     INTAKE_HOVER_POS,
     INTAKE_BRICK,
