@@ -21,12 +21,12 @@ public class FConstants {
         FollowerConstants.rightRearMotorDirection = drivetrainData.rightRearMotorDirection;
 
         // mass in kg
-        FollowerConstants.mass = 8.5;
+        FollowerConstants.mass = 11.25;
 
         FollowerConstants.xMovement = 75;
         FollowerConstants.yMovement = 62;
 
-        FollowerConstants.forwardZeroPowerAcceleration = -37;
+        FollowerConstants.forwardZeroPowerAcceleration = -33;
         FollowerConstants.lateralZeroPowerAcceleration = -65;
 
         FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.15, 0, 0.02, 0);

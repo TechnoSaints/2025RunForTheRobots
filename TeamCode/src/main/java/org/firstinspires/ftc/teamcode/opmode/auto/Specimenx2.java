@@ -46,7 +46,7 @@ public class Specimenx2 extends SpecimenAutoOpMode {
 
             case 10:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.followPath(Paths.subShortSideToSpecimenGrabSetup, false);
+                    bot.followPath(Paths.pushSequence, false);
                     bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL,0);
                     bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
 

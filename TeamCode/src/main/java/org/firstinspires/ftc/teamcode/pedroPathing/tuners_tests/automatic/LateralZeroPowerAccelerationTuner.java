@@ -32,6 +32,7 @@ import java.util.List;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
+
 /**
  * This is the LateralZeroPowerAccelerationTuner autonomous follower OpMode. This runs the robot
  * to the right until a specified velocity is achieved. Then, the robot cuts power to the motors, setting
@@ -76,6 +77,7 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
      */
     @Override
     public void init() {
+Constants.setConstants(FConstants.class, LConstants.class);
         poseUpdater = new PoseUpdater(hardwareMap, FConstants.class, LConstants.class);
 
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);

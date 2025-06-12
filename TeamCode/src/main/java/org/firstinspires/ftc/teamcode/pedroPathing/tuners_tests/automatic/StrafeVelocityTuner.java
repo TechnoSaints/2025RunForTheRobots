@@ -32,6 +32,7 @@ import java.util.List;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
+
 /**
  * This is the StrafeVelocityTuner autonomous follower OpMode. This runs the robot right at max
  * power until it reaches some specified distance. It records the most recent velocities, and on
@@ -73,6 +74,7 @@ public class StrafeVelocityTuner extends OpMode {
      */
     @Override
     public void init() {
+Constants.setConstants(FConstants.class, LConstants.class);
         poseUpdater = new PoseUpdater(hardwareMap, FConstants.class, LConstants.class);
 
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);

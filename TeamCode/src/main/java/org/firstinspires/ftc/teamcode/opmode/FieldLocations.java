@@ -31,23 +31,22 @@ public class FieldLocations {
 
     public static Pose subShortSidePose = new Pose(36, 36, Math.toRadians(90));
 
-    public final static Pose specimenSpike1Setup1Pose = new Pose(73, 17, Math.toRadians(90));
-
-    public final static Pose specimenSpike1Setup2Pose = new Pose(75, 51, Math.toRadians(90));
-
+    // Push paths
+    public final static Pose subShortClearPose = new Pose(72, 17, Math.toRadians(90));
+    public final static Pose specimenSpike1SetupPose = new Pose(75, 54, Math.toRadians(90));
     public final static Pose specimenSpike1Pose = new Pose(90, 57, Math.toRadians(90));
-
+    public final static Pose specimenSpike1DropPose = new Pose(90, 5, Math.toRadians(90));
+    public final static Pose specimenSpike2SetupPose = new Pose(80, 54, Math.toRadians(90));
     public final static Pose specimenSpike2Pose = new Pose(100, 57, Math.toRadians(90));
+    public final static Pose specimenSpike2DropPose = new Pose(95, 5, Math.toRadians(90));
+    public final static Pose specimenSpike3SetupPose = new Pose(95, 70, Math.toRadians(90));
+    public final static Pose specimenSpike3Pose = new Pose(103, 60, Math.toRadians(90));
+    public final static Pose specimenSpike3DropPose = new Pose(103, 10, Math.toRadians(90));
+    public final static Pose pushFinishPose = new Pose(95, 20, Math.toRadians(90));
 
-    public final static Pose specimenSpike3Pose = new Pose(102, 57, Math.toRadians(90));
-
-    public final static Pose specimenSpike1DropPose = new Pose(90, 15, Math.toRadians(90));
-    public final static Pose specimenSpike2DropPose = new Pose(100, 15, Math.toRadians(90));
-    public final static Pose specimenSpike3DropPose = new Pose(102, 15, Math.toRadians(90));
-
+    //
     public final static Pose humanPlayerDropPose = new Pose(98, 7, Math.toRadians(90));
 
-    public final static Pose pushFinishPose = new Pose(74, 15, Math.toRadians(90));
 
     public final static Pose specimenGrabSetupPose = new Pose(75, 10, Math.toRadians(90));
 
