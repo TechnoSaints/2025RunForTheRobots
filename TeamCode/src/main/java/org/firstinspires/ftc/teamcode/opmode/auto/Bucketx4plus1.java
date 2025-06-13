@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Lif
 import org.firstinspires.ftc.teamcode.opmode.FieldLocations;
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
-@Autonomous(name = "Bucket x 4 + Park", group = "Bucket")
-public class Bucketx4 extends BucketAutoOpMode {
+@Autonomous(name = "Bucket x 4 + 1", group = "Bucket")
+public class Bucketx4plus1 extends BucketAutoOpMode {
 
     protected void autonomousPathUpdate() {
         switch (pathState) {
@@ -234,35 +234,87 @@ public class Bucketx4 extends BucketAutoOpMode {
             case 27:
                 if (!bot.handlerIsBusy() && !bot.followerIsBusy() && !bot.onHold()) {
                     bot.setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
-                    setPathState(28);
-                }
-                break;
-
-            case 28:
-                if (!bot.handlerIsBusy()) {
-                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SUB_PARKING,0);
-                    bot.followPath(Paths.bucketToSampleParkSetup, false);
-                    setPathState(29);
-                }
-                break;
-
-            case 29:
-                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.sampleParkSetupPose, 2, 2))
-                {
-                    bot.followPath(Paths.sampleParkSetupToSamplePark, true);
                     setPathState(30);
                 }
                 break;
 
             case 30:
-                if (!bot.handlerIsBusy()) {
-                    bot.setMode(Modes.PARKING_AT_SUB_POS);
+                if (!bot.handlerIsBusy() && !bot.onHold()) {
+                    bot.followPath(Paths.bucketToSampleHumanPlayer, false);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF,0);
+                    bot.setMode(Modes.INTAKE_HOVER_POS);
                     setPathState(31);
                 }
                 break;
 
-            // deactivate and rest up for teleop
             case 31:
+                if (!bot.intakeIsBusy() && !bot.onHold()) {
+                    bot.setMode(Modes.HANDLER_HANDOFF_PREP_POS);
+                    setPathState(32);
+                }
+                break;
+
+            case 32:
+                if (!bot.followerIsBusy() && !bot.onHold()) {
+                    bot.setMode(Modes.INTAKE_BRICK);
+                    setPathState(33);
+                }
+                break;
+
+            case 33:
+                if (!bot.intakeIsBusy() && !bot.onHold()) {
+                    bot.setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                    setPathState(34);
+                }
+                break;
+
+            case 34:
+                if (!bot.intakeIsBusy() && !bot.handlerIsBusy() && !bot.onHold()) {
+                    bot.setMode(Modes.HAND_OFF_BRICK);
+                    bot.followPath(Paths.sampleHumanPlayerToBucket, false);
+                    setPathState(35);
+                }
+                break;
+
+            case 35:
+                if (!bot.handlerIsBusy() && !bot.onHold()) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP,0);
+                    bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                    setPathState(36);
+                }
+                break;
+
+            case 36:
+                if (!bot.liftIsBusy()) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET,0);
+                    bot.setMode(Modes.HANDLER_HIGH_BUCKET_POS);
+                    setPathState(37);
+                }
+                break;
+
+            case 37:
+                if (!bot.handlerIsBusy() && !bot.followerIsBusy() && !bot.onHold()) {
+                    bot.setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
+                    setPathState(38);
+                }
+                break;
+
+            case 38:
+                if (!bot.handlerIsBusy()) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP);
+                    setPathState(39);
+                }
+                break;
+
+            case 39:
+                if (!bot.handlerIsBusy()) {
+                    bot.setMode(Modes.AUTO_END_POS);
+                    setPathState(40);
+                }
+                break;
+
+            // deactivate and rest up for teleop
+            case 40:
                 if (!bot.isBusy()) {
                     setPathState(-1);
                     requestOpModeStop();
