@@ -52,9 +52,9 @@ public class FConstants {
 
         FollowerConstants.useBrakeModeInTeleOp = true;
 
-        //        FollowerConstants.nominalVoltage = 12.5;
-        //        FollowerConstants.useVoltageCompensationInAuto = true;
-        //        FollowerConstants.useVoltageCompensationInTeleOp = true;
+        FollowerConstants.nominalVoltage = 12.5;
+        FollowerConstants.useVoltageCompensationInAuto = true;
+        FollowerConstants.useVoltageCompensationInTeleOp = true;
 
     }
 }

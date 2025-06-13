@@ -50,12 +50,12 @@ public class PushPathTest extends SpecimenAutoOpMode {
                 }
                 break;
 
-            case 6:
-                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike3DropPose, 2, 2)) {
-                    bot.followPath(Paths.pushFinish, false);
-                    setPathState(99);
-                }
-                break;
+//            case 6:
+//                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike3DropPose, 2, 2)) {
+//                    bot.followPath(Paths.pushFinish, false);
+//                    setPathState(99);
+//                }
+//                break;
 
             case 99:
                 if (!bot.followerIsBusy() && !bot.isBusy() && !bot.onHold()) {

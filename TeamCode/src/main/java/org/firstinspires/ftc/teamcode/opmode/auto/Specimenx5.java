@@ -1,31 +1,27 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.pedropathing.localization.Pose;
-import com.pedropathing.pathgen.Point;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.common.Modes;
-import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerArmPositions;
-import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeSwivelPositions;
-import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.LiftPositions;
 import org.firstinspires.ftc.teamcode.opmode.FieldLocations;
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
-@Autonomous(name = "Specimen x 2", group = "Specimen")
-public class Specimenx2 extends SpecimenAutoOpMode {
+@Autonomous(name = "Specimen x 5", group = "Specimen")
+public class Specimenx5 extends SpecimenAutoOpMode {
     protected void autonomousPathUpdate() {
 
         switch (pathState) {
             case 0:
-                bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG,0);
+                bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG, 0);
                 bot.setMode(Modes.HANDLER_HIGH_SPECIMEN_POS);
                 bot.followPath(Paths.startToSubShortSideSetup, false);
                 setPathState(1);
                 break;
 
             case 1:
-                if (!bot.followerIsBusy()) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.subShortSideSetupPose, 2, 2)) {
                     bot.followPath(Paths.subShortSideSetupToSubShortSide, true);
                     setPathState(2);
                 }
@@ -46,9 +42,8 @@ public class Specimenx2 extends SpecimenAutoOpMode {
 
             case 10:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.followPath(Paths.pushSequence, false);
-                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL,0);
-                    bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
+                    bot.setMode(Modes.CRUISING);
+                    bot.followPath(Paths.pushSpike1, true);
 
                     FieldLocations.subShortSideSetupPose =
                             new Pose(FieldLocations.subShortSideSetupPose.getX() + gapBetweenHangingSpecimensIN,
@@ -61,48 +56,64 @@ public class Specimenx2 extends SpecimenAutoOpMode {
                                     FieldLocations.subShortSidePose.getHeading());
 
                     Paths.buildSpecimenHangPaths(bot.getFollower());
-
                     setPathState(11);
                 }
                 break;
 
             case 11:
-                if (!bot.followerIsBusy()) {
-                    bot.followPath(Paths.specimenGrabSetupToSpecimenGrab, true);
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike1DropPose, 2, 2)) {
+                    bot.followPath(Paths.pushSpike2, true);
                     setPathState(12);
                 }
                 break;
 
             case 12:
-                if (!bot.followerIsBusy() && !bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.GRAB_SPECIMEN);
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike2DropPose, 2, 2)) {
+                    bot.followPath(Paths.pushSpike3, false);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL, 0);
+                    bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
+
                     setPathState(13);
                 }
                 break;
 
             case 13:
-                if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG,0);
-                    bot.setMode(Modes.HANDLER_HIGH_SPECIMEN_POS);
-                    bot.followPath(Paths.specimenGrabToSubShortSideSetup, false);
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike3DropPose, 2, 2)) {
+                    bot.followPath(Paths.specimenSpike3DropToSpecimenSpike3Grab, true);
                     setPathState(14);
                 }
                 break;
 
             case 14:
-                if (!bot.followerIsBusy()) {
-                    bot.followPath(Paths.subShortSideSetupToSubShortSide, true);
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike3GrabPose, 2, 2)) {
+                    bot.setMode(Modes.GRAB_SPECIMEN);
                     setPathState(15);
                 }
                 break;
 
             case 15:
-                if (bot.bumperBumped()) {
+                if (!bot.handlerIsBusy() && !bot.onHold()) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG, 0);
+                    bot.setMode(Modes.HANDLER_HIGH_SPECIMEN_POS);
+                    bot.followPath(Paths.specimenSpike3GrabToSubShortSideSetup, false);
                     setPathState(16);
                 }
                 break;
 
             case 16:
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.subShortSideSetupPose, 2, 2)) {
+                    bot.followPath(Paths.subShortSideSetupToSubShortSide, true);
+                    setPathState(17);
+                }
+                break;
+
+            case 17:
+                if (bot.bumperBumped()) {
+                    setPathState(18);
+                }
+                break;
+
+            case 18:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
                     bot.setMode(Modes.HANG_SPECIMEN);
                     setPathState(20);
@@ -112,7 +123,7 @@ public class Specimenx2 extends SpecimenAutoOpMode {
             case 20:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
                     bot.followPath(Paths.subShortSideToSpecimenGrabSetup, false);
-                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL,0);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL, 0);
                     bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
 
                     FieldLocations.subShortSideSetupPose =
@@ -139,7 +150,7 @@ public class Specimenx2 extends SpecimenAutoOpMode {
                 break;
 
             case 22:
-                if (!bot.followerIsBusy() && !bot.handlerIsBusy() && !bot.onHold()) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenGrabPose, 2, 2)) {
                     bot.setMode(Modes.GRAB_SPECIMEN);
                     setPathState(23);
                 }
@@ -147,7 +158,7 @@ public class Specimenx2 extends SpecimenAutoOpMode {
 
             case 23:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG,0);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG, 0);
                     bot.setMode(Modes.HANDLER_HIGH_SPECIMEN_POS);
                     bot.followPath(Paths.specimenGrabToSubShortSideSetup, false);
                     setPathState(24);
@@ -155,7 +166,7 @@ public class Specimenx2 extends SpecimenAutoOpMode {
                 break;
 
             case 24:
-                if (!bot.followerIsBusy()) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.subShortSideSetupPose, 2, 2)) {
                     bot.followPath(Paths.subShortSideSetupToSubShortSide, true);
                     setPathState(25);
                 }
@@ -176,8 +187,8 @@ public class Specimenx2 extends SpecimenAutoOpMode {
 
             case 30:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.followPath(Paths.subShortSideToSpecimenGrabSetup, false);
-                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL,0);
+                    bot.followPath(Paths.subShortSideToSpecimenGrabSetup, true);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL, 0);
                     bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
 
                     FieldLocations.subShortSideSetupPose =
@@ -197,14 +208,14 @@ public class Specimenx2 extends SpecimenAutoOpMode {
                 break;
 
             case 31:
-                if (!bot.followerIsBusy()) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenGrabSetupPose, 2, 2)) {
                     bot.followPath(Paths.specimenGrabSetupToSpecimenGrab, true);
                     setPathState(32);
                 }
                 break;
 
             case 32:
-                if (!bot.followerIsBusy() && !bot.handlerIsBusy() && !bot.onHold()) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenGrabPose, 2, 2)) {
                     bot.setMode(Modes.GRAB_SPECIMEN);
                     setPathState(33);
                 }
@@ -212,7 +223,7 @@ public class Specimenx2 extends SpecimenAutoOpMode {
 
             case 33:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG,0);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG, 0);
                     bot.setMode(Modes.HANDLER_HIGH_SPECIMEN_POS);
                     bot.followPath(Paths.specimenGrabToSubShortSideSetup, false);
                     setPathState(34);
@@ -220,7 +231,7 @@ public class Specimenx2 extends SpecimenAutoOpMode {
                 break;
 
             case 34:
-                if (!bot.followerIsBusy()) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.subShortSideSetupPose, 2, 2)) {
                     bot.followPath(Paths.subShortSideSetupToSubShortSide, true);
                     setPathState(35);
                 }
@@ -241,8 +252,8 @@ public class Specimenx2 extends SpecimenAutoOpMode {
 
             case 40:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.followPath(Paths.subShortSideToSpecimenGrabSetup, false);
-                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL,0);
+                    bot.followPath(Paths.subShortSideToSpecimenGrabSetup, true);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL, 0);
                     bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
 
                     FieldLocations.subShortSideSetupPose =
@@ -262,14 +273,14 @@ public class Specimenx2 extends SpecimenAutoOpMode {
                 break;
 
             case 41:
-                if (!bot.followerIsBusy()) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenGrabSetupPose, 2, 2)) {
                     bot.followPath(Paths.specimenGrabSetupToSpecimenGrab, true);
                     setPathState(42);
                 }
                 break;
 
             case 42:
-                if (!bot.followerIsBusy() && !bot.handlerIsBusy() && !bot.onHold()) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenGrabPose, 2, 2)) {
                     bot.setMode(Modes.GRAB_SPECIMEN);
                     setPathState(43);
                 }
@@ -277,7 +288,7 @@ public class Specimenx2 extends SpecimenAutoOpMode {
 
             case 43:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG,0);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG, 0);
                     bot.setMode(Modes.HANDLER_HIGH_SPECIMEN_POS);
                     bot.followPath(Paths.specimenGrabToSubShortSideSetup, false);
                     setPathState(44);
@@ -285,7 +296,7 @@ public class Specimenx2 extends SpecimenAutoOpMode {
                 break;
 
             case 44:
-                if (!bot.followerIsBusy()) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.subShortSideSetupPose, 2, 2)) {
                     bot.followPath(Paths.subShortSideSetupToSubShortSide, true);
                     setPathState(45);
                 }

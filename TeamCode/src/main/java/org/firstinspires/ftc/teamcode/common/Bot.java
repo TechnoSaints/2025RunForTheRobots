@@ -215,6 +215,23 @@ public abstract class Bot extends Component {
                 }
                 break;
 
+            case CRUISING:
+                if (isPhase(1)) {
+                    onHold = true;
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
+                    setHandlerWristPositionPreset(HandlerWristPositions.HIGH_BUCKET);
+                    setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET);
+                    setLiftPositionPreset(LiftPositions.MIN);
+                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+                    setIntakeWristPositionPreset(IntakeWristPositions.UP);
+                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                    setIntakeLightPositionPreset(IntakeLightPositions.OFF);
+                    setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                    onHold = false;
+                    setPhase(-1);
+                }
+                break;
+
             case INTAKE_HOVER_POS:
                 if (isPhase(1)) {
                     onHold = true;
