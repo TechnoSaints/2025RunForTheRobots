@@ -8,7 +8,7 @@ public enum HandlerArmPositions {
     SPECIMEN_SLAP_UP(.57),
     SUB_PARKING(.61),
     AUTO_START(.86),
-    HANDOFF(.91);
+    HANDOFF(.90);
     private double value;
     HandlerArmPositions(double value) {
         this.value = value;

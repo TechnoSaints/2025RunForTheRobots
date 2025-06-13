@@ -300,7 +300,7 @@ public abstract class Bot extends Component {
                     setPhase(2);
                 } else if (isPhase(2)) {
                     if (!liftIsBusy()) {
-                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT);
+                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT, 350);
 //                        setPhase(3);
 //                    }
 //                } else if (isPhase(3)) {

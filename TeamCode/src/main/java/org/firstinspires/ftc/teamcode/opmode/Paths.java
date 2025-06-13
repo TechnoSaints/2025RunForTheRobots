@@ -14,7 +14,7 @@ public class Paths {
 
     // samples paths
     public static PathChain startToBucket, bucketToSampleSpike1, sampleSpike1ToBucket, bucketToSampleSpike2, sampleSpike2ToBucket, bucketToSampleSpike3Setup,
-            sampleSpike3SetupToSampleSpike3, sampleSpike3ToBucket, bucketToSamplePark;
+            sampleSpike3SetupToSampleSpike3, sampleSpike3ToBucket, bucketToSampleParkSetup, sampleParkSetupToSamplePark;
     // specimen paths
     public static PathChain startToSubShortSideSetup, subShortSideSetupToSubShortSide, subShortSideToHumanPlayerPark,
             pushSpike1, pushSpike2, pushSpike3, specimenSpike3DropToSpecimenSpike3Grab, specimenSpike3GrabToSubShortSideSetup,
@@ -61,9 +61,14 @@ public class Paths {
                 .setLinearHeadingInterpolation(FieldLocations.sampleSpike3Pose.getHeading(), FieldLocations.bucketPose.getHeading())
                 .build();
 
-        bucketToSamplePark = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(FieldLocations.bucketPose), new Point(FieldLocations.sampleParkSetupPose), new Point(FieldLocations.sampleParkPose)))
-                .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.sampleParkPose.getHeading())
+        bucketToSampleParkSetup = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.bucketPose), new Point(FieldLocations.sampleParkSetupPose)))
+                .setLinearHeadingInterpolation(FieldLocations.bucketPose.getHeading(), FieldLocations.sampleParkSetupPose.getHeading())
+                .build();
+
+        sampleParkSetupToSamplePark = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.sampleParkSetupPose), new Point(FieldLocations.sampleParkPose)))
+                .setConstantHeadingInterpolation(FieldLocations.sampleParkSetupPose.getHeading())
                 .build();
     }
 

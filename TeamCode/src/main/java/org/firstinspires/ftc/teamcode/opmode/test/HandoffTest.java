@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.common.Extendo;
 import org.firstinspires.ftc.teamcode.common.Modes;
 import org.firstinspires.ftc.teamcode.common.TeleopBot;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerArmPositions;
 
 @Config
 @TeleOp(name = "HandoffTest", group = "Test")
@@ -34,6 +35,7 @@ public class HandoffTest extends LinearOpMode {
         bot.setMode(Modes.INTAKE_BRICK);
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
+                bot.setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF,0);
                 bot.setMode(Modes.HANDLER_HANDOFF_PREP_POS);
             } else if (gamepad1.y) {
                 bot.setExtendoPositionPreset(ExtendoPositions.RETRACTED);

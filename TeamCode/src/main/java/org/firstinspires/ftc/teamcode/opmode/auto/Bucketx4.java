@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Han
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeSwivelPositions;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeWristPositions;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.LiftPositions;
+import org.firstinspires.ftc.teamcode.opmode.FieldLocations;
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
 @Autonomous(name = "Bucket x 4 + Park", group = "Bucket")
@@ -19,12 +20,14 @@ public class Bucketx4 extends BucketAutoOpMode {
             // Go to high bucket scoring config and pose
             case 0:
                 bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP,0);
                 bot.followPath(Paths.startToBucket, false);
                 setPathState(1);
                 break;
 
             case 1:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET,0);
                     bot.setMode(Modes.HANDLER_HIGH_BUCKET_POS);
                     setPathState(2);
                 }
@@ -81,12 +84,14 @@ public class Bucketx4 extends BucketAutoOpMode {
             case 8:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
                     bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP,0);
                     setPathState(9);
                 }
                 break;
 
             case 9:
                 if (!bot.liftIsBusy()) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET,0);
                     bot.setMode(Modes.HANDLER_HIGH_BUCKET_POS);
                     setPathState(10);
                 }
@@ -141,6 +146,7 @@ public class Bucketx4 extends BucketAutoOpMode {
 
             case 16:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP,0);
                     bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
                     setPathState(17);
                 }
@@ -148,6 +154,7 @@ public class Bucketx4 extends BucketAutoOpMode {
 
             case 17:
                 if (!bot.liftIsBusy()) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET,0);
                     bot.setMode(Modes.HANDLER_HIGH_BUCKET_POS);
                     setPathState(18);
                 }
@@ -195,15 +202,15 @@ public class Bucketx4 extends BucketAutoOpMode {
 
             case 23:
                 if (!bot.intakeIsBusy() && !bot.onHold()) {
+                    bot.followPath(Paths.sampleSpike3ToBucket, false);
                     bot.setExtendoPositionPreset(ExtendoPositions.RETRACTED);
                     setPathState(24);
                 }
                 break;
 
             case 24:
-                if (!bot.isBusy() && !bot.onHold()) {
+                if (!bot.intakeIsBusy() && !bot.onHold()) {
                     bot.setMode(Modes.HAND_OFF_BRICK);
-                    bot.followPath(Paths.sampleSpike3ToBucket, false);
                     setPathState(25);
                 }
                 break;
@@ -211,12 +218,14 @@ public class Bucketx4 extends BucketAutoOpMode {
             case 25:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
                     bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP,0);
                     setPathState(26);
                 }
                 break;
 
             case 26:
                 if (!bot.liftIsBusy()) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET,0);
                     bot.setMode(Modes.HANDLER_HIGH_BUCKET_POS);
                     setPathState(27);
                 }
@@ -232,20 +241,28 @@ public class Bucketx4 extends BucketAutoOpMode {
             case 28:
                 if (!bot.handlerIsBusy()) {
                     bot.setHandlerArmPositionPreset(HandlerArmPositions.SUB_PARKING,0);
-                    bot.followPath(Paths.bucketToSamplePark, false);
+                    bot.followPath(Paths.bucketToSampleParkSetup, false);
                     setPathState(29);
                 }
                 break;
 
             case 29:
-                if (!bot.handlerIsBusy()) {
-                    bot.setMode(Modes.PARKING_AT_SUB_POS);
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.sampleParkSetupPose, 2, 2))
+                {
+                    bot.followPath(Paths.sampleParkSetupToSamplePark, true);
                     setPathState(30);
                 }
                 break;
 
-            // deactivate and rest up for teleop
             case 30:
+                if (!bot.handlerIsBusy()) {
+                    bot.setMode(Modes.PARKING_AT_SUB_POS);
+                    setPathState(31);
+                }
+                break;
+
+            // deactivate and rest up for teleop
+            case 31:
                 if (!bot.isBusy()) {
                     setPathState(-1);
                     requestOpModeStop();
