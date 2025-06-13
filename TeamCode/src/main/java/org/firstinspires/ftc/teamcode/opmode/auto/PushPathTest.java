@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.common.Modes;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerArmPositions;
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.opmode.FieldLocations;
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
 @Autonomous(name = "PushPathTest", group = "Specimen")
+@Disabled
 public class PushPathTest extends SpecimenAutoOpMode {
 
     protected void autonomousPathUpdate() {

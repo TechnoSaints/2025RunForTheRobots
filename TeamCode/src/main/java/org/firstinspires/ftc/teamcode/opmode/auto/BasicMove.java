@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.common.Modes;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerGrabberPositions;
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Int
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
 @Autonomous(name = "BasicMove", group = "Bucket")
+@Disabled
 public class BasicMove extends BucketAutoOpMode {
 
     protected void autonomousPathUpdate() {

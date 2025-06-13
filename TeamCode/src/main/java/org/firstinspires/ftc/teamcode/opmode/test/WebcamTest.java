@@ -19,7 +19,6 @@ import java.util.List;
 
 @Config
 @TeleOp(name = "WebcamTest", group = "Test")
-@Disabled
 
 public class WebcamTest extends LinearOpMode {
 

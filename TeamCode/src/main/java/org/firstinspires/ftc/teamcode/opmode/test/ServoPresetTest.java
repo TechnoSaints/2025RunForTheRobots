@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Int
 
 @Config
 @TeleOp(name = "ServoPresetTest", group = "Test")
-
+@Disabled
 public class ServoPresetTest extends LinearOpMode {
 
     private Servo servo;
