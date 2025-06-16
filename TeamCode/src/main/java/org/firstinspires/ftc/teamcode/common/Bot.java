@@ -75,7 +75,11 @@ public abstract class Bot extends Component {
     }
 
     public void setIntakeWristPositionPreset(IntakeWristPositions position) {
-        intakeWrist.setPositionTicks(position.getValue(), 250);
+        intakeWrist.setPositionTicks(position.getValue(), 350);
+    }
+
+    public void setIntakeWristPositionPreset(IntakeWristPositions position, double delay) {
+        intakeWrist.setPositionTicks(position.getValue(), delay);
     }
 
     protected boolean intakeWristIsBusy() {
@@ -86,12 +90,20 @@ public abstract class Bot extends Component {
         intakeSwivel.setPositionTicks(position.getValue(), 150);
     }
 
+    public void setIntakeSwivelPositionPreset(IntakeSwivelPositions position, double delay) {
+        intakeSwivel.setPositionTicks(position.getValue(), delay);
+    }
+
     protected boolean intakeSwivelIsBusy() {
         return intakeSwivel.isBusy();
     }
 
     public void setIntakeGrabberPositionPreset(IntakeGrabberPositions position) {
         intakeGrabber.setPositionTicks(position.getValue(), 150);
+    }
+
+    public void setIntakeGrabberPositionPreset(IntakeGrabberPositions position, double delay) {
+        intakeGrabber.setPositionTicks(position.getValue(), delay);
     }
 
     protected boolean intakeGrabberIsBusy() {
@@ -138,6 +150,10 @@ public abstract class Bot extends Component {
         handlerWrist.setPositionTicks(position.getValue(), 250);
     }
 
+    public void setHandlerWristPositionPreset(HandlerWristPositions position, double delay) {
+        handlerWrist.setPositionTicks(position.getValue(), delay);
+    }
+
     protected boolean handlerWristIsBusy() {
         return handlerWrist.isBusy();
     }
@@ -174,9 +190,9 @@ public abstract class Bot extends Component {
         return (bumperSwitchL.isPressed() || bumperSwitchR.isPressed());
     }
 
-    protected void logIsBusyStatuses()
-    {
+    protected void logIsBusyStatuses() {
     }
+
     public void update() {
         extendo.update();
 //        lift.log();
@@ -241,7 +257,7 @@ public abstract class Bot extends Component {
 //                    setExtendoPositionPreset(ExtendoPositions.AUTO_INTAKING);
                     setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
                     setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
-                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES180);
                     onHold = false;
                     setPhase(-1);
                 }
@@ -260,6 +276,13 @@ public abstract class Bot extends Component {
                     }
                 } else if (isPhase(3)) {
                     if (!intakeGrabberIsBusy()) {
+                        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES180);
+                        setIntakeWristPositionPreset(IntakeWristPositions.FRONT);
+                        setPhase(4);
+                    }
+                } else if (isPhase(4)) {
+                    if (!intakeIsBusy()) {
+                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
                         setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                         setIntakeWristPositionPreset(IntakeWristPositions.UP);
                         onHold = false;
