@@ -25,7 +25,7 @@ public class ServoAngular extends ServoSimple {
         rangeTicks = this.ticksAtMaxPosDegrees - this.ticksAtMinPosDegrees;
         ticksPerDegree = rangeTicks / rangeDegrees;
 
-        setPositionDegrees(maxPosDegrees, 0);
+//        setPositionDegrees(maxPosDegrees, 0);
     }
 
     public void setPositionDegrees(double posDegrees, double delay) {

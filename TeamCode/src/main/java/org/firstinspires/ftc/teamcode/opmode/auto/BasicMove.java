@@ -60,7 +60,7 @@ public class BasicMove extends BucketAutoOpMode {
             // Grab brick from spike1
             case 5:
                 if (!bot.followerIsBusy() && !bot.onHold()) {
-                    bot.setMode(Modes.INTAKE_BRICK);
+                    bot.setMode(Modes.INTAKE_BRICK_FOR_HANDOFF);
                     setPathState(6);
                 }
                 break;

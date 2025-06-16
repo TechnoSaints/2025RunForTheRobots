@@ -33,7 +33,7 @@ public class HandoffTest extends LinearOpMode {
             bot.update();
         }
         waitForStart();
-        bot.setMode(Modes.INTAKE_BRICK);
+        bot.setMode(Modes.INTAKE_BRICK_FOR_HANDOFF);
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
                 bot.setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF,0);
