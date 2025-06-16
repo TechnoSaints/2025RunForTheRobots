@@ -73,7 +73,7 @@ public class Extendo extends Component {
 
     private void goToLength(double targetLengthInches) {
         if (fast) {
-            servo.setPositionDegrees(lengthToAngle(targetLengthInches), 0);
+            servo.setPositionDegrees(lengthToAngle(targetLengthInches), 500);
             currentLengthInches = targetLengthInches;
         }
         this.targetLengthInches = targetLengthInches;
@@ -113,12 +113,12 @@ public class Extendo extends Component {
     }
 
     public boolean isBusy() {
-        return (!atTarget());
+        return (!atTarget() || servo.isBusy());
     }
 
     public void update() {
         if (controlTimer.milliseconds() >= currentMoveDelayMS) {
-            if (isBusy()) {
+            if (!atTarget()) {
                 currentLengthInches = currentLengthInches + direction * moveIncrementInches;
                 servo.setPositionDegrees(lengthToAngle(currentLengthInches), 0);
                 controlTimer.reset();

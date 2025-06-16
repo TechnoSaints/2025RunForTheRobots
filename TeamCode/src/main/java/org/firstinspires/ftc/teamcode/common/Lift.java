@@ -17,7 +17,8 @@ public class Lift extends Component {
     private final double maxMovePower;
     private final double stopPower;
     private final int maxPosition;
-    private final int tolerance;
+    private final int teleopTolerance;
+    private final int autoTolerance;
     private final int minPosition;
     private double targetVelocity;
     private int direction = 1;
@@ -34,10 +35,11 @@ public class Lift extends Component {
         stopPower = liftData.stopPower;
         lockPower = liftData.lockPower;
         maxPosition = LiftPositions.MAX.getValue();
-        tolerance = liftData.tolerance;
+        teleopTolerance = liftData.teleopTolerance;
+        autoTolerance = liftData.autoTolerance;
         minPosition = LiftPositions.MIN.getValue();
         motor = hardwareMap.get(DcMotorEx.class, motorName);
-        motor.setTargetPositionTolerance(tolerance);
+        motor.setTargetPositionTolerance(autoTolerance);
 
         if (reverseMotor) {
             direction = -1;
@@ -95,7 +97,7 @@ public class Lift extends Component {
     private boolean stoppedAtTop() {
         boolean stop = false;
         int currentPosition = motor.getCurrentPosition();
-        if (currentPosition > (maxPosition - tolerance)) {
+        if (currentPosition > (maxPosition - teleopTolerance)) {
             stop = true;
             stopAtPosition(maxPosition);
         }
@@ -105,7 +107,7 @@ public class Lift extends Component {
     private boolean stoppedAtBottom() {
         boolean stop = false;
         int currentPosition = motor.getCurrentPosition();
-        if (currentPosition < (minPosition - tolerance)) {
+        if (currentPosition < (minPosition - teleopTolerance)) {
             stop = true;
             stopAtPosition(minPosition);
         }
