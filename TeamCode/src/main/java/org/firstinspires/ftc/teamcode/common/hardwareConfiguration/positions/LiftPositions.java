@@ -6,7 +6,7 @@ public enum LiftPositions {
     SPECIMEN_HANG_SETUP(0),
     SPECIMEN_HANG(675),
     HANDOFF_SETUP(350),
-    HANDOFF(125),
+    HANDOFF(145),
     SPECIMEN_WALL(0),
     MIN(0);
 

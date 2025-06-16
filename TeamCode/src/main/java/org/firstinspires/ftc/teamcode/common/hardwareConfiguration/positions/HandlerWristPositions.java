@@ -5,7 +5,7 @@ public enum HandlerWristPositions {
     HIGH_BUCKET(.61),
     HANDOFF_SETUP(.42),
     SUB_PARKING(0.48),
-    HANDOFF(.48),
+    HANDOFF(.45),
     UP_SPECIMEN(0.35),
     SPECIMEN_SLAP(0.40),
     SPECIMEN_HANG(0.58);
