@@ -478,22 +478,13 @@ public abstract class Bot extends Component {
                 break;
 
             case HANG_SPECIMEN:
-                if (
-
-                        isPhase(1)) {
+                if (isPhase(1)) {
                     onHold = true;
                     lift.setPositionPreset(LiftPositions.SPECIMEN_HANG);
                     setPhase(2);
-                } else if (
-
-                        isPhase(2)) {
+                } else if (isPhase(2)) {
                     if (!liftIsBusy()) {
                         setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN, 50);
-//                        setPhase(3);
-//                    }
-//                } else if (isPhase(3)) {
-//                    if (!handlerGrabberIsBusy()) {
-//                        setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL);
                         onHold = false;
                         setPhase(-1);
                     }

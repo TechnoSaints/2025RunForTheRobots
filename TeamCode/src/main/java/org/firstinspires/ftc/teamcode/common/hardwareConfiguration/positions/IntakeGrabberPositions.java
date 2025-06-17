@@ -6,9 +6,9 @@ public enum IntakeGrabberPositions {
     MIDDLE(0.65),
     SWEEP(0.63),
     //  CLOSED_LOOSE(0.54),
-    CLOSED_LOOSE(0.67),
+    CLOSED_LOOSE(0.44),
     //    CLOSED_TIGHT(0.52);
-    CLOSED_TIGHT(0.65);
+    CLOSED_TIGHT(0.42);
 
     private double value;
 

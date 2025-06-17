@@ -14,14 +14,14 @@ public class FieldLocations {
     public final static Pose sampleSpike1Pose = new Pose(-8.75, 22.5, Math.toRadians(90));
 
     // position to grab the brick at the middle spike mark
-    public final static Pose sampleSpike2Pose = new Pose(-18.75, 22.5, Math.toRadians(90));
+    public final static Pose sampleSpike2Pose = new Pose(-18.24, 22.5, Math.toRadians(90));
 
     public final static Pose sampleSpike3SetupPose = new Pose(-13.5, 27.5, Math.toRadians(180));
 
     // position to grab the brick at the spike mark closest to the wall
     public final static Pose sampleSpike3Pose = new Pose(-13.5, 37, Math.toRadians(180));
 
-    public final static Pose sampleHumanPlayerPose = new Pose(73.5, 5, Math.toRadians(0));
+    public final static Pose sampleHumanPlayerPose = new Pose(73.5, 3.25, Math.toRadians(0));
 
     public final static Pose sampleParkSetupPose = new Pose(12, 54, Math.toRadians(0));
     // park position
@@ -31,7 +31,7 @@ public class FieldLocations {
 
     // Specimen hanging poses
     public static Pose subShortSideSetupPose = new Pose(34, 31.5, Math.toRadians(90));
-    public static Pose subShortSidePose = new Pose(34, 35, Math.toRadians(90));
+    public static Pose subShortSidePose = new Pose(34, 36, Math.toRadians(90));
 
     // Push poses
     public final static Pose subShortClearPose = new Pose(72, 20, Math.toRadians(90));
@@ -42,14 +42,14 @@ public class FieldLocations {
     public final static Pose specimenSpike2Pose = new Pose(100, 57, Math.toRadians(90));
     public final static Pose specimenSpike2DropPose = new Pose(95, 7, Math.toRadians(90));
     public final static Pose specimenSpike3SetupPose = new Pose(95, 70, Math.toRadians(90));
-    public final static Pose specimenSpike3Pose = new Pose(104, 60, Math.toRadians(90));
-    public final static Pose specimenSpike3DropPose = new Pose(104, 10, Math.toRadians(90));
-    public final static Pose specimenSpike3GrabPose = new Pose(104, 2, Math.toRadians(90));
+    public final static Pose specimenSpike3Pose = new Pose(103, 60, Math.toRadians(90));
+    public final static Pose specimenSpike3DropPose = new Pose(103, 9, Math.toRadians(90));
+    public final static Pose specimenSpike3GrabPose = new Pose(103, 2, Math.toRadians(90));
 
     //
     public final static Pose humanPlayerDropPose = new Pose(98, 7, Math.toRadians(90));
 
-    public final static Pose specimenGrabSetupPose = new Pose(75, 10, Math.toRadians(90));
+    public final static Pose specimenGrabSetupPose = new Pose(75, 9, Math.toRadians(90));
 
     public final static Pose specimenGrabPose = new Pose(75, 2, Math.toRadians(90));
 }

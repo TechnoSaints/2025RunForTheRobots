@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.common.Lift;
 
 @Config
 @TeleOp(name = "LiftSingleTest", group = "Test")
-@Disabled
+
 public class LiftSingleTest extends LinearOpMode {
 
     private Lift lift;
