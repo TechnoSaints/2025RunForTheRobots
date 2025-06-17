@@ -62,6 +62,6 @@ public class AutoBot extends Bot {
     public void update() {
         super.update();
         follower.update();
-        logIsBusy();
+//        logIsBusy();
     }
 }
