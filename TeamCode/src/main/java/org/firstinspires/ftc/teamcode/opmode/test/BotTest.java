@@ -26,7 +26,6 @@ public class BotTest extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             bot.processSpecimenInput(gamepad1);
-            bot.processBucketInput(gamepad2);
             bot.update();
         }
     }

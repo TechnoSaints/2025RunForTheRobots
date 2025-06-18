@@ -121,6 +121,10 @@ public abstract class Bot extends Component {
         lift.setPositionPreset(position);
     }
 
+    public int liftCurrentPosition() {
+        return (lift.currentPosition());
+    }
+
     public void liftUp(double power) {
         lift.up(power);
     }
@@ -241,7 +245,7 @@ public abstract class Bot extends Component {
                     setIntakeWristPositionPreset(IntakeWristPositions.UP);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                     setIntakeLightPositionPreset(IntakeLightPositions.OFF);
-                    setExtendoPositionPreset(ExtendoPositions.RETRACTED);
+                    setExtendoPositionPreset(ExtendoPositions.RETRACTED_TELEOP);
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
                     setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_HANG);
                     setHandlerArmPositionPreset(HandlerArmPositions.TOP);
@@ -329,6 +333,7 @@ public abstract class Bot extends Component {
                 } else if (isPhase(4)) {
                     if (!intakeGrabberIsBusy()) {
                         setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
+                        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                         onHold = false;
                         setPhase(-1);
                     }
@@ -355,6 +360,49 @@ public abstract class Bot extends Component {
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
                     onHold = false;
                     setPhase(-1);
+                }
+                break;
+
+            case TELEOP_HANDOFF:
+                if (isPhase(1)) {
+                    onHold = true;
+                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_LOOSE);
+                    setIntakeWristPositionPreset(IntakeWristPositions.FRONT);
+                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES180,400);
+                    setLiftPositionPreset(LiftPositions.HANDOFF_SETUP);
+                    setHandlerArmPositionPreset(HandlerArmPositions.HANDOFF);
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
+                    setHandlerWristPositionPreset(HandlerWristPositions.HANDOFF);
+                    setPhase(2);
+                } else if (isPhase(2)) {
+                    if (!intakeIsBusy()) {
+                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.CLOSED_TIGHT);
+                        setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
+                        setIntakeWristPositionPreset(IntakeWristPositions.UPPISH);
+                        setPhase(3);
+                    }
+                } else if (isPhase(3)) {
+                    if (!intakeIsBusy()) {
+                        setIntakeWristPositionPreset(IntakeWristPositions.UP);
+                        setExtendoPositionPreset(ExtendoPositions.RETRACTED_TELEOP);
+                        setPhase(4);
+                    }
+                } else if (isPhase(4)) {
+                    if (!intakeIsBusy()) {
+                        setLiftPositionPreset(LiftPositions.HANDOFF);
+                        setPhase(5);
+                    }
+                } else if (isPhase(5)) {
+                    if (!liftIsBusy()) {
+                        setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_TIGHT, 350);
+                        setPhase(6);
+                    }
+                } else if (isPhase(6)) {
+                    if (!handlerGrabberIsBusy()) {
+                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
+                        onHold = false;
+                        setPhase(-1);
+                    }
                 }
                 break;
 
@@ -396,58 +444,19 @@ public abstract class Bot extends Component {
                 break;
 
             case NOT_LOOKING_POS:
-                if (
-
-                        isPhase(1)) {
+                if (isPhase(1)) {
                     onHold = true;
                     setIntakeWristPositionPreset(IntakeWristPositions.UP);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
 //                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
-                    setExtendoPositionPreset(ExtendoPositions.RETRACTED);
-                    onHold = false;
-                    setPhase(-1);
-                }
-                break;
-
-            case INTAKE_SPIT_BRICK_ON_FLOOR:
-                if (
-
-                        isPhase(1)) {
-                    onHold = true;
-                    setIntakeWristPositionPreset(IntakeWristPositions.LOOK);
-                    setExtendoPositionPreset(ExtendoPositions.EXTENDED);
-                    setPhase(2);
-                } else if (
-
-                        isPhase(2)) {
-                    if (!intakeIsBusy()) {
-                        setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
-                        onHold = false;
-                        setPhase(-1);
-                    }
-                }
-                break;
-
-            case INTAKE_SWEEP_POS:
-                if (
-
-                        isPhase(1)) {
-                    onHold = true;
-//                    extendo.setMedium();
-                    extendo.setPositionPreset(ExtendoPositions.EXTENDED);
-//                    extendo.setFast();
-                    setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES90);
-                    setIntakeWristPositionPreset(IntakeWristPositions.DOWN);
-                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.SWEEP);
+                    setExtendoPositionPreset(ExtendoPositions.RETRACTED_TELEOP);
                     onHold = false;
                     setPhase(-1);
                 }
                 break;
 
             case GRAB_SPECIMEN:
-                if (
-
-                        isPhase(1)) {
+                if (isPhase(1)) {
                     onHold = true;
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_LOOSE, 50);
                     setPhase(2);
@@ -462,11 +471,30 @@ public abstract class Bot extends Component {
                 }
                 break;
 
+            case TELEOP_GRAB_SPECIMEN:
+                if (isPhase(1)) {
+                    onHold = true;
+                    setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_LOOSE, 50);
+                    setPhase(2);
+                } else if (isPhase(2)) {
+                    if (!handlerGrabberIsBusy()) {
+                        setHandlerWristPositionPreset(HandlerWristPositions.UP_SPECIMEN);
+                        setPhase(3);
+                    }
+                } else if (isPhase(3)) {
+                    if (!handlerWristIsBusy()) {
+                        setLiftPositionPreset(LiftPositions.SPECIMEN_HANG_SETUP);
+                        setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_HANG);
+                        setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_HANG);
+                        onHold = false;
+                        setPhase(-1);
+                    }
+                }
+                break;
+
             // Assumes grasping specimen
             case HANDLER_HIGH_SPECIMEN_POS:
-                if (
-
-                        isPhase(1)) {
+                if (isPhase(1)) {
                     onHold = true;
                     setLiftPositionPreset(LiftPositions.SPECIMEN_HANG_SETUP);
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_LOOSE);
@@ -506,9 +534,7 @@ public abstract class Bot extends Component {
                 break;
 
             case PARKING_AT_SUB_POS:
-                if (
-
-                        isPhase(1)) {
+                if (isPhase(1)) {
                     onHold = true;
                     setLiftPositionPreset(LiftPositions.MIN);
 //                    setHandlerArmPositionPreset(HandlerArmPositions.SUB_PARKING);

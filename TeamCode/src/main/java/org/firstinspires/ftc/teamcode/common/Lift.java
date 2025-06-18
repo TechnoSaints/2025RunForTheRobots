@@ -49,9 +49,13 @@ public class Lift extends Component {
         resetEncoder();
     }
 
+    public int currentPosition() {
+        return (motor.getCurrentPosition());
+    }
+
     public void stop() {
         stopAtPosition(motor.getCurrentPosition());
- //       log();
+        //       log();
     }
 
     public void up(double targetPower) {
