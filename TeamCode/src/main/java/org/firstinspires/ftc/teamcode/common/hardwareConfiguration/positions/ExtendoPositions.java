@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions;
 
 public enum ExtendoPositions {
-    RETRACTED(4.0),
-    RETRACTED_TELEOP(2.75),
+    RETRACTED(5.25),
     AUTO_INTAKING(14),
     AUTO_SHORT(10),
     EXTENDED(23.5);

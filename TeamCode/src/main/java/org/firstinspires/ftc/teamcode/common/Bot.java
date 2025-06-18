@@ -69,6 +69,14 @@ public abstract class Bot extends Component {
         extendo.setPositionPreset(position);
     }
 
+    public void extendoSetMedium() {
+        extendo.setMedium();
+    }
+
+    public void extendoSetFast() {
+        extendo.setFast();
+    }
+
     protected boolean extendoIsBusy() {
         return extendo.isBusy();
     }
@@ -245,7 +253,7 @@ public abstract class Bot extends Component {
                     setIntakeWristPositionPreset(IntakeWristPositions.UP);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
                     setIntakeLightPositionPreset(IntakeLightPositions.OFF);
-                    setExtendoPositionPreset(ExtendoPositions.RETRACTED_TELEOP);
+                    setExtendoPositionPreset(ExtendoPositions.RETRACTED);
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.OPEN);
                     setHandlerWristPositionPreset(HandlerWristPositions.SPECIMEN_HANG);
                     setHandlerArmPositionPreset(HandlerArmPositions.TOP);
@@ -384,7 +392,7 @@ public abstract class Bot extends Component {
                 } else if (isPhase(3)) {
                     if (!intakeIsBusy()) {
                         setIntakeWristPositionPreset(IntakeWristPositions.UP);
-                        setExtendoPositionPreset(ExtendoPositions.RETRACTED_TELEOP);
+                        setExtendoPositionPreset(ExtendoPositions.RETRACTED);
                         setPhase(4);
                     }
                 } else if (isPhase(4)) {
@@ -449,7 +457,7 @@ public abstract class Bot extends Component {
                     setIntakeWristPositionPreset(IntakeWristPositions.UP);
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES0);
 //                    setIntakeGrabberPositionPreset(IntakeGrabberPositions.OPEN);
-                    setExtendoPositionPreset(ExtendoPositions.RETRACTED_TELEOP);
+                    setExtendoPositionPreset(ExtendoPositions.RETRACTED);
                     onHold = false;
                     setPhase(-1);
                 }
