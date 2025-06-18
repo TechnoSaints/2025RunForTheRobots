@@ -84,7 +84,7 @@ public class TeleopBot extends Bot {
             //Controls while looking for brick
             if (gamepad.a) {
                 liftManualControl = false;
-                if (extendoGetCurrentLength() > (ExtendoPositions.RETRACTED.getValue() + 1.5)) {
+                if (extendoGetCurrentLength() > (ExtendoPositions.TELEOP_RETRACTED.getValue() + 1.5)) {
                     looking = false;
                     setMode(Modes.NOT_LOOKING_POS);
                 } else {
