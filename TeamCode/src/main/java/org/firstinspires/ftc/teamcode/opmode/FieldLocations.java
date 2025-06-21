@@ -4,8 +4,8 @@ import com.pedropathing.localization.Pose;
 
 public class FieldLocations {
     public static Pose startPose;
-    public final static Pose sampleStartPose = new Pose(0, 0.5, Math.toRadians(90));
-    public final static Pose specimenStartPose = new Pose(47.25, 0.5, Math.toRadians(90));
+    public final static Pose sampleStartPose = new Pose(0, 2.0, Math.toRadians(90));
+    public final static Pose specimenStartPose = new Pose(47.25, 2.0, Math.toRadians(90));
 
     // position to drop the brick in the top bucket
     public final static Pose bucketPose = new Pose(-16.25, 6.5, Math.toRadians(45));
@@ -30,8 +30,8 @@ public class FieldLocations {
     public final static Pose humanPlayerParkPose = new Pose(85, 3, Math.toRadians(90));
 
     // Specimen hanging poses
-    public static Pose subShortSideSetupPose = new Pose(34, 31.5, Math.toRadians(90));
-    public static Pose subShortSidePose = new Pose(34, 36, Math.toRadians(90));
+    public static Pose subShortSideSetupPose = new Pose(34, 32, Math.toRadians(90));
+    public static Pose subShortSidePose = new Pose(34, 37, Math.toRadians(90));
 
     // Push poses
     public final static Pose subShortClearPose = new Pose(72, 20, Math.toRadians(90));
@@ -43,7 +43,7 @@ public class FieldLocations {
     public final static Pose specimenSpike2DropPose = new Pose(95, 7, Math.toRadians(90));
     public final static Pose specimenSpike3SetupPose = new Pose(95, 70, Math.toRadians(90));
     public final static Pose specimenSpike3Pose = new Pose(103, 60, Math.toRadians(90));
-    public final static Pose specimenSpike3DropPose = new Pose(103, 9, Math.toRadians(90));
+    public final static Pose specimenSpike3DropPose = new Pose(103, 5, Math.toRadians(90));
     public final static Pose specimenSpike3GrabPose = new Pose(103, 2, Math.toRadians(90));
 
     //

@@ -44,24 +44,29 @@ public class Specimenx5 extends SpecimenAutoOpMode {
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
                     bot.setMode(Modes.CRUISING);
                     bot.followPath(Paths.pushSpike1, false);
-
                     setPathState(11);
                 }
                 break;
 
             case 11:
-                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike1DropPose, 2.5, 2.5)) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike1DropPose, 2, 2)) {
                     bot.followPath(Paths.pushSpike2, false);
-
                     setPathState(12);
                 }
                 break;
 
             case 12:
-                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike2DropPose, 3, 3)) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike2DropPose, 2, 2)) {
                     bot.followPath(Paths.pushSpike3, false);
                     bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL, 0);
                     bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
+                    setPathState(13);
+                }
+                break;
+
+            case 13:
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike3DropPose, 2, 2)) {
+                    bot.followPath(Paths.specimenSpike3DropToSpecimenSpike3Grab, false);
                     FieldLocations.subShortSideSetupPose =
                             new Pose(FieldLocations.subShortSideSetupPose.getX() + gapBetweenHangingSpecimensIN,
                                     FieldLocations.subShortSideSetupPose.getY(),
@@ -73,13 +78,7 @@ public class Specimenx5 extends SpecimenAutoOpMode {
                                     FieldLocations.subShortSidePose.getHeading());
 
                     Paths.buildSpecimenHangPaths(bot.getFollower());
-                    setPathState(13);
-                }
-                break;
 
-            case 13:
-                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike3DropPose, 2, 2)) {
-                    bot.followPath(Paths.specimenSpike3DropToSpecimenSpike3Grab, false);
                     setPathState(14);
                 }
                 break;
