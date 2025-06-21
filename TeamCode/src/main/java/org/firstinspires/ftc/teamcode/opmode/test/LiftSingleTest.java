@@ -20,8 +20,9 @@ public class LiftSingleTest extends LinearOpMode {
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         lift = new Lift(hardwareMap, telemetry, "lift", false);
-        waitForStart();
 
+        waitForStart();
+        lift.setZero();
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_trigger > 0.2) {
                 lift.up(gamepad1.right_trigger);
@@ -30,8 +31,12 @@ public class LiftSingleTest extends LinearOpMode {
             } else {
                 lift.stop();
             }
-            lift.log();
 
+//            if (gamepad1.a)
+//            {
+//                lift.setZero();
+//            }
+            lift.log();
         }
     }
 }

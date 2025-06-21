@@ -35,7 +35,7 @@ public class FieldLocations {
 
     // Push poses
     public final static Pose subShortClearPose = new Pose(72, 20, Math.toRadians(90));
-    public final static Pose specimenSpike1SetupPose = new Pose(75, 54, Math.toRadians(90));
+    public final static Pose specimenSpike1SetupPose = new Pose(74, 58, Math.toRadians(90));
     public final static Pose specimenSpike1Pose = new Pose(90, 57, Math.toRadians(90));
     public final static Pose specimenSpike1DropPose = new Pose(90, 7, Math.toRadians(90));
     public final static Pose specimenSpike2SetupPose = new Pose(80, 54, Math.toRadians(90));

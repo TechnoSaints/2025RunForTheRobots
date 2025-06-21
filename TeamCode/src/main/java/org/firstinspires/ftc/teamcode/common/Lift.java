@@ -4,8 +4,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.GoBilda435DcMotorData;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.LiftData;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.MotorData;
@@ -23,6 +25,7 @@ public class Lift extends Component {
     private double targetVelocity;
     private int direction = 1;
     private final double lockPower;
+    private final ElapsedTime delayTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
     private final GoBilda435DcMotorData motorData = new GoBilda435DcMotorData();
 
@@ -134,6 +137,27 @@ public class Lift extends Component {
         stop();
     }
 
+    public void setZero()
+    {
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        targetVelocity = direction * -0.35 * maxMovePower * maxVelocity;
+        motor.setVelocity(targetVelocity);
+        while (motor.getCurrent(CurrentUnit.AMPS) < 7.5)
+        {
+//            log();
+        }
+        delayTimer.reset();
+        motor.setVelocity(0);
+        while (delayTimer.milliseconds() < 250)
+        {}
+        resetEncoder();
+//        telemetry.addData("currentPos", motor.getCurrentPosition());
+//        telemetry.update();
+//        delayTimer.reset();
+//        while (delayTimer.milliseconds() < 10000);
+//        {}
+    }
+
     public boolean isBusy() {
         return motor.isBusy();
     }
@@ -141,6 +165,7 @@ public class Lift extends Component {
     public void log() {
         telemetry.addData("isBusy(): ", isBusy());
         telemetry.addData("Position:  ", motor.getCurrentPosition());
+        telemetry.addData("current: ", motor.getCurrent(CurrentUnit.AMPS));
         telemetry.update();
     }
 }
