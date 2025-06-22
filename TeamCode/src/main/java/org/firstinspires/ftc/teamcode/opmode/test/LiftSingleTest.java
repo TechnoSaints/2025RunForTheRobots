@@ -22,7 +22,7 @@ public class LiftSingleTest extends LinearOpMode {
         lift = new Lift(hardwareMap, telemetry, "lift", false);
 
         waitForStart();
-        lift.setZero();
+//        lift.setZero();
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_trigger > 0.2) {
                 lift.up(gamepad1.right_trigger);
