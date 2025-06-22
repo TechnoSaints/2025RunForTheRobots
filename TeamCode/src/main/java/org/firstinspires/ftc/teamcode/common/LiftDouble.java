@@ -10,12 +10,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.GoBilda435DcMotorData;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.LiftData;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.LiftData;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.LiftPositions;
 
 @Config
-public class Lift extends Component {
+public class LiftDouble extends Component {
     private final DcMotorEx liftMotorL;
     private final DcMotorEx liftMotorR;
     private final PIDFController pidfL;
@@ -27,30 +28,23 @@ public class Lift extends Component {
     //original kD = 0.0005
     public static double kF = 0.0001;
 
-    private final GoBilda435DcMotorData motorData = new GoBilda435DcMotorData();
-    private final double maxVelocity = motorData.maxTicksPerSec;
-
     private final LiftData liftData = new LiftData();
-    private final int maxPosition, maxMovePower, stopPower, lockPower, minPosition, manualOffset, autoOffset;
-    private final int positionTolerancePID = 10;
+    private final double maxMovePower;
+    private final int maxPosition, minPosition, manualTolerance, autoTolerance;
+    int positionTolerancePID;
     int direction = 1;
     int targetPosition = 0;
     DcMotorEx motorL, motorR;
-    private int autoOffset = 0;
-    private int manualOffset = 25;
+    private final ElapsedTime delayTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
-    public Lift(HardwareMap hardwareMap, Telemetry telemetry, String motorNameL, String motorNameR, boolean reverseMotor) {
+    public LiftDouble(HardwareMap hardwareMap, Telemetry telemetry, String motorNameL, String motorNameR, boolean reverseMotor) {
         super(telemetry);
-        maxVelocity = motorData.maxTicksPerSec;
         maxMovePower = liftData.maxMovePower;
-        stopPower = liftData.stopPower;
-        lockPower = liftData.lockPower;
         maxPosition = LiftPositions.MAX.getValue();
-        manualOffset = liftData.teleopTolerance;
-        autoOffset = liftData.autoTolerance;
+        manualTolerance = liftData.teleopTolerance;
+        autoTolerance = liftData.autoTolerance;
+        positionTolerancePID = autoTolerance;
         minPosition = LiftPositions.MIN.getValue();
-
-        positionTolerancePID = autoOffset;
 
         pidfL = new PIDFController(kP, kI, kD, kF);
         pidfL.setTolerance(positionTolerancePID);
@@ -59,21 +53,7 @@ public class Lift extends Component {
 
         liftMotorL = hardwareMap.get(DcMotorEx.class, motorNameL);
         liftMotorR = hardwareMap.get(DcMotorEx.class, motorNameR);
-
-//        liftMotorL.setTargetPositionTolerance(autoOffset);
-//        liftMotorR.setTargetPositionTolerance(autoOffset);
-
-        liftMotorL.setDirection(DcMotor.Direction.FORWARD);
-        liftMotorR.setDirection(DcMotor.Direction.REVERSE);
-
-        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        liftMotorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        resetEncoders();
 
         if (reverseMotor) {
             direction = -1;
@@ -85,7 +65,7 @@ public class Lift extends Component {
     }
 
     public void up(double targetPower) {
-        if (!atTop(manualOffset)) {
+        if (!atTop(manualTolerance)) {
             setMotorsPower(targetPower);
         } else {
             stop();
@@ -93,7 +73,7 @@ public class Lift extends Component {
     }
 
     public void down(double targetPower) {
-        if (!atBottom(manualOffset)) {
+        if (!atBottom(manualTolerance)) {
             setMotorsPower(-targetPower);
         } else {
             stop();
@@ -108,13 +88,13 @@ public class Lift extends Component {
         setTargetPosition(position.getValue());
     }
 
-    public void setTargetPosition(int targetPosition) {
-        if (targetPosition < minPosition) {
+    public void setTargetPosition(int position) {
+        if (position < minPosition) {
             targetPosition = minPosition;
-        } else if (targetPosition > maxPosition) {
+        } else if (position > maxPosition) {
             targetPosition = maxPosition;
         } else {
-            targetPosition = this.targetPosition;
+            targetPosition = position;
         }
     }
 
@@ -125,7 +105,6 @@ public class Lift extends Component {
             return false;
         }
     }
-
 
     private boolean atBottom(int offset) {
         if ((liftMotorL.getCurrentPosition() + offset) <= minPosition) {
@@ -160,9 +139,50 @@ public class Lift extends Component {
     public void update() {
 //        pidfL.setPIDF(kP,kI,kD,kF);
 //        pidfR.setPIDF(kP,kI,kD,kF);
+        setPIDFMotorPower();
     }
 
-    private void logTelemetry() {
+    private void resetEncoders() {
+//        liftMotorL.setTargetPositionTolerance(autoTolerance);
+//        liftMotorR.setTargetPositionTolerance(autoTolerance);
+        liftMotorL.setDirection(DcMotor.Direction.FORWARD);
+        liftMotorR.setDirection(DcMotor.Direction.REVERSE);
+
+        liftMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        liftMotorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        liftMotorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+    }
+
+    public void setZero() {
+        double targetPower = direction * -0.35 * maxMovePower;
+        liftMotorL.setPower(targetPower);
+        liftMotorR.setPower(targetPower);
+
+        while ((liftMotorL.getCurrent(CurrentUnit.AMPS) < 7.5) && (liftMotorR.getCurrent(CurrentUnit.AMPS) < 7.5))
+        {
+//            log();
+        }
+        delayTimer.reset();
+        liftMotorL.setPower(0.0);
+        liftMotorR.setPower(0.0);
+        while (delayTimer.milliseconds() < 250) {
+        }
+        resetEncoders();
+        targetPower = 0;
+//        telemetry.addData("currentPos", motor.getCurrentPosition());
+//        telemetry.update();
+//        delayTimer.reset();
+//        while (delayTimer.milliseconds() < 10000);
+//        {}
+    }
+
+    public void log() {
         telemetry.addData("PositionL:  ", liftMotorL.getCurrentPosition());
         telemetry.addData("PositionR:  ", liftMotorR.getCurrentPosition());
         telemetry.addData("Target:  ", targetPosition);
