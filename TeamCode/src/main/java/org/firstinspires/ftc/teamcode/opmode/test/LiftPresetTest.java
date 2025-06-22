@@ -25,7 +25,7 @@ public class LiftPresetTest extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_trigger > 0.2) {
-                lift.setPositionPreset(LiftPositions.HIGH_BUCKET);
+                lift.setPositionPreset(LiftPositions.HIGH_BUCKET_TELEOP);
             } else if (gamepad1.left_trigger > 0.2) {
                 lift.setPositionPreset(LiftPositions.MIN);
             }

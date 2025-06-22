@@ -21,7 +21,7 @@ public class Bucketx4plus1 extends BucketAutoOpMode {
         switch (pathState) {
             // Go to high bucket scoring config and pose
             case 0:
-                bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET_AUTO);
                 bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP, 0);
                 bot.followPath(Paths.startToBucket, false);
                 setPathState(1);
@@ -89,7 +89,7 @@ public class Bucketx4plus1 extends BucketAutoOpMode {
 
             case 15:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                    bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET_AUTO);
                     bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP, 0);
                     setPathState(16);
                 }
@@ -156,7 +156,7 @@ public class Bucketx4plus1 extends BucketAutoOpMode {
 
             case 25:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                    bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET_AUTO);
                     bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP, 0);
                     setPathState(26);
                 }
@@ -242,7 +242,7 @@ public class Bucketx4plus1 extends BucketAutoOpMode {
 
             case 37:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
-                    bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                    bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET_AUTO);
                     bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP, 0);
                     setPathState(38);
                 }
@@ -309,7 +309,7 @@ public class Bucketx4plus1 extends BucketAutoOpMode {
             case 45:
                 if (!bot.handlerIsBusy() && !bot.onHold()) {
                     bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP, 0);
-                    bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                    bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET_AUTO);
                     setPathState(46);
                 }
                 break;

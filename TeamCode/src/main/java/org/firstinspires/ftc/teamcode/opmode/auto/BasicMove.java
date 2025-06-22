@@ -18,7 +18,7 @@ public class BasicMove extends BucketAutoOpMode {
     protected void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-                bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                bot.setLiftPositionPreset(LiftPositions.HIGH_BUCKET_AUTO);
                 bot.setHandlerArmPositionPreset(HandlerArmPositions.TOP,0);
                 bot.followPath(Paths.startToBucket, false);
                 setPathState(1);

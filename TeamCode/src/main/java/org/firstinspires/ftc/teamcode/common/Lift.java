@@ -129,7 +129,7 @@ public class Lift extends Component {
 
     public void lock() {
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor.setPower(lockPower);
+        motor.setPower(-lockPower);
     }
 
     public void unlock() {

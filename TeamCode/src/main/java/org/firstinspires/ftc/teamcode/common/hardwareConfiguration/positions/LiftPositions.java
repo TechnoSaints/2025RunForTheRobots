@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions;
 
 public enum LiftPositions {
     MAX(2250),
-    HIGH_BUCKET(2050),
-    HIGH_BUCKET_TELEOP(2150),
+    HIGH_BUCKET_AUTO(2050),
+    HIGH_BUCKET_TELEOP(2195),
     SPECIMEN_HANG_SETUP(120),
     SPECIMEN_HANG(615),
     HANDOFF_SETUP(300),

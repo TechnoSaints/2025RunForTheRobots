@@ -145,6 +145,20 @@ public abstract class Bot extends Component {
         lift.stop();
     }
 
+    public void liftLock()
+    {
+        lift.lock();
+    }
+
+    public void liftUnlock()
+    {
+        lift.unlock();
+    }
+
+    public void liftZero() {
+        lift.setZero();
+    }
+
     public boolean liftIsBusy() {
         return lift.isBusy();
     }
@@ -532,7 +546,7 @@ public abstract class Bot extends Component {
                 if (isPhase(1)) {
                     onHold = true;
                     if (!handlerGrabberIsBusy()) {
-                        setLiftPositionPreset(LiftPositions.HIGH_BUCKET);
+                        setLiftPositionPreset(LiftPositions.HIGH_BUCKET_AUTO);
 //                        setHandlerArmPositionPreset(HandlerArmPositions.HIGH_BUCKET);
                         setHandlerWristPositionPreset(HandlerWristPositions.HIGH_BUCKET);
                         onHold = false;

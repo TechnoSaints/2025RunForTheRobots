@@ -139,6 +139,20 @@ public class TeleopBot extends Bot {
                     setIntakeSwivelPositionPreset(IntakeSwivelPositions.DEGREES90);
                 }
                 buttonTimer.reset();
+            } else if ((gamepad.start) && (gamepad.share)) {
+                liftManualControl = false;
+                liftZero();
+                buttonTimer.reset();
+            } else if (gamepad.ps)
+            {
+                liftManualControl = false;
+                liftLock();
+                buttonTimer.reset();
+            } else if (gamepad.touchpad)
+            {
+                liftManualControl = false;
+                liftUnlock();
+                buttonTimer.reset();
             }
         }
     }
