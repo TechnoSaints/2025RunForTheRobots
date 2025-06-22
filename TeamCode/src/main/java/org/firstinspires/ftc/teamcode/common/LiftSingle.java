@@ -3,17 +3,15 @@ package org.firstinspires.ftc.teamcode.common;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.GoBilda435DcMotorData;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.LiftData;
-import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.data.MotorData;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.LiftPositions;
 
-public class Lift extends Component {
+public class LiftSingle extends Component {
     private final DcMotorEx motor;
     private final double maxVelocity;
     private final double maxMovePower;
@@ -31,7 +29,7 @@ public class Lift extends Component {
 
     private final LiftData liftData = new LiftData();
 
-    public Lift(HardwareMap hardwareMap, Telemetry telemetry, String motorName, boolean reverseMotor) {
+    public LiftSingle(HardwareMap hardwareMap, Telemetry telemetry, String motorName, boolean reverseMotor) {
         super(telemetry);
         maxVelocity = motorData.maxTicksPerSec;
         maxMovePower = liftData.maxMovePower;

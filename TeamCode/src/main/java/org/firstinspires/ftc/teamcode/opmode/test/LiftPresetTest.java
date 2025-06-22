@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.common.Lift;
+import org.firstinspires.ftc.teamcode.common.LiftSingle;
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.LiftPositions;
 
 @Config
@@ -15,12 +15,12 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Lif
 @Disabled
 public class LiftPresetTest extends LinearOpMode {
 
-    private Lift lift;
+    private LiftSingle lift;
 
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        lift = new Lift(hardwareMap, telemetry, "lift", false);
+        lift = new LiftSingle(hardwareMap, telemetry, "lift", false);
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {

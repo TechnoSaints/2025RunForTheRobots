@@ -20,7 +20,7 @@ public abstract class Bot extends Component {
     private final ServoSimple handlerArm, handlerWrist, handlerGrabber;
     private final RevTouchSensor handlerSwitch, bumperSwitchL, bumperSwitchR;
     private final Extendo extendo;
-    private final Lift lift;
+    private final LiftSingle lift;
     private Modes currentMode;
     private int currentPhase;
     private boolean onHold = false;
@@ -35,7 +35,7 @@ public abstract class Bot extends Component {
         handlerWrist = new ServoSimple(opMode.hardwareMap, telemetry, "handlerWrist");
         handlerGrabber = new ServoSimple(opMode.hardwareMap, telemetry, "handlerGrabber");
         handlerSwitch = opMode.hardwareMap.get(RevTouchSensor.class, "handlerSwitch");
-        lift = new Lift(opMode.hardwareMap, telemetry, "lift", false);
+        lift = new LiftSingle(opMode.hardwareMap, telemetry, "lift", false);
         intakeLight = new ServoSimple(opMode.hardwareMap, telemetry, "intakeLight");
         intakeLight.setPositionTicks(IntakeLightPositions.OFF.getValue(), 0);
         bumperSwitchL = opMode.hardwareMap.get(RevTouchSensor.class, "bumperSwitchL");
