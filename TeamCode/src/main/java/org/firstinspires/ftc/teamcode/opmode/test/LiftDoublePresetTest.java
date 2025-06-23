@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Lif
 
 @Config
 @TeleOp(name = "LiftDoublePresetTest", group = "Test")
-@Disabled
+
 public class LiftDoublePresetTest extends LinearOpMode {
 
     private LiftDouble lift;

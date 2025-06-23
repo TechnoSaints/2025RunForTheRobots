@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Han
 
 @Config
 @TeleOp(name = "SpecimenHangTuner", group = "Tuning")
-
+@Disabled
 public class SpecimenHangTuner extends LinearOpMode {
 
     private TeleopBot bot;

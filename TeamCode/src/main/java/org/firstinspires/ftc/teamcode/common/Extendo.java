@@ -12,8 +12,8 @@ public class Extendo extends Component {
     private ServoAngular servo;
     private ElapsedTime controlTimer;
 
-    private final double totalSlowExtensionTimeMS = 2500.0;
-    private final double totalMediumExtensionTimeMS = 550.0;
+    private final double totalSlowExtensionTimeMS = 1750.0;
+    private final double totalMediumExtensionTimeMS = 350.0;
     private final double moveIncrementInches = 0.2;
     private final ExtendoData extendoData = new ExtendoData();
     private final double slowMoveDelayMS = (totalSlowExtensionTimeMS * moveIncrementInches) / (extendoData.maxLengthInches - extendoData.minLengthInches);

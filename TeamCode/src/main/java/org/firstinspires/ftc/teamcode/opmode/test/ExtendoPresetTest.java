@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Han
 
 @Config
 @TeleOp(name = "ExtendoPresetTest", group = "Test")
-
+@Disabled
 public class ExtendoPresetTest extends LinearOpMode {
 
     private Extendo extendo;

@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.common.TeleopBot;
 
 @Config
 @TeleOp(name = "BotTest", group = "Test")
+@Disabled
 public class BotTest extends LinearOpMode {
 
     private TeleopBot bot;

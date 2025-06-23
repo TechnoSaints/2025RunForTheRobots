@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Lif
 import org.firstinspires.ftc.teamcode.opmode.FieldLocations;
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
-@Autonomous(name = "Bucket x 4 + Park", group = "Bucket")
+@Autonomous(name = "\uD83E\uDEA3 Bucket x 4 + Park", group = "Bucket")
 public class Bucketx4plusPark extends BucketAutoOpMode {
 
     protected void autonomousPathUpdate() {
@@ -290,7 +290,7 @@ public class Bucketx4plusPark extends BucketAutoOpMode {
 
             // deactivate and rest up for teleop
             case 43:
-                if (!bot.isBusy()) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.sampleParkPose, 2, 2)) {
                     setPathState(-1);
                     requestOpModeStop();
                 }

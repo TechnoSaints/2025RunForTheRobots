@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Lif
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
 @Autonomous(name = "BasicMove", group = "Bucket")
-
+@Disabled
 public class BasicMove extends BucketAutoOpMode {
 
     protected void autonomousPathUpdate() {

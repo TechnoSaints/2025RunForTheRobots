@@ -11,23 +11,23 @@ public class FieldLocations {
     public final static Pose bucketPose = new Pose(-17.25, 7.5, Math.toRadians(45));
 
     // position to grab the brick at the innermost spike mark
-    public final static Pose sampleSpike1Pose = new Pose(-8.75, 24.5, Math.toRadians(90));
+    public final static Pose sampleSpike1Pose = new Pose(-8.75, 23, Math.toRadians(90));
 
     // position to grab the brick at the middle spike mark
-    public final static Pose sampleSpike2Pose = new Pose(-18.24, 24.5, Math.toRadians(90));
+    public final static Pose sampleSpike2Pose = new Pose(-18.24, 23, Math.toRadians(90));
 
-    public final static Pose sampleSpike3SetupPose = new Pose(-14.5, 29.5, Math.toRadians(180));
+    public final static Pose sampleSpike3SetupPose = new Pose(-14.5, 28, Math.toRadians(180));
 
     // position to grab the brick at the spike mark closest to the wall
-    public final static Pose sampleSpike3Pose = new Pose(-14.5, 39, Math.toRadians(180));
+    public final static Pose sampleSpike3Pose = new Pose(-14.5, 37.5, Math.toRadians(180));
 
     public final static Pose sampleHumanPlayerPose = new Pose(75, 4.5, Math.toRadians(0));
 
     public final static Pose sampleHumanPlayerReturnSetupPose = new Pose(55, 7.5, Math.toRadians(90));
 
-    public final static Pose sampleParkSetupPose = new Pose(12, 54, Math.toRadians(0));
+    public final static Pose sampleParkSetupPose = new Pose(14, 54, Math.toRadians(0));
     // park position
-    public final static Pose sampleParkPose = new Pose(18.5, 54, Math.toRadians(0));
+    public final static Pose sampleParkPose = new Pose(20.5, 54, Math.toRadians(0));
 
     public final static Pose humanPlayerParkPose = new Pose(85, 3, Math.toRadians(90));
 

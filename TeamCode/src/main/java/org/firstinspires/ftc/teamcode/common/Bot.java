@@ -559,7 +559,7 @@ public abstract class Bot extends Component {
                 if (isPhase(1)) {
                     onHold = true;
                     setLiftPositionPreset(LiftPositions.MIN);
-//                    setHandlerArmPositionPreset(HandlerArmPositions.SUB_PARKING);
+                    setHandlerArmPositionPreset(HandlerArmPositions.SUB_PARKING);
                     setHandlerWristPositionPreset(HandlerWristPositions.SUB_PARKING);
                     setHandlerGrabberPositionPreset(HandlerGrabberPositions.CLOSED_LOOSE);
                     onHold = false;

@@ -5,7 +5,6 @@ public enum HandlerArmPositions {
     HIGH_BUCKET(.30),
     TOP(.45),
     SPECIMEN_HANG(.60),
-    SPECIMEN_SLAP_UP(.57),
     SUB_PARKING(.61),
     AUTO_START(.86),
     HANDOFF(.90);

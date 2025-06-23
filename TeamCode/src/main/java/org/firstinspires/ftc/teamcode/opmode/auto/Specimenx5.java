@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.Han
 import org.firstinspires.ftc.teamcode.opmode.FieldLocations;
 import org.firstinspires.ftc.teamcode.opmode.Paths;
 
-@Autonomous(name = "Specimen x 5", group = "Specimen")
+@Autonomous(name = "\uD83E\uDE9D Specimen x 5", group = "Specimen")
 public class Specimenx5 extends SpecimenAutoOpMode {
     protected void autonomousPathUpdate() {
 
