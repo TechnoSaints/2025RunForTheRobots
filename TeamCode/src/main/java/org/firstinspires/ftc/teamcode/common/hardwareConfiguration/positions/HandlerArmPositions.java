@@ -4,8 +4,8 @@ public enum HandlerArmPositions {
     SPECIMEN_WALL(.06),
     HIGH_BUCKET(.30),
     TOP(.45),
+    SUB_PARKING(.65),
     SPECIMEN_HANG(.60),
-    SUB_PARKING(.61),
     AUTO_START(.86),
     HANDOFF(.90);
     private double value;

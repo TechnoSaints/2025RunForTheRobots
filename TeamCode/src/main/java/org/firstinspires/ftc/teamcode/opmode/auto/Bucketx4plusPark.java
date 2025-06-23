@@ -290,7 +290,7 @@ public class Bucketx4plusPark extends BucketAutoOpMode {
 
             // deactivate and rest up for teleop
             case 43:
-                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.sampleParkPose, 2, 2)) {
+                if (!bot.isBusy()) {
                     setPathState(-1);
                     requestOpModeStop();
                 }
