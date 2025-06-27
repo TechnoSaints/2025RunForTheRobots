@@ -21,7 +21,7 @@ public class Specimenx5 extends SpecimenAutoOpMode {
                 break;
 
             case 1:
-                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.subShortSideSetupPose, 2.5, 2.5)) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.subShortSideSetupPose, 3.5, 3.5)) {
                     bot.followPath(Paths.subShortSideSetupToSubShortSide, true);
                     setPathState(2);
                 }
@@ -57,9 +57,10 @@ public class Specimenx5 extends SpecimenAutoOpMode {
 
             case 12:
                 if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike2DropPose, 3, 3)) {
-                    bot.followPath(Paths.pushSpike3, false);
+                    bot.followPath(Paths.pushSpike3, true);
                     bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL, 0);
                     bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
+                    controlTimer.reset();
                     setPathState(14);
                 }
                 break;
@@ -74,21 +75,28 @@ public class Specimenx5 extends SpecimenAutoOpMode {
 
             case 14:
 //                if (!bot.followerIsBusy()){
-                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.specimenSpike3GrabPose, 2, 2)) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(),
+                        FieldLocations.specimenSpike3GrabPose, 2, 2)) {
                     bot.setMode(Modes.GRAB_SPECIMEN);
-//                    FieldLocations.subShortSideSetupPose =
-//                            new Pose(FieldLocations.subShortSideSetupPose.getX() + gapBetweenHangingSpecimensIN,
-//                                    FieldLocations.subShortSideSetupPose.getY(),
-//                                    FieldLocations.subShortSideSetupPose.getHeading());
-//
-//                    FieldLocations.subShortSidePose =
-//                            new Pose(FieldLocations.subShortSidePose.getX() + gapBetweenHangingSpecimensIN,
-//                                    FieldLocations.subShortSidePose.getY(),
-//                                    FieldLocations.subShortSidePose.getHeading());
-//
-//                    Paths.buildSpecimenHangPaths(bot.getFollower());
+                    FieldLocations.subShortSideSetupPose =
+                            new Pose(FieldLocations.subShortSideSetupPose.getX() + gapBetweenHangingSpecimensIN,
+                                    FieldLocations.subShortSideSetupPose.getY(),
+                                    FieldLocations.subShortSideSetupPose.getHeading());
+
+                    FieldLocations.subShortSidePose =
+                            new Pose(FieldLocations.subShortSidePose.getX() + gapBetweenHangingSpecimensIN,
+                                    FieldLocations.subShortSidePose.getY(),
+                                    FieldLocations.subShortSidePose.getHeading());
+
+                    Paths.buildSpecimenHangPaths(bot.getFollower());
 
                     setPathState(15);
+                } else if (controlTimer.milliseconds() > 4250) {
+                    bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL, 0);
+                    bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
+                    bot.followPath(Paths.specimenSpike3GrabToSpecimenGrabSetup, false);
+
+                    setPathState(21);
                 }
                 break;
 
