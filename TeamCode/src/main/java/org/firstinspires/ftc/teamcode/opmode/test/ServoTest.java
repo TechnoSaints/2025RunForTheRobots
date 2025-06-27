@@ -25,7 +25,7 @@ public class ServoTest extends LinearOpMode {
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        servo = new ServoSimple(hardwareMap, telemetry, "handlerGrabber");
+        servo = new ServoSimple(hardwareMap, telemetry, "extendo");
 //        servo = hardwareMap.get(Servo.class,"handlerGrabber");
 
         waitForStart();
