@@ -5,10 +5,11 @@ public enum HandlerArmPositions {
     HIGH_BUCKET(.30),
     TOP(.45),
     SUB_PARKING(.65),
-    SPECIMEN_HANG(.60),
+    SPECIMEN_HANG(.65),
     AUTO_START(.86),
     HANDOFF(.90);
     private double value;
+
     HandlerArmPositions(double value) {
         this.value = value;
     }

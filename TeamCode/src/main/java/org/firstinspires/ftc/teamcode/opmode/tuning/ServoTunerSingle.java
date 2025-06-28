@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "Servo Tuner Single", group = "Tuning")
-@Disabled
+
 public class ServoTunerSingle extends LinearOpMode {
 
     static final double INCREMENT = 0.01;     // amount to slew servo each CYCLE_MS cycle
@@ -23,7 +23,7 @@ public class ServoTunerSingle extends LinearOpMode {
 
         // Connect to servo (Assume Robot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.get(Servo.class, "extendo");
+        servo = hardwareMap.get(Servo.class, "handlerArm");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to tune servo.");

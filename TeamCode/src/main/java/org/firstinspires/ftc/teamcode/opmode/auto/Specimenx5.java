@@ -21,7 +21,7 @@ public class Specimenx5 extends SpecimenAutoOpMode {
                 break;
 
             case 1:
-                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.subShortSideSetupPose, 3.5, 3.5)) {
+                if (Paths.currentLocWithinTolerance(bot.getFollower().getPose(), FieldLocations.subShortSideSetupPose, 3.0, 3.0)) {
                     bot.followPath(Paths.subShortSideSetupToSubShortSide, true);
                     setPathState(2);
                 }
@@ -91,7 +91,7 @@ public class Specimenx5 extends SpecimenAutoOpMode {
                     Paths.buildSpecimenHangPaths(bot.getFollower());
 
                     setPathState(15);
-                } else if (controlTimer.milliseconds() > 4250) {
+                } else if (controlTimer.milliseconds() > 5000) {
                     bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL, 0);
                     bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
                     bot.followPath(Paths.specimenSpike3GrabToSpecimenGrabSetup, false);

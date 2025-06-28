@@ -20,7 +20,7 @@ public class Paths {
     public static PathChain startToSubShortSideSetup, subShortSideSetupToSubShortSide, subShortSideToHumanPlayerPark,
             pushSpike1, pushSpike2, pushSpike3, specimenSpike3DropToSpecimenSpike3Grab, specimenSpike3GrabToSubShortSideSetup,
             specimenGrabToSubShortSideSetup, subShortSideToSpecimenGrabSetup, specimenGrabSetupToSpecimenGrab,
-            specimenSpike3GrabToSpecimenGrabSetup;
+            specimenSpike3GrabToSpecimenGrabSetup, subShortSideSetupToSubShortSideStart;
 
     public static void buildSamplePaths(Follower follower) {
         startToBucket = follower.pathBuilder()
@@ -151,6 +151,12 @@ public class Paths {
                 .addPath(new BezierLine(new Point(FieldLocations.startPose),
                         new Point(FieldLocations.subShortSidePose)))
                 .setConstantHeadingInterpolation(FieldLocations.startPose.getHeading())
+                .build();
+
+        subShortSideSetupToSubShortSideStart = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(FieldLocations.subShortSideSetupPose),
+                        new Point(FieldLocations.startSubShortSidePose)))
+                .setConstantHeadingInterpolation(FieldLocations.startSubShortSidePose.getHeading())
                 .build();
 
         subShortSideSetupToSubShortSide = follower.pathBuilder()

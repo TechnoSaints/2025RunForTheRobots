@@ -32,8 +32,9 @@ public class FieldLocations {
     public final static Pose humanPlayerParkPose = new Pose(85, 3, Math.toRadians(90));
 
     // Specimen hanging poses
-    public static Pose subShortSideSetupPose = new Pose(34, 31, Math.toRadians(90));
-    public static Pose subShortSidePose = new Pose(34, 36, Math.toRadians(90));
+    public static Pose subShortSideSetupPose = new Pose(35.5, 32, Math.toRadians(90));
+    public static Pose subShortSidePose = new Pose(35.5, 36.5, Math.toRadians(90));
+    public static Pose startSubShortSidePose = new Pose(34, 35, Math.toRadians(90));
 
     // Push poses
     public final static Pose subShortClearPose = new Pose(72, 20, Math.toRadians(90));
@@ -46,12 +47,12 @@ public class FieldLocations {
     public final static Pose specimenSpike3SetupPose = new Pose(95, 70, Math.toRadians(90));
     public final static Pose specimenSpike3Pose = new Pose(103, 60, Math.toRadians(90));
     public final static Pose specimenSpike3DropPose = new Pose(103, 7, Math.toRadians(90));
-    public final static Pose specimenSpike3GrabPose = new Pose(103, 1.75, Math.toRadians(90));
+    public final static Pose specimenSpike3GrabPose = new Pose(103, 2.25, Math.toRadians(90));
 
     //
     public final static Pose humanPlayerDropPose = new Pose(98, 7, Math.toRadians(90));
 
-    public final static Pose specimenGrabSetupPose = new Pose(73.5, 7, Math.toRadians(90));
+    public final static Pose specimenGrabSetupPose = new Pose(73.5, 7.5, Math.toRadians(90));
 
-    public final static Pose specimenGrabPose = new Pose(73.5, 1.5, Math.toRadians(90));
+    public final static Pose specimenGrabPose = new Pose(73.5, 2, Math.toRadians(90));
 }
