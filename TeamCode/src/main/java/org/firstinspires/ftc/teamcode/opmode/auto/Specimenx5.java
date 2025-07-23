@@ -91,7 +91,7 @@ public class Specimenx5 extends SpecimenAutoOpMode {
                     Paths.buildSpecimenHangPaths(bot.getFollower());
 
                     setPathState(15);
-                } else if (controlTimer.milliseconds() > 5000) {
+                } else if (controlTimer.milliseconds() > 6250) {
                     bot.setHandlerArmPositionPreset(HandlerArmPositions.SPECIMEN_WALL, 0);
                     bot.setMode(Modes.HANDLER_GRAB_SPECIMEN_POS);
                     bot.followPath(Paths.specimenSpike3GrabToSpecimenGrabSetup, false);
