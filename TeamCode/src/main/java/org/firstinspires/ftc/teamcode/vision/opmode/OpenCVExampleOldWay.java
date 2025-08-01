@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.vision.opmode;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -20,6 +21,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 @Config
 @TeleOp(name = "OpenCVExampleOldWay", group = "Vision")
+@Disabled
 public class OpenCVExampleOldWay extends OpMode {
     OpenCvWebcam webcam = null;
 

@@ -7,21 +7,22 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.common.Lift;
+import org.firstinspires.ftc.teamcode.common.LiftSingle;
 
 @Config
 @TeleOp(name = "LiftSingleTest", group = "Test")
-//@Disabled
+
 public class LiftSingleTest extends LinearOpMode {
 
-    private Lift lift;
+    private LiftSingle lift;
 
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        lift = new Lift(hardwareMap, telemetry, "lift", false);
-        waitForStart();
+        lift = new LiftSingle(hardwareMap, telemetry, "lift", false);
 
+        waitForStart();
+//        lift.setZero();
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_trigger > 0.2) {
                 lift.up(gamepad1.right_trigger);
@@ -30,8 +31,12 @@ public class LiftSingleTest extends LinearOpMode {
             } else {
                 lift.stop();
             }
-            lift.log();
 
+//            if (gamepad1.a)
+//            {
+//                lift.setZero();
+//            }
+            lift.log();
         }
     }
 }

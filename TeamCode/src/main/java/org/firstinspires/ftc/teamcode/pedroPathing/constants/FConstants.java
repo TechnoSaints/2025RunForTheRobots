@@ -21,12 +21,12 @@ public class FConstants {
         FollowerConstants.rightRearMotorDirection = drivetrainData.rightRearMotorDirection;
 
         // mass in kg
-        FollowerConstants.mass = 8.5;
+        FollowerConstants.mass = 11.35;
 
         FollowerConstants.xMovement = 75;
         FollowerConstants.yMovement = 62;
 
-        FollowerConstants.forwardZeroPowerAcceleration = -37;
+        FollowerConstants.forwardZeroPowerAcceleration = -33;
         FollowerConstants.lateralZeroPowerAcceleration = -65;
 
         FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.15, 0, 0.02, 0);
@@ -50,11 +50,11 @@ public class FConstants {
         FollowerConstants.pathEndTranslationalConstraint = 0.1;
         FollowerConstants.pathEndHeadingConstraint = 0.007;
 
-        //        FollowerConstants.useBrakeModeInTeleOp = true;
+        FollowerConstants.useBrakeModeInTeleOp = true;
 
-        //        FollowerConstants.nominalVoltage = 12.5;
-        //        FollowerConstants.useVoltageCompensationInAuto = true;
-        //        FollowerConstants.useVoltageCompensationInTeleOp = true;
+        FollowerConstants.nominalVoltage = 12.5;
+        FollowerConstants.useVoltageCompensationInAuto = true;
+        FollowerConstants.useVoltageCompensationInTeleOp = true;
 
     }
 }

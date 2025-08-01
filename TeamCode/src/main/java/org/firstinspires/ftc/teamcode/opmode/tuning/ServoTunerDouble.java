@@ -24,8 +24,8 @@ public class ServoTunerDouble extends LinearOpMode {
 
         // Connect to servo (Assume Robot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo1 = hardwareMap.get(Servo.class, "extendoLeft");
-        servo2 = hardwareMap.get(Servo.class, "extendoRight");
+        servo1 = hardwareMap.get(Servo.class, "handlerArm");
+        servo2 = hardwareMap.get(Servo.class, "handlerWrist");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to tune servos.");
@@ -35,11 +35,12 @@ public class ServoTunerDouble extends LinearOpMode {
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
                 position1 += INCREMENT;
-                position2 -= INCREMENT;
-
             } else if (gamepad1.left_bumper) {
                 position1 -= INCREMENT;
+            } else if (gamepad1.y) {
                 position2 += INCREMENT;
+            } else if (gamepad1.a) {
+                position2 -= INCREMENT;
             }
 
             if (position1 >= MAX_POS)
@@ -50,7 +51,6 @@ public class ServoTunerDouble extends LinearOpMode {
                 position1 = MIN_POS;
             if (position2 <= MIN_POS)
                 position2 = MIN_POS;
-
 
             // Display the current value
             telemetry.addData("position1:", "%5.2f", position1);

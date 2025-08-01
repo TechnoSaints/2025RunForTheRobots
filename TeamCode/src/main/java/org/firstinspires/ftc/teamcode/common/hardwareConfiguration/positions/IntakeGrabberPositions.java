@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions;
 
 public enum IntakeGrabberPositions {
-    OPEN(0.74),
-    MIDDLE(0.65),
-    CLOSED_LOOSE(0.5),
-    CLOSED_TIGHT(0.47);
+    //    OPEN(0.74),
+    OPEN(0.66),
+    CLOSED_LOOSE(0.44),
+    //    CLOSED_TIGHT(0.52);
+    CLOSED_TIGHT(0.42);
+
     private double value;
 
     IntakeGrabberPositions(double value) {

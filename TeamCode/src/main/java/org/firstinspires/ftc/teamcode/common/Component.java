@@ -9,21 +9,22 @@ public abstract class Component {
     protected Telemetry telemetry;
 
     private ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-    private double delay = 0;
+
+    private double duration = 0;
 
     public Component(Telemetry telemetry)
     {
         this.telemetry = telemetry;
     }
 
-    protected void setTimer(double delay)
+    protected void setTimer(double duration)
     {
-        this.delay = delay;
+        this.duration = duration;
         timer.reset();
     }
 
-    protected boolean isBusy()
+    public boolean isBusy()
     {
-        return (timer.milliseconds() < delay);
+        return (timer.milliseconds() < duration);
     }
 }

@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions;
 
 public enum HandlerArmPositions {
-    SPECIMEN_WALL(.05),
+    SPECIMEN_WALL(.04),
     HIGH_BUCKET(.30),
-    SPECIMEN_HANG(.51),
-    HANDOFF(.86);
+    TOP(.45),
+    SUB_PARKING(.65),
+    SPECIMEN_HANG(.65),
+    AUTO_START(.86),
+    HANDOFF(.90);
     private double value;
+
     HandlerArmPositions(double value) {
         this.value = value;
     }

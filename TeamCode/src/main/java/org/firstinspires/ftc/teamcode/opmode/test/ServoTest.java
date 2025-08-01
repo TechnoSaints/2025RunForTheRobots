@@ -9,27 +9,32 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.ExtendoPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.HandlerGrabberPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeSwivelPositions;
+import org.firstinspires.ftc.teamcode.common.hardwareConfiguration.positions.IntakeWristPositions;
+import org.firstinspires.ftc.teamcode.common.servos.ServoSimple;
 
 @Config
-@TeleOp(name = "TEST ServoTest", group = "Test")
+@TeleOp(name = "ServoTest", group = "Test")
 @Disabled
 public class ServoTest extends LinearOpMode {
 
-    private Servo servo;
+    private ServoSimple servo;
 
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        servo = hardwareMap.get(Servo.class,"extendoLeft");
+        servo = new ServoSimple(hardwareMap, telemetry, "extendo");
+//        servo = hardwareMap.get(Servo.class,"handlerGrabber");
 
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
             if (gamepad1.right_bumper) {
-                servo.setPosition(ExtendoPositions.EXTENDED.getValue());
+                servo.setPositionTicks(HandlerGrabberPositions.OPEN.getValue(), 0);
             } else if (gamepad1.left_bumper) {
-                servo.setPosition(ExtendoPositions.EXTENDED.getValue());
+                servo.setPositionTicks(HandlerGrabberPositions.CLOSED_LOOSE.getValue(), 0);
             }
         }
     }
